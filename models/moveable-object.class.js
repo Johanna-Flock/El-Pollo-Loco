@@ -1,29 +1,13 @@
-class MovableObject {
+class MovableObject extends DrawableObject {
     x=100;
     y=280;
-    img; 
-    width=100; 
-    height=150;
     speed=0.15;
     otherDirection = false;
     speedY = 0;
     acceleration = 1;
-    ImageCache = {};
     energy = 100;
+    lastHit = 0;
 
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    loadImages(arr) {
-        arr.forEach(path => {
-            let img = new Image();
-            img.src = path; //Hier wird das Bild geladen, indem ein neues Image-Objekt erstellt und die src-Eigenschaft auf den Pfad des Bildes gesetzt wird
-            this.ImageCache[path] = img; //Hier wird das geladene Bild im ImageCache-Objekt gespeichert, wobei der Pfad des Bildes als Schlüssel und das geladene Bild als Wert verwendet wird
-        });
-
-    }
 
     moveRight() {
         this.x += this.speed;
@@ -56,22 +40,8 @@ class MovableObject {
         , 1000/25);
     }
 
-        isAboveGround() {
+    isAboveGround() {
         return this.y < 140;
-    }
-
-    draw(ctx) { 
-       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    }
-
-    drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
-        ctx.beginPath();
-        ctx.lineWidth = '1';
-        ctx.strokeStyle = 'blue';
-        ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.stroke();
-        }
     }
 
     isColliding(mo) {
@@ -85,13 +55,19 @@ class MovableObject {
         this.energy -= 5;
         if (this.energy < 0) {
             this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
         }
     }
 
     isDead() {
-        return this.energy == 0;
+        return this.energy === 0;
     }
 
-
+    isHurt() {
+        let timepassed = new Date().getTime() - this.lastHit; //Different in ms
+        timepassed = timepassed / 1000; //Different in s
+        return timepassed < 1; //getroffen in den letzten 1 Sekunde
+    }
 
 }

@@ -1,11 +1,12 @@
 class World {
 
-    character =new Character();
+    character = new Character();
     level = level1;
     canvas; 
     ctx;
     keyboard; 
     camera_x = 0;
+    statusBar = new StatusBar(); 
    
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -26,9 +27,10 @@ class World {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {   
                 if(this.character.isColliding(enemy)) {
-                    console.log("Collision with Enemy", enemy);
                     this.character.hit();
-                    if (this.character.isDead) {
+                    this.statusBar.setPercentage(this.character.energy)
+                    console.log("Character Energy: ", this.character.energy);
+                    if (this.character.isDead()) {
                         console.log("Game Over");
                     }
                 }
@@ -42,9 +44,16 @@ class World {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0); 
         this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.clouds);
+
+        //space for fixed objects
+        this.ctx.translate(-this.camera_x, 0); 
+        this.addToMap(this.statusBar);
+        this.ctx.translate(this.camera_x, 0);
+
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.clouds);
+       
         this.ctx.translate(-this.camera_x, 0); 
         
         //draw wird immer wieder aufgerufen, damit die Bewegungen sichtbar werden
@@ -60,7 +69,6 @@ class World {
        
     
     addToMap(mo) {
-    // console.log(mo.img);
         if (!mo.img) {
         console.error("Kein Bild:", mo);
         }
@@ -76,5 +84,5 @@ class World {
         mo.draw(this.ctx);
         mo.drawFrame(this.ctx);
         }
-    }
+    } 
 }
