@@ -5,10 +5,10 @@ class MovableObject extends DrawableObject {
     otherDirection = false;
     speedY = 0;
     acceleration = 1;
-    energy = 100;
+    energy = 300;
     lastHit = 0;
 
-
+  
     moveRight() {
         this.x += this.speed;
         
@@ -41,6 +41,9 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
+        if(this instanceof ThrowableObject) { //throwable objects should always fall
+            return true;
+        }
         return this.y < 140;
     }
 

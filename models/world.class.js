@@ -1,12 +1,13 @@
 class World {
 
     character = new Character();
-    level = level1;
+    level = null;
     canvas; 
     ctx;
     keyboard; 
     camera_x = 0;
     statusBar = new StatusBar(); 
+    throwableObject = [];
    
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -14,17 +15,15 @@ class World {
         this.keyboard = keyboard;
         this.setWorld();
         this.draw();
-        this.checkCollisions();
-     }
+        this.run();
+    }
+
 
 
     setWorld() {
         this.character.world = this;} 
     
-
-
     checkCollisions() {
-        setInterval(() => {
             this.level.enemies.forEach((enemy) => {   
                 if(this.character.isColliding(enemy)) {
                     this.character.hit();
@@ -35,7 +34,30 @@ class World {
                     }
                 }
             });
-        }, 200);
+    }
+    
+//GameLoop
+    run() {
+        setInterval(() => {
+            this.checkCollisions();
+            this.throwObjects(); 
+            this.startGame();
+        }, 25);
+    }
+
+    startGame() {
+    if (this.keyboard.S) {
+    initLevel1();
+    this.keyboard.S = false; 
+    }
+    }
+
+    throwObjects() {
+        if(this.keyboard.D) {
+            let bottle = new ThrowableObject(this.character.x +100 , this.character.y + 100);
+            this.throwableObject.push(bottle);
+            this.keyboard.D = false; //Damit wird verhindert, dass bei gedrückter D-Taste unendlich viele Objekte geworfen werden
+        }
     }
 
 
@@ -52,6 +74,7 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
         this.addToMap(this.character);
+        this.addObjectsToMap(this.throwableObject);
         this.addObjectsToMap(this.level.enemies);
        
         this.ctx.translate(-this.camera_x, 0); 
