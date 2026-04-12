@@ -13,8 +13,6 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas; //Hier schreiben wir den Parameter canvas in die Eigenschaft this.canvas, damit wir ihn später in der draw-Methode verwenden können
         this.keyboard = keyboard;
-        this.setWorld();
-        this.draw();
         this.run();
     }
 
@@ -39,18 +37,26 @@ class World {
 //GameLoop
     run() {
         setInterval(() => {
-            this.checkCollisions();
-            this.throwObjects(); 
             this.startGame();
+            if(this.level) {
+                this.checkCollisions();
+                this.throwObjects();
+            }
         }, 25);
     }
 
-    startGame() {
-    if (this.keyboard.S) {
-    initLevel1();
-    this.keyboard.S = false; 
+ startGame() {
+    if (this.keyboard.S && !this.level) {
+        initLevel1();
+        this.level = level1;
+        this.character = new Character();
+        this.statusBar = new StatusBar();
+        this.throwableObject = [];
+        this.setWorld();
+        this.draw();
+        this.keyboard.S = false;
     }
-    }
+}
 
     throwObjects() {
         if(this.keyboard.D) {
