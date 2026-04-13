@@ -108,7 +108,15 @@ run() {
     }
 
     setWorld() {
-        this.character.world = this;} 
+        this.character.world = this;
+        this.level.enemies.forEach(enemy => {
+        enemy.world = this; 
+        this.throwableObject.forEach(obj => {
+        obj.world = this;
+    });
+    });
+    
+    } 
     
     checkCollisions() {
     this.level.enemies.forEach((enemy) => {   
