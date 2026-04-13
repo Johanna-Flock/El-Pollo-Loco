@@ -14,8 +14,9 @@ window.addEventListener("keydown", (e) => {
     if(e.keyCode == 38) keyboard.UP = true;
     if(e.keyCode == 40) keyboard.DOWN = true;
     if(e.keyCode == 32) keyboard.SPACE = true;
-    if(e.keyCode == 68) keyboard.D = true;
-    if(e.key == "s" || e.key == "S") keyboard.S = true; //S-Taste für Starten/Neustarten des Spiels
+    if(e.key == "d" || e.key == "D") keyboard.D = true;
+    if(e.key == "s" || e.key == "S") keyboard.S = true; 
+    if(e.key == "p" || e.key == "P") keyboard.P = true; 
 });
 
 
@@ -25,6 +26,7 @@ window.addEventListener("keyup", (e) => {
     if(e.keyCode == 38) keyboard.UP = false;
     if(e.keyCode == 40) keyboard.DOWN = false;
     if(e.keyCode == 32) keyboard.SPACE = false;
-    if(e.key == "d" || e.key == "D") keyboard.D = false;
+    if(e.key == "d" || e.key == "D") keyboard.D = false; //Taste für Werfen von Objekten
     if(e.key == "s" || e.key == "S") keyboard.S = false; //S-Taste für Starten/Neustarten des Spiels
+    if(e.key == "p" || e.key == "P") keyboard.P = false; //P-Taste für Pause/Unpause des Spiels
 });

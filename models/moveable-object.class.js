@@ -73,4 +73,16 @@ class MovableObject extends DrawableObject {
         return timepassed < 1; //getroffen in den letzten 1 Sekunde
     }
 
+    isIdle() {
+    let timePassed = Date.now() - this.lastAction;
+    timePassed = timePassed / 1000; // Sekunden
+    return timePassed > 3; // 👉 nach 3 Sekunden idle
+    }
+
+    isSleeping() {
+    let timePassed = Date.now() - this.lastAction;
+    timePassed = timePassed / 1000;
+    return timePassed > 10; // 👉 nach 10 Sekunden schlafen
+    }
+
 }
