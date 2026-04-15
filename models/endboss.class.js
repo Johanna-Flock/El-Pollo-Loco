@@ -5,12 +5,14 @@ class Endboss extends MovableObject {
     x; 
     currentImage = 0;
     isDead = false;
+    alertPlayed = false;
+    state = "walking";
 
-    state
-// "idle"
-// "alert"
-// "chase"
-// "attack"
+// "alert" 
+// "chase" --> "attack" (wenn zu nah dran) + moveLeft() oder moveRight() je nachdem, wo der Character ist
+// "walking" (wenn zu weit weg)
+
+
 
     IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png', 
@@ -35,14 +37,10 @@ class Endboss extends MovableObject {
     ];
 
     IMAGES_WALKING = [
-        'img/4_enemie_boss_chicken/2_alert/G5.png', 
-        'img/4_enemie_boss_chicken/2_alert/G6.png', 
-        'img/4_enemie_boss_chicken/2_alert/G7.png',
-        'img/4_enemie_boss_chicken/2_alert/G8.png',
-        'img/4_enemie_boss_chicken/2_alert/G9.png',
-        'img/4_enemie_boss_chicken/2_alert/G10.png',
-        'img/4_enemie_boss_chicken/2_alert/G11.png',
-        'img/4_enemie_boss_chicken/2_alert/G12.png',
+        'img/4_enemie_boss_chicken/1_walk/G1.png', 
+        'img/4_enemie_boss_chicken/1_walk/G2.png', 
+        'img/4_enemie_boss_chicken/1_walk/G3.png',
+        'img/4_enemie_boss_chicken/1_walk/G4.png',
     ];  
 
     IMAGES_HURT = [
@@ -66,9 +64,8 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        this.state = "idle";
 
-        this.animate();
+        // this.animate();
         this.x = 2500;
     }
 
@@ -92,7 +89,7 @@ class Endboss extends MovableObject {
         this.playAnimation(this.IMAGES_ATTACK);
 
     } else if (this.state === "chase") {
-        this.playAnimation(this.IMAGES_WALKING);
+        this.playAnimation(this.IMAGES_ATTACK);
 
     } else {
         this.playAnimation(this.IMAGES_WALKING);
@@ -101,62 +98,40 @@ class Endboss extends MovableObject {
 
 handleState() {
 
-   let distance = this.world.character.x - this.x;
+   let distance = Math.abs(this.world.character.x - this.x);
 
-    // -------------------
-    // 💤 IDLE / WALK
-    // -------------------
-    if (this.state === "idle") {
+    if (this.state === "walking") {
         this.moveLeft();
     }
 
-    // -------------------
-    // 👀 ALERT TRIGGER
-    // -------------------
-    if (this.state === "idle" && distance > -500) {
+    if (this.state === "walking" && distance < 500){
         this.state = "alert";
-
-        this.alertPlayed = false; // wichtig
+        this.alertPlayed = false;
     }
 
-    // -------------------
-    // 🔥 ALERT einmal spielen
-    // -------------------
     if (this.state === "alert") {
 
         if (!this.alertPlayed) {
-            this.playAnimation(this.IMAGES_ALERT);
             this.alertPlayed = true;
 
             setTimeout(() => {
                 this.state = "chase";
             }, 1000);
         }
+        return; // ❗️ Logik für "alert" stoppen, bis der Timer abgelaufen ist
     }
 
-    // -------------------
-    // 🏃 CHASE
-    // -------------------
     if (this.state === "chase") {
-
-        if (world.character.x < this.x) {
+        this.speed = 2;
+        if (this.world.character.x < this.x) {
             this.moveLeft();
         } else {
             this.moveRight();
         }
 
-        // wenn sehr nah → attack
-        if (Math.abs(distance) < 150) {
-            this.state = "attack";
+        if (Math.abs(distance) > 600) {
+            this.state = "walking";
         }
-    }
-
-    // -------------------
-    // 💥 ATTACK
-    // -------------------
-    if (this.state === "attack") {
-        // bleibt erstmal im attack state
-        // (Animation läuft separat)
     }
 }
 

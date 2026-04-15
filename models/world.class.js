@@ -106,17 +106,21 @@ run() {
     this.gameState = "playing";
     this.keyboard.S = false;
     }
+    
 
     setWorld() {
-        this.character.world = this;
-        this.level.enemies.forEach(enemy => {
-        enemy.world = this; 
-        this.throwableObject.forEach(obj => {
+    this.character.world = this;
+    this.character.animate(); // 👈 HIER starten!
+
+    this.level.enemies.forEach(enemy => {
+        enemy.world = this;
+        enemy.animate(); // 👈 auch hier!
+    });
+
+    this.throwableObject.forEach(obj => {
         obj.world = this;
     });
-    });
-    
-    } 
+}
     
     checkCollisions() {
     this.level.enemies.forEach((enemy) => {   
