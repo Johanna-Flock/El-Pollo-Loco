@@ -6,13 +6,13 @@ class World {
     ctx;
     keyboard; 
     camera_x = 0;
-    statusBar = new StatusBar(); 
     throwableObject = [];
     gameState = "start";
     // "playing"
     // "paused"
     // "gameover"
-   
+
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas; //Hier schreiben wir den Parameter canvas in die Eigenschaft this.canvas, damit wir ihn später in der draw-Methode verwenden können
@@ -46,7 +46,9 @@ class World {
     this.addObjectsToMap(this.level.clouds);
      //space for fixed objects
     this.ctx.translate(-this.camera_x, 0); 
-    this.addToMap(this.statusBar);
+    this.addToMap(this.healthBar);
+    this.addToMap(this.coinBar);
+    this.addToMap(this.bottleBar);
     this.ctx.translate(this.camera_x, 0);
 
     this.addToMap(this.character);
@@ -100,7 +102,9 @@ run() {
     initLevel1();
     this.level = level1;
     this.character = new Character();
-    this.statusBar = new StatusBar();
+    this.healthBar = new StatusBar(20, 0, "health");
+    this.coinBar = new StatusBar(20, 60, "coins");
+    this.bottleBar = new StatusBar(20, 120, "bottles");
     this.throwableObject = [];
     this.setWorld();
     this.gameState = "playing";
@@ -126,7 +130,7 @@ run() {
     this.level.enemies.forEach((enemy) => {   
         if (this.character.isColliding(enemy)) {
             this.character.hit();
-            this.statusBar.setPercentage(this.character.energy);
+            this.healthBar.setPercentage(this.character.energy);
 
             if (this.character.isDead()) {
                 this.gameState = "gameover";
@@ -150,6 +154,7 @@ run() {
     }
        
     addToMap(mo) {
+        console.log("DRAW OBJECT:", mo);
         if (!mo.img) {
         console.error("Kein Bild:", mo);
         }

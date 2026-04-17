@@ -12,6 +12,13 @@ class DrawableObject {
     }
 
     loadImages(arr) {
+
+          console.log("loadImages input:", arr);
+
+    if (!arr) {
+        console.error("❌ arr ist undefined!");
+        return;
+    }
         arr.forEach(path => {
             let img = new Image();
             img.src = path; //Hier wird das Bild geladen, indem ein neues Image-Objekt erstellt und die src-Eigenschaft auf den Pfad des Bildes gesetzt wird
