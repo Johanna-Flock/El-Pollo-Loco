@@ -4,7 +4,6 @@ class StatusBar extends DrawableObject {
     x;
     y;         
     percentage = 100;
-    value = 0;
     img; 
 
 
@@ -51,17 +50,14 @@ class StatusBar extends DrawableObject {
 
         } else if (type === "coins") {
             this.loadImages(this.IMAGES_COINS);
-            this.setValueCoins(0);
-
+            this.img = this.ImageCache[this.IMAGES_COINS[0]];
         } else if (type === "bottles") {
             this.loadImages(this.IMAGES_BOTTLES);
-            this.setValueBottles(0);
+            this.img = this.ImageCache[this.IMAGES_BOTTLES[0]];
         }
         else {
         console.error("❌ Unknown type:", type);
-        this.IMAGES = [];
     }
-
     }
 
     setPercentage(percentage) {
@@ -72,20 +68,30 @@ class StatusBar extends DrawableObject {
         console.log("cache entry:", this.ImageCache[path]);
     }
 
-    setValueCoins(value) {
-        this.value = value;
-        let index = Math.floor(value / 20);
+    setValueCoins(valueCoins, maxCoins) {
+        this.value = valueCoins;
+        if (!maxCoins || maxCoins <= 0) return;
+        let ratio = valueCoins / maxCoins;
+        ratio = Math.min(Math.max(ratio, 0), 1); // safety clamp
+        let index = Math.floor(ratio * (this.IMAGES_COINS.length - 1));
         let path = this.IMAGES_COINS[index];
-        this.img = this.ImageCache[path];
-        console.log("cache entry:", this.ImageCache[path]);
+        if (!this.ImageCache[path]) {
+            console.warn("Missing image:", path);
+        return;
+    }
+    this.img = this.ImageCache[path];
     }
 
-       setValueBottles(value) {
-        this.value = value;
-
-        let index = Math.floor(value / 20);
+    setValueBottles(valueBottles, maxBottles) {
+        this.value = valueBottles;
+        if (!maxBottles || maxBottles <= 0) return;
+        let ratio = valueBottles / maxBottles;   // 0 → 1
+        let index = Math.floor(ratio * (this.IMAGES_BOTTLES.length - 1));
         let path = this.IMAGES_BOTTLES[index];
-
+        if (!this.ImageCache[path]) {
+            console.warn("Missing image:", path);
+            return;
+        }
         this.img = this.ImageCache[path];
         console.log("cache entry:", this.ImageCache[path]);
     }

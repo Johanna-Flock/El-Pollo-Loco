@@ -40,7 +40,7 @@ function initLevel1() {
             ...generateCoinArc(1300, 200, 6)
     ],
     [
-            ...generateBottles(10),
+            ...generateBottles(30),
     ]
 );
 

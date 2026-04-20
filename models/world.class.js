@@ -21,8 +21,7 @@ class World {
         this.gameOverScreen = new Screen("img/You won, you lost/You lost.png");
         this.draw(); // 👉 EINZIGER LOOP
         this.run();  // 👉 Logik-Loop
-        this.coinCount = 0;
-        this.bottleCount = 0;
+       
     }
 
     draw() {
@@ -72,6 +71,7 @@ run() {
         }
         this.checkCollectables();
         this.checkCollisions();
+        this.checkEnemyHits();
         this.throwObjects();
 
     }, 1000 / 60);
@@ -105,6 +105,11 @@ run() {
     }
     initLevel1();
     this.level = level1;
+    console.log(this.level.coins);
+    this.maxCoins = this.level.coins.length;
+    this.maxBottles = this.level.bottles.length;
+    this.coinCount = 0;
+    this.bottleCount = 0;
     this.character = new Character();
     this.healthBar = new StatusBar(20, 0, "health");
     this.coinBar = new StatusBar(20, 60, "coins");
@@ -134,13 +139,15 @@ checkCollectables() {
     this.level.coins = this.level.coins.filter((coin) => {
         if (this.character.isColliding(coin)) {
             this.coinCount++;
-            return false; // ❌ entfernen
+            this.coinBar.setValueCoins(this.coinCount, this.maxCoins);
+            return false;
         }
-        return true; // ✅ behalten
+        return true; 
     });
     this.level.bottles = this.level.bottles.filter((bottle) => {
         if (this.character.isColliding(bottle)) {
             this.bottleCount++;
+            this.bottleBar.setValueBottles(this.bottleCount, this.maxBottles);
             return false;
         }
         return true;
@@ -160,12 +167,35 @@ checkCollectables() {
     });
     }
 
-    throwObjects() {
-        if(this.keyboard.D) {
-            let bottle = new ThrowableObject(this.character.x +100 , this.character.y + 100);
-            this.throwableObject.push(bottle);
-            this.keyboard.D = false; //Damit wird verhindert, dass bei gedrückter D-Taste unendlich viele Objekte geworfen werden
+  throwObjects() {
+    if (this.keyboard.D) {
+        if (this.bottleCount <= 0) {
+            console.log("Keine Bottles mehr!");
+            // später: sound abspielen
+            this.keyboard.D = false;
+            return;
         }
+        let bottle = new ThrowableObject(
+            this.character.x + 100,
+            this.character.y + 100
+        );
+        this.throwableObject.push(bottle);
+        this.bottleCount--;
+        this.bottleBar.setValueBottles(this.bottleCount, this.maxBottles);
+        this.keyboard.D = false;
+    }
+    }
+
+    checkEnemyHits() {
+    let endboss = this.level.enemies.find(e => e instanceof Endboss);
+    if (!endboss) return;
+
+    this.throwableObject.forEach((bottle, bottleIndex) => {
+        if (bottle.isColliding(endboss)) {
+            endboss.hit();
+            this.throwableObject.splice(bottleIndex, 1);
+        }
+    });
     }
 
     addObjectsToMap(objects) {

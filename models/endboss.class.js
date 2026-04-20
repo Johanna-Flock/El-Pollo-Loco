@@ -7,6 +7,7 @@ class Endboss extends MovableObject {
     isDead = false;
     alertPlayed = false;
     state = "walking";
+    energy = 200;
 
 // "alert" 
 // "chase" --> "attack" (wenn zu nah dran) + moveLeft() oder moveRight() je nachdem, wo der Character ist
@@ -80,40 +81,51 @@ class Endboss extends MovableObject {
     }
 
 
- handleAnimation() {
-
-    if (this.state === "alert") {
+handleAnimation() {
+    let state = this.getCurrentState();
+    if (state === "alert") {
         this.playAnimation(this.IMAGES_ALERT);
-
-    } else if (this.state === "attack") {
-        this.playAnimation(this.IMAGES_ATTACK);
-
-    } else if (this.state === "chase") {
-        this.playAnimation(this.IMAGES_ATTACK);
-
+    } else if (state === "chase") {
+        this.playAnimation(this.IMAGES_WALKING);
+    } else if (state === "hurt") {
+        this.playAnimation(this.IMAGES_HURT);
+    } else if (state === "dead") {
+        this.playAnimation(this.IMAGES_DEAD);
     } else {
         this.playAnimation(this.IMAGES_WALKING);
     }
+}
+
+getCurrentState() {
+    if (this.state === "dead") return "dead";
+    if (Date.now() - this.lastHitTime < 500) return "hurt";
+    if (this.state === "alert") return "alert";
+    if (this.state === "chase") return "chase";
+    return "walking";
 }
 
 handleState() {
 
    let distance = Math.abs(this.world.character.x - this.x);
 
+    if (this.state === "dead") {
+        return;
+    }
+
+    if (this.state === "hurt") {
+        return;
+    }
+
     if (this.state === "walking") {
         this.moveLeft();
     }
-
     if (this.state === "walking" && distance < 500){
         this.state = "alert";
         this.alertPlayed = false;
     }
-
     if (this.state === "alert") {
-
         if (!this.alertPlayed) {
             this.alertPlayed = true;
-
             setTimeout(() => {
                 this.state = "chase";
             }, 1000);
@@ -128,13 +140,20 @@ handleState() {
         } else {
             this.moveRight();
         }
-
         if (Math.abs(distance) > 600) {
             this.state = "walking";
         }
     }
 }
 
+hit() {
+    this.energy = Math.max(0, this.energy - 20);
 
+    if (this.energy <= 0) {
+        this.state = "dead";
+        return;
+    }
 
+    this.lastHitTime = Date.now();
+}
 }
