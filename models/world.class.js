@@ -21,6 +21,8 @@ class World {
         this.gameOverScreen = new Screen("img/You won, you lost/You lost.png");
         this.draw(); // 👉 EINZIGER LOOP
         this.run();  // 👉 Logik-Loop
+        this.coinCount = 0;
+        this.bottleCount = 0;
     }
 
     draw() {
@@ -54,6 +56,8 @@ class World {
     this.addToMap(this.character);
     this.addObjectsToMap(this.throwableObject);
     this.addObjectsToMap(this.level.enemies);
+    this.addObjectsToMap(this.level.coins);
+    this.addObjectsToMap(this.level.bottles);
 
     this.ctx.translate(-this.camera_x, 0); 
     }
@@ -66,7 +70,7 @@ run() {
         if (this.gameState !== "playing") {
             return; // ❗ nur Logik stoppen
         }
-
+        this.checkCollectables();
         this.checkCollisions();
         this.throwObjects();
 
@@ -123,6 +127,23 @@ run() {
 
     this.throwableObject.forEach(obj => {
         obj.world = this;
+    });
+}
+
+checkCollectables() {
+    this.level.coins = this.level.coins.filter((coin) => {
+        if (this.character.isColliding(coin)) {
+            this.coinCount++;
+            return false; // ❌ entfernen
+        }
+        return true; // ✅ behalten
+    });
+    this.level.bottles = this.level.bottles.filter((bottle) => {
+        if (this.character.isColliding(bottle)) {
+            this.bottleCount++;
+            return false;
+        }
+        return true;
     });
 }
     

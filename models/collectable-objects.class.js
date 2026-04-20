@@ -1,16 +1,6 @@
-class collectableObjects extends DrawableObject {
-    width = 50      
-    height = 50;
-        
-
-    IMAGES_COINS = [
-        'img/8_coin/coin_1.png',
-        'img/8_coin/coin_2.png',
-    ];  
-
-     IMAGE_BOTTLE = [
-        'img/6_salsa_bottle/salsa_bottle.png',
-    ];  
+class CollectableObject extends DrawableObject {
+    width = 100     
+    height = 100;
 
     constructor(imagePath, x, y) {
         super().loadImage(imagePath);
