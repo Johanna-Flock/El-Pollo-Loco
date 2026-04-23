@@ -19,6 +19,7 @@ class World {
         this.keyboard = keyboard;
         this.startScreen = new Screen("img/9_intro_outro_screens/start/startscreen_1.png");
         this.gameOverScreen = new Screen("img/You won, you lost/You lost.png");
+        this.winScreen = new Screen("img/You won, you lost/You won A.png");
         this.draw(); // 👉 EINZIGER LOOP
         this.run();  // 👉 Logik-Loop
        
@@ -34,6 +35,9 @@ class World {
     }
     if (this.gameState === "gameover") {
         this.gameOverScreen.draw(this.ctx);
+    }
+     if (this.gameState === "winning") { 
+        this.winScreen.draw(this.ctx);
     }
     //draw wird immer wieder aufgerufen, damit die Bewegungen sichtbar werden
     requestAnimationFrame(() => this.draw());
@@ -73,6 +77,7 @@ run() {
         this.checkCollisions();
         this.checkEnemyHits();
         this.throwObjects();
+        this.checkWinCondition();
         this.removeDeadEnemies();
 
     }, 1000 / 60);
@@ -87,6 +92,9 @@ run() {
     if (this.keyboard.S && this.gameState === "gameover") {
         this.startGame();
     }
+    if (this.keyboard.S && this.gameState === "winning") {
+    this.startGame();
+    }
        if (this.keyboard.P && this.gameState === "playing") {
         this.gameState = "paused";
         this.keyboard.P = false;
@@ -100,7 +108,6 @@ run() {
     }
 
     startGame() {
-
     if (this.character) {
         this.character.stop(); // 👈 ALTE INTERVALLE STOPPEN
     }
@@ -143,6 +150,14 @@ removeDeadEnemies() {
         }
         return true;
     });
+}
+
+checkWinCondition() {
+    let boss = this.level.enemies.find(e => e instanceof Endboss);
+    if (!boss) return;
+    if (boss.isDeadAnimationFinished) {
+        this.gameState = "winning";
+    }
 }
 
 checkCollectables() {
