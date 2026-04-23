@@ -8,6 +8,8 @@ class Endboss extends MovableObject {
     alertPlayed = false;
     state = "walking";
     energy = 200;
+    deadFrameIndex = 0;
+    isDeadAnimationFinished = false;
 
 // "alert" 
 // "chase" --> "attack" (wenn zu nah dran) + moveLeft() oder moveRight() je nachdem, wo der Character ist
@@ -90,7 +92,18 @@ handleAnimation() {
     } else if (state === "hurt") {
         this.playAnimation(this.IMAGES_HURT);
     } else if (state === "dead") {
-        this.playAnimation(this.IMAGES_DEAD);
+
+    if (!this.isDeadAnimationFinished) {
+        let totalFrames = this.IMAGES_DEAD.length * 2;
+        let index = this.deadFrameIndex % this.IMAGES_DEAD.length;
+        this.img = this.ImageCache[this.IMAGES_DEAD[index]];
+        this.deadFrameIndex++;
+        if (this.deadFrameIndex >= totalFrames) {
+            this.isDeadAnimationFinished = true;
+        }
+    return;
+    }
+        
     } else {
         this.playAnimation(this.IMAGES_WALKING);
     }
@@ -109,6 +122,7 @@ handleState() {
    let distance = Math.abs(this.world.character.x - this.x);
 
     if (this.state === "dead") {
+        this.y += 5; 
         return;
     }
 

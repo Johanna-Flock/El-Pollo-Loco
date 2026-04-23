@@ -73,6 +73,7 @@ run() {
         this.checkCollisions();
         this.checkEnemyHits();
         this.throwObjects();
+        this.removeDeadEnemies();
 
     }, 1000 / 60);
 }
@@ -132,6 +133,15 @@ run() {
 
     this.throwableObject.forEach(obj => {
         obj.world = this;
+    });
+}
+
+removeDeadEnemies() {
+    this.level.enemies = this.level.enemies.filter(enemy => {
+        if (enemy instanceof Endboss) {
+            return !enemy.isDeadAnimationFinished;
+        }
+        return true;
     });
 }
 
@@ -208,6 +218,9 @@ checkCollectables() {
         console.log("DRAW OBJECT:", mo);
         if (!mo.img) {
         console.error("Kein Bild:", mo);
+        }
+        if (mo.isDeadAnimationFinished) {
+        return;
         }
         if (mo.otherDirection) {
         this.ctx.save();
