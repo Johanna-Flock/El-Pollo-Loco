@@ -17,6 +17,8 @@ window.addEventListener("keydown", (e) => {
     if(e.key == "d" || e.key == "D") keyboard.D = true;
     if(e.key == "s" || e.key == "S") keyboard.S = true; 
     if(e.key == "p" || e.key == "P") keyboard.P = true; 
+    if(e.key === "Escape") keyboard.ESC = true;
+    
 });
 
 
@@ -29,4 +31,6 @@ window.addEventListener("keyup", (e) => {
     if(e.key == "d" || e.key == "D") keyboard.D = false; //Taste für Werfen von Objekten
     if(e.key == "s" || e.key == "S") keyboard.S = false; //S-Taste für Starten/Neustarten des Spiels
     if(e.key == "p" || e.key == "P") keyboard.P = false; //P-Taste für Pause/Unpause des Spiels
+    if(e.key === "Escape") keyboard.ESC = false; //Zurücl zum Startbildschirm mit ESC-Taste
+    
 });

@@ -72,15 +72,15 @@ class Endboss extends MovableObject {
         this.x = 2500;
     }
 
-    animate() {
-    setInterval(() => {
-        this.handleState();   // 👈 Bewegung / Logik
+animate() {
+    this.stateInterval = setInterval(() => {
+        this.handleState();
     }, 1000 / 60);
 
-    setInterval(() => {
-        this.handleAnimation(); // 👈 nur Animation
+    this.animationInterval = setInterval(() => {
+        this.handleAnimation();
     }, 200);
-    }
+}
 
 
 handleAnimation() {
@@ -169,5 +169,10 @@ hit() {
     }
 
     this.lastHitTime = Date.now();
+}
+
+stop() {
+    clearInterval(this.stateInterval);
+    clearInterval(this.animationInterval);
 }
 }

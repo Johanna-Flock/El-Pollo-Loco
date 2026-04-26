@@ -12,7 +12,6 @@ class World {
     // "paused"
     // "gameover"
 
-
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas; //Hier schreiben wir den Parameter canvas in die Eigenschaft this.canvas, damit wir ihn später in der draw-Methode verwenden können
@@ -45,6 +44,9 @@ class World {
 
 
     drawGame() {
+     if (!this.level || !this.character) {
+        return;
+    }
      //mit dieser Methode clearen wir den Canvas, damit die Bilder nicht übereinander liegen
     this.ctx.translate(this.camera_x, 0); 
     this.addObjectsToMap(this.level.backgroundObjects);
@@ -65,14 +67,17 @@ class World {
     this.ctx.translate(-this.camera_x, 0); 
     }
 
+
+
 run() {
     setInterval(() => {
 
         this.handleInput();
 
         if (this.gameState !== "playing") {
-            return; // ❗ nur Logik stoppen
+            return;
         }
+
         this.checkCollectables();
         this.checkCollisions();
         this.checkEnemyHits();
@@ -83,33 +88,55 @@ run() {
     }, 1000 / 60);
 }
 
-    handleInput() {
+ handleInput() {
+
     // START
     if (this.keyboard.S && this.gameState === "start") {
+        this.keyboard.S = false;
         this.startGame();
     }
-    // RESTART
+    // RESTART GAMEOVER
     if (this.keyboard.S && this.gameState === "gameover") {
+        this.keyboard.S = false;
         this.startGame();
     }
+    // RESTART WINNING
     if (this.keyboard.S && this.gameState === "winning") {
-    this.startGame();
+        this.keyboard.S = false;
+        this.startGame();
     }
-       if (this.keyboard.P && this.gameState === "playing") {
-        this.gameState = "paused";
+    // PAUSE
+    if (this.keyboard.P && this.gameState === "playing") {
         this.keyboard.P = false;
+        this.gameState = "paused";
         return;
     }
     if (this.keyboard.P && this.gameState === "paused") {
-        this.gameState = "playing";
         this.keyboard.P = false;
+        this.gameState = "playing";
         return;
+    }
+    if (
+    this.keyboard.ESC &&
+    (this.gameState === "playing" ||
+     this.gameState === "gameover" ||
+     this.gameState === "winning")
+    ) {
+    this.keyboard.ESC = false;
+    this.goToStart();
     }
     }
 
     startGame() {
     if (this.character) {
         this.character.stop(); // 👈 ALTE INTERVALLE STOPPEN
+    }
+    if (this.level && this.level.enemies) {
+    this.level.enemies.forEach(enemy => {
+        if (enemy.stop) {
+            enemy.stop();
+        }
+    });
     }
     initLevel1();
     this.level = level1;
@@ -145,6 +172,9 @@ run() {
 
 removeDeadEnemies() {
     this.level.enemies = this.level.enemies.filter(enemy => {
+        if (enemy instanceof Chicken) {
+            return !(enemy.state === "dead" && enemy.y > 600);
+        }
         if (enemy instanceof Endboss) {
             return !enemy.isDeadAnimationFinished;
         }
@@ -159,6 +189,13 @@ checkWinCondition() {
         this.gameState = "winning";
     }
 }
+
+goToStart() {
+    this.gameState = "start";
+    this.keyboard.S = false;
+    this.keyboard.D = false;
+}
+
 
 checkCollectables() {
     this.level.coins = this.level.coins.filter((coin) => {
@@ -211,15 +248,21 @@ checkCollectables() {
     }
     }
 
-    checkEnemyHits() {
-    let endboss = this.level.enemies.find(e => e instanceof Endboss);
-    if (!endboss) return;
-
-    this.throwableObject.forEach((bottle, bottleIndex) => {
-        if (bottle.isColliding(endboss)) {
-            endboss.hit();
-            this.throwableObject.splice(bottleIndex, 1);
-        }
+   checkEnemyHits() {
+    this.throwableObject = this.throwableObject.filter((bottle) => {
+        let hit = false;
+        this.level.enemies.forEach((enemy) => {
+            if (bottle.isColliding(enemy)) {
+                if (enemy instanceof Endboss) {
+                    enemy.hit();
+                } 
+                else if (enemy instanceof Chicken) {
+                    enemy.hit();
+                }
+                hit = true;
+            }
+        });
+        return !hit;
     });
     }
 
