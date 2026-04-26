@@ -232,22 +232,24 @@ checkCollectables() {
 
   throwObjects() {
     if (this.keyboard.D) {
+
         if (this.bottleCount <= 0) {
             console.log("Keine Bottles mehr!");
-            // später: sound abspielen
             this.keyboard.D = false;
             return;
         }
+        let direction = this.character.otherDirection ? -1 : 1;
         let bottle = new ThrowableObject(
-            this.character.x + 100,
+            this.character.x + (direction === 1 ? 100 : -20),
             this.character.y + 100
         );
+        bottle.speedX = 8 * direction; // 👈 WICHTIG
         this.throwableObject.push(bottle);
         this.bottleCount--;
         this.bottleBar.setValueBottles(this.bottleCount, this.maxBottles);
         this.keyboard.D = false;
     }
-    }
+}
 
    checkEnemyHits() {
     this.throwableObject = this.throwableObject.filter((bottle) => {
@@ -302,12 +304,10 @@ checkCollectables() {
         this.ctx.translate(mo.x + mo.width, 0);
         this.ctx.scale(-1, 1);
         this.ctx.drawImage(mo.img, 0, mo.y, mo.width, mo.height); //hier benötigt man die x-Koordinate 0, da das Bild bereits durch die translate-Methode verschoben wurde  
-        mo.drawFrame(this.ctx);
         this.ctx.restore();
 
         } else {
         mo.draw(this.ctx);
-        mo.drawFrame(this.ctx);
         }
     } 
 }

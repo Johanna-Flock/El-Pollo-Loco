@@ -47,20 +47,18 @@ class MovableObject extends DrawableObject {
         return this.y < 140;
     }
 
-    isColliding(mo) {
-        return this.x + this.width > mo.x &&
-               this.y + this.height > mo.y &&
-               this.x < mo.x + mo.width &&
-               this.y < mo.y + mo.height;
-    }
+    // isColliding(mo) {
+    //     return this.x + this.width > mo.x &&
+    //            this.y + this.height > mo.y &&
+    //            this.x < mo.x + mo.width &&
+    //            this.y < mo.y + mo.height;
+    // }
 
-    hit() {
-        this.energy -= 5;
-        if (this.energy < 0) {
-            this.energy = 0;
-        } else {
-            this.lastHit = new Date().getTime();
-        }
+    isColliding(mo) {
+    return this.x + this.width - 20 > mo.x &&
+           this.x + 20 < mo.x + mo.width &&
+           this.y + this.height - 10 > mo.y &&
+           this.y + 10 < mo.y + mo.height;
     }
 
     isDead() {

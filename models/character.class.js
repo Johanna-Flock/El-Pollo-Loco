@@ -8,6 +8,7 @@ class Character extends MovableObject {
     lastAction = Date.now();
     movementInterval;
     animationInterval;
+    lastHitTime = 0;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png', 
@@ -161,4 +162,17 @@ class Character extends MovableObject {
     jump() {
       this.speedY = -20;
     }
+
+   hit() {
+    let now = new Date().getTime();
+    // 🔥 Cooldown: nur alle 800ms Schaden erlauben
+    if (this.lastHit && now - this.lastHit < 800) return;
+    this.lastHit = now;
+    this.energy -= 5;
+    if (this.energy < 0) {
+        this.energy = 0;
+    }
+}
+
+
 }
