@@ -81,6 +81,7 @@ run() {
         this.checkCollectables();
         this.checkCollisions();
         this.checkEnemyHits();
+        this.checkStompEnemies()
         this.throwObjects();
         this.checkWinCondition();
         this.removeDeadEnemies();
@@ -266,6 +267,22 @@ checkCollectables() {
     });
     }
 
+    checkStompEnemies() {
+    this.level.enemies.forEach((enemy) => {
+
+        if (!(enemy instanceof Chicken)) return;
+        if (this.character.isColliding(enemy)) {
+            let characterBottom = this.character.y + this.character.height;
+            let enemyTop = enemy.y;
+            let fallingDown = this.character.speedY > 0;
+            let isAboveEnemy = characterBottom <= enemyTop + 30;
+            if (fallingDown && isAboveEnemy) {
+                enemy.hit();
+                this.character.speedY = -10; // bounce
+            }
+        }
+    });
+}
     addObjectsToMap(objects) {
         objects.forEach(object => {
         this.addToMap(object);
