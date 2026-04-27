@@ -127,7 +127,7 @@ class Character extends MovableObject {
         }
 
 
-        this.world.camera_x = -this.x + 100; 
+        this.world.camera_x = -this.x + 50; 
             //„Verschiebe die Welt so, dass der Charakter immer bei x = 100 bleibt“
             // console.log("Person in x: ", this.x);
             // test collision

@@ -241,9 +241,8 @@ checkCollectables() {
         let direction = this.character.otherDirection ? -1 : 1;
         let bottle = new ThrowableObject(
             this.character.x + (direction === 1 ? 100 : -20),
-            this.character.y + 100
+            this.character.y + 100, 8 * direction
         );
-        bottle.speedX = 8 * direction; // 👈 WICHTIG
         this.throwableObject.push(bottle);
         this.bottleCount--;
         this.bottleBar.setValueBottles(this.bottleCount, this.maxBottles);
@@ -259,6 +258,9 @@ checkCollectables() {
                 if (enemy instanceof Endboss) {
                     enemy.hit();
                 } 
+                if (enemy instanceof SmallChicken) {
+                    enemy.hit();
+                }
                 else if (enemy instanceof Chicken) {
                     enemy.hit();
                 }
@@ -272,7 +274,7 @@ checkCollectables() {
     checkStompEnemies() {
     this.level.enemies.forEach((enemy) => {
 
-        if (!(enemy instanceof Chicken)) return;
+        if (!(enemy instanceof Chicken || enemy instanceof SmallChicken)) return;
         if (this.character.isColliding(enemy)) {
             let characterBottom = this.character.y + this.character.height;
             let enemyTop = enemy.y;
