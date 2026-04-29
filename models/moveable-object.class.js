@@ -7,6 +7,7 @@ class MovableObject extends DrawableObject {
     acceleration = 1;
     energy = 300;
     lastHit = 0;
+    groundY = 420;
 
   
     moveRight() {
@@ -46,7 +47,7 @@ class MovableObject extends DrawableObject {
         if(this instanceof ThrowableObject) { //throwable objects should always fall
             return true;
         }
-        return this.y < 140;
+        return  this.y < this.groundY - this.height;
     }
 
     // isColliding(mo) {

@@ -100,7 +100,6 @@ class Character extends MovableObject {
         this.loadImages(
             this.IMAGES_LONG_IDLE
         );
-
         this.applyGravity();
         // this.animate(); 
     }
