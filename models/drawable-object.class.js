@@ -12,9 +12,6 @@ class DrawableObject {
     }
 
     loadImages(arr) {
-
-          console.log("loadImages input:", arr);
-
     if (!arr) {
         console.error("❌ arr ist undefined!");
         return;

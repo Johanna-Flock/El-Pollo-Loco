@@ -77,16 +77,20 @@ run() {
         if (this.gameState !== "playing") {
             return;
         }
-
-        this.checkCollectables();
-        this.checkCollisions();
-        this.checkEnemyHits();
-        this.checkStompEnemies()
-        this.throwObjects();
-        this.checkWinCondition();
-        this.removeDeadEnemies();
+        this.update();
+        
 
     }, 1000 / 60);
+}
+
+update() {
+    this.checkCollectables();
+    this.checkCollisions();
+    this.checkEnemyHits();
+    this.checkStompEnemies()
+    this.throwObjects();
+    this.checkWinCondition();
+    this.removeDeadEnemies();
 }
 
  handleInput() {
@@ -141,7 +145,6 @@ run() {
     }
     initLevel1();
     this.level = level1;
-    console.log(this.level.coins);
     this.maxCoins = this.level.coins.length;
     this.maxBottles = this.level.bottles.length;
     this.coinCount = 0;
@@ -234,7 +237,6 @@ checkCollectables() {
     if (this.keyboard.D) {
 
         if (this.bottleCount <= 0) {
-            console.log("Keine Bottles mehr!");
             this.keyboard.D = false;
             return;
         }
@@ -294,7 +296,6 @@ checkCollectables() {
     }
        
     addToMap(mo) {
-        console.log("DRAW OBJECT:", mo);
         if (!mo.img) {
         console.error("Kein Bild:", mo);
         }

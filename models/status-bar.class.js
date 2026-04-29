@@ -38,8 +38,6 @@ class StatusBar extends DrawableObject {
         super();
         this.x = x;
         this.y = y;
-        console.log("TYPE RAW:", JSON.stringify(type));
-
          if (!type) {
          console.warn("⚠️ StatusBar ohne type erstellt!");
          type = "health";
@@ -65,7 +63,6 @@ class StatusBar extends DrawableObject {
         let index = this.resolveImageIndex();
         let path = this.IMAGES_HEALTH[index];
         this.img = this.ImageCache[path];
-        console.log("cache entry:", this.ImageCache[path]);
     }
 
     setValueCoins(valueCoins, maxCoins) {
@@ -93,7 +90,6 @@ class StatusBar extends DrawableObject {
             return;
         }
         this.img = this.ImageCache[path];
-        console.log("cache entry:", this.ImageCache[path]);
     }
 
     resolveImageIndex() {
