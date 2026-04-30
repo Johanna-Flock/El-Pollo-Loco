@@ -17,9 +17,9 @@ class SmallChicken extends MovableObject {
 
     currentImage = 0;
 
-    constructor() {
+    constructor(x =800 + Math.random() * 1200) {
     super().loadImage('img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
-    this.x = 800 + Math.random() * 1200;
+    this.x = x;
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_DEAD);  
     this.state = "walking";
@@ -30,7 +30,9 @@ class SmallChicken extends MovableObject {
     this.applyGravity()
     this.animate();
     this.startBouncing();
+
 }
+
 
 jump() {
     if (this.isAboveGround()) return;

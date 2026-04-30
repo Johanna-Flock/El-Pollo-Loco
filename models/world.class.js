@@ -78,8 +78,6 @@ run() {
             return;
         }
         this.update();
-        
-
     }, 1000 / 60);
 }
 
@@ -166,7 +164,7 @@ update() {
 
     this.level.enemies.forEach(enemy => {
         enemy.world = this;
-        enemy.animate(); // 👈 auch hier!
+        enemy.animate();
     });
 
     this.throwableObject.forEach(obj => {

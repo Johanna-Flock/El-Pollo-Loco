@@ -114,7 +114,7 @@ class Character extends MovableObject {
             this.otherDirection = false;
             this.lastAction = Date.now();
         }
-        if(this.world.keyboard.LEFT && this.x > 0 ) {
+        if(this.world.keyboard.LEFT && this.x > -600 ) {
             this.moveLeft(); 
             this.otherDirection = true; 
             this.lastAction = Date.now();
