@@ -12,7 +12,6 @@ class MovableObject extends DrawableObject {
   
     moveRight() {
         this.x += this.speed;
-        
     }
 
     moveLeft() {
@@ -42,7 +41,6 @@ class MovableObject extends DrawableObject {
         , 1000/25);
     }
 
-
     isAboveGround() {
         if(this instanceof ThrowableObject) { //throwable objects should always fall
             return true;
@@ -50,19 +48,23 @@ class MovableObject extends DrawableObject {
         return  this.y < this.groundY - this.height;
     }
 
-    // isColliding(mo) {
-    //     return this.x + this.width > mo.x &&
-    //            this.y + this.height > mo.y &&
-    //            this.x < mo.x + mo.width &&
-    //            this.y < mo.y + mo.height;
-    // }
-
     isColliding(mo) {
     return this.x + this.width - 20 > mo.x &&
            this.x + 20 < mo.x + mo.width &&
            this.y + this.height - 10 > mo.y &&
            this.y + 10 < mo.y + mo.height;
     }
+
+isNearItem(item, radius = 60) {
+    let charCenterX = this.x + this.width / 2;
+    let charCenterY = this.y + this.height / 2;
+    let itemCenterX = item.x + item.width / 2;
+    let itemCenterY = item.y + item.height / 2;
+    let dx = charCenterX - itemCenterX;
+    let dy = (charCenterY - itemCenterY) * 0.6; 
+    let distance = Math.sqrt(dx * dx + dy * dy);
+    return distance < radius;
+}
 
     isDead() {
         return this.energy === 0;

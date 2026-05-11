@@ -201,7 +201,7 @@ goToStart() {
 
 checkCollectables() {
     this.level.coins = this.level.coins.filter((coin) => {
-        if (this.character.isColliding(coin)) {
+        if (this.character.isNearItem(coin, 50)) {
             this.coinCount++;
             this.coinBar.setValueCoins(this.coinCount, this.maxCoins);
             return false;
@@ -209,7 +209,7 @@ checkCollectables() {
         return true; 
     });
     this.level.bottles = this.level.bottles.filter((bottle) => {
-        if (this.character.isColliding(bottle)) {
+        if (this.character.isNearItem(bottle, 80)) {
             this.bottleCount++;
             this.bottleBar.setValueBottles(this.bottleCount, this.maxBottles);
             return false;
@@ -218,9 +218,15 @@ checkCollectables() {
     });
 }
     
-    checkCollisions() {
-    this.level.enemies.forEach((enemy) => {   
+   checkCollisions() {
+    this.level.enemies.forEach((enemy) => {
         if (this.character.isColliding(enemy)) {
+            if (
+                (enemy instanceof Chicken || enemy instanceof SmallChicken) &&
+                this.character.isStomping(enemy)
+            ) {
+                return;
+            }
             this.character.hit();
             this.healthBar.setPercentage(this.character.energy);
 
@@ -229,7 +235,7 @@ checkCollectables() {
             }
         }
     });
-    }
+}
 
   throwObjects() {
     if (this.keyboard.D) {
@@ -273,7 +279,6 @@ checkCollectables() {
 
     checkStompEnemies() {
     this.level.enemies.forEach((enemy) => {
-
         if (!(enemy instanceof Chicken || enemy instanceof SmallChicken)) return;
         if (this.character.isColliding(enemy)) {
             let characterBottom = this.character.y + this.character.height;

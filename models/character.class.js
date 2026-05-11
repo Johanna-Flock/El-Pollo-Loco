@@ -171,6 +171,20 @@ class Character extends MovableObject {
     if (this.energy < 0) {
         this.energy = 0;
     }
+    }
+
+  isStomping(enemy) {
+    let falling = this.speedY > 0;
+    let charBottom = this.y + this.height;
+    let enemyTop = enemy.y;
+    let hitFromAbove =
+        charBottom - this.speedY <= enemyTop + 20 &&
+        charBottom >= enemyTop;
+    let xOverlap =
+        this.x + this.width > enemy.x &&
+        this.x < enemy.x + enemy.width;
+        console.log("Falling: ", falling, "Hit from above: ", hitFromAbove, "X Overlap: ", xOverlap);
+    return falling && hitFromAbove && xOverlap;
 }
 
 
