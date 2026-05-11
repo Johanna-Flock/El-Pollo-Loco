@@ -3,12 +3,12 @@ function initLevel1() {
     level1 = new Level ( 
          generateBackground(),
     [
-        ...spawnGroup(Chicken, 300, 3, 200),
+        ...spawnGroup(Chicken, 500, 2, 200),
         ...spawnGroup(Chicken, 1200, 2, 300),
-        ...spawnGroup(SmallChicken, 2000, 4, 150),
-        ...spawnGroup(SmallChicken, 2500, 3, 120),
+        ...spawnGroup(SmallChicken, 2000, 2, 150),
         ...spawnGroup(Chicken, 3000, 2, 300),
         ...spawnGroup(SmallChicken, 5000, 3, 120),
+        ...spawnGroup(Chicken, 5500, 2, 300),
         ...spawnGroup(Chicken, 6000, 2, 300),
     new Endboss(7000),
     ],
@@ -20,12 +20,26 @@ function initLevel1() {
             ...generateCoins(10),
             ...generateCoinLine(500, 150, 5),
             ...generateCoinDiagonal(900, 200, 5),
+            ...generateCoinDiagonalDown(1100, 200, 5),
             ...generateCoinArc(1300, 200, 6),
-            ...generateCoinArc(2000, 200, 6)
+            ...generateCoinArc(2000, 200, 6),
+            ...generateCoinDiagonal(3000, 200, 5),
+            ...generateCoinDiagonalDown(5000, 200, 5),
+            ...generateCoinDiagonalDown(6000, 200, 5),
     ],
-    [
-            ...generateBottles(30),
-    ]
+   [
+    ...generateBottles(2, 200, 1200),
+    ...generateBottles(2, 1400, 1200),
+    ...generateBottles(2, 2800, 1200),
+    ...generateBottles(2, 4200, 1200),
+    ...generateBottles(2, 5600, 1200),
+    ...generateBottles(2, 6800, 800),
+    // ...generateBottleLine(2000, 500, 3, 80),
+    // ...generateBottleDiagonal(3000, 400, 4),
+    // ...generateBottleLine(4500, 300, 3, 90),
+    // ...generateBottleDiagonal(5500, 700, 4),
+    // ...generateBottleDiagonal(6500, 200, 4),
+], 
 );
 
 level1.level_end_x = level1EndX;
@@ -101,6 +115,20 @@ function generateCoinDiagonal(startX, startY, amount) {
     return coins;
 }
 
+function generateCoinDiagonalDown(startX, startY, amount) {
+    let coins = [];
+    for (let i = 0; i < amount; i++) {
+        coins.push(
+            new CollectableObject(
+                'img/8_coin/coin_2.png',
+                startX + i * 60,
+                startY + i * 30
+            )
+        );
+    }
+    return coins;
+}
+
 function generateCoinArc(centerX, baseY, amount) {
     let coins = [];
 
@@ -117,15 +145,13 @@ function generateCoinArc(centerX, baseY, amount) {
 }
 
 
-function generateBottles(amount) {
+function generateBottles(amount, startX = 200, rangeX = 6000) {
     let bottles = [];
-    const groundY = 350;
     for (let i = 0; i < amount; i++) {
-        let x = 200 + Math.random() * 2000;
-        // 3 feste Höhenstufen + leichte Variation
+        let x = startX + Math.random() * rangeX;
         let baseHeights = [260, 290, 320];
         let baseY = baseHeights[Math.floor(Math.random() * baseHeights.length)];
-        let y = baseY + (Math.random() * 20 - 10); // kleine Streuung
+        let y = baseY + (Math.random() * 20 - 10);
         bottles.push(
             new CollectableObject(
                 'img/6_salsa_bottle/salsa_bottle.png',
@@ -136,6 +162,36 @@ function generateBottles(amount) {
     }
     return bottles;
 }
+
+function generateBottleLine(startX, startY, amount, spacing = 80) {
+    let bottles = [];
+    for (let i = 0; i < amount; i++) {
+        bottles.push(
+            new CollectableObject(
+                'img/6_salsa_bottle/salsa_bottle.png',
+                startX + i * spacing,
+                startY
+            )
+        );
+    }
+    return bottles;
+}
+
+function generateBottleDiagonal(startX, startY, amount) {
+    let bottles = [];
+    for (let i = 0; i < amount; i++) {
+        bottles.push(
+            new CollectableObject(
+                'img/6_salsa_bottle/salsa_bottle.png',
+                startX + i * 60,
+                startY - i * 30
+            )
+        );
+    }
+    return bottles;
+}
+
+
 
 
 }

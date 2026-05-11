@@ -50,14 +50,29 @@ class MovableObject extends DrawableObject {
         return  this.y < this.groundY - this.height;
     }
 
+    // isColliding(mo) {
+    // return this.x + this.width - 20 > mo.x &&
+    //        this.x + 20 < mo.x + mo.width &&
+    //        this.y + this.height - 10 > mo.y &&
+    //        this.y + 10 < mo.y + mo.height;
+    // }
+
     isColliding(mo) {
-    return this.x + this.width - 20 > mo.x &&
-           this.x + 20 < mo.x + mo.width &&
-           this.y + this.height - 10 > mo.y &&
-           this.y + 10 < mo.y + mo.height;
+    let xOverlap =
+        this.x + this.width - 20 > mo.x &&
+        this.x + 20 < mo.x + mo.width;
+    let yOverlap =
+        this.y + this.height - 10 > mo.y &&
+        this.y + 10 < mo.y + mo.height;
+    let isJumping = this.speedY < 0;
+    let jumpTolerance = 35; // Toleranz, um das Stompen zu erleichtern
+    if (isJumping) {
+    return xOverlap && yOverlap && this.y > mo.y + jumpTolerance;
+    }
+    return xOverlap && yOverlap;
     }
 
-isNearItem(item, radius = 60) {
+    isNearItem(item, radius = 60) {
     let charCenterX = this.x + this.width / 2;
     let charCenterY = this.y + this.height / 2;
     let itemCenterX = item.x + item.width / 2;
