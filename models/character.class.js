@@ -8,7 +8,6 @@ class Character extends MovableObject {
     lastAction = Date.now();
     movementInterval;
     animationInterval;
-    lastHitTime = 0;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png', 
@@ -164,8 +163,6 @@ class Character extends MovableObject {
 
    hit() {
     let now = new Date().getTime();
-    // 🔥 Cooldown: nur alle 800ms Schaden erlauben
-    if (this.lastHit && now - this.lastHit < 800) return;
     this.lastHit = now;
     this.energy -= 5;
     if (this.energy < 0) {
@@ -173,19 +170,11 @@ class Character extends MovableObject {
     }
     }
 
-  isStomping(enemy) {
-    let falling = this.speedY > 0;
+    isStomping(enemy) {
     let charBottom = this.y + this.height;
     let enemyTop = enemy.y;
-    let hitFromAbove =
-        charBottom - this.speedY <= enemyTop + 20 &&
-        charBottom >= enemyTop;
-    let xOverlap =
-        this.x + this.width > enemy.x &&
-        this.x < enemy.x + enemy.width;
-        console.log("Falling: ", falling, "Hit from above: ", hitFromAbove, "X Overlap: ", xOverlap);
-    return falling && hitFromAbove && xOverlap;
+    let isFalling = this.speedY > 0;
+    return isFalling && charBottom <= enemyTop + 20;
 }
-
 
 }

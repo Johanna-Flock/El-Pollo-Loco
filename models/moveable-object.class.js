@@ -8,6 +8,8 @@ class MovableObject extends DrawableObject {
     energy = 300;
     lastHit = 0;
     groundY = 420;
+    canDealDamage = true;
+    isTouching = false;
 
   
     moveRight() {

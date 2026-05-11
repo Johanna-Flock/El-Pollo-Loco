@@ -217,22 +217,32 @@ checkCollectables() {
         return true;
     });
 }
-    
-   checkCollisions() {
+
+checkCollisions() {
     this.level.enemies.forEach((enemy) => {
-        if (this.character.isColliding(enemy)) {
-            if (
-                (enemy instanceof Chicken || enemy instanceof SmallChicken) &&
-                this.character.isStomping(enemy)
-            ) {
-                return;
-            }
+        let colliding = this.character.isColliding(enemy);
+        if (colliding && this.character.isStomping(enemy)) {
+            enemy.hit?.();
+            this.character.speedY = -10;
+            enemy.canDealDamage = false;
+            enemy.isTouching = true;
+            return;
+        }
+        if (colliding && enemy.canDealDamage) {
+            enemy.isTouching = true;
             this.character.hit();
             this.healthBar.setPercentage(this.character.energy);
-
-            if (this.character.isDead()) {
-                this.gameState = "gameover";
-            }
+            enemy.canDealDamage = false;
+        }
+        if (!colliding) {
+            enemy.isTouching = false;
+        }
+        let dx = this.character.x - enemy.x;
+        if (Math.abs(dx) > 80) {
+            enemy.canDealDamage = true;
+        }
+        if (this.character.isDead()) {
+            this.gameState = "gameover";
         }
     });
 }
