@@ -89,7 +89,6 @@ update() {
     this.throwObjects();
     this.checkWinCondition();
     this.removeDeadEnemies();
-    console.log("COINS LIVE:", this.level.coins);
 }
 
  handleInput() {

@@ -34,11 +34,11 @@ function initLevel1() {
     ...generateBottles(2, 4200, 1200),
     ...generateBottles(2, 5600, 1200),
     ...generateBottles(2, 6800, 800),
-    // ...generateBottleLine(2000, 500, 3, 80),
-    // ...generateBottleDiagonal(3000, 400, 4),
-    // ...generateBottleLine(4500, 300, 3, 90),
-    // ...generateBottleDiagonal(5500, 700, 4),
-    // ...generateBottleDiagonal(6500, 200, 4),
+    ...generateBottleLine(2000, 500, 3, 80),
+    ...generateBottleDiagonal(3000, 400, 4),
+    ...generateBottleLine(4500, 300, 3, 90),
+    ...generateBottleDiagonal(5500, 700, 4),
+    ...generateBottleDiagonal(6500, 400, 4),
 ], 
 );
 

@@ -6,14 +6,48 @@
 canvas {
     background-color: black;
     display:block;
+    margin-bottom: 200px; 
+}
+
+.footer_style {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* halbtransparentes Schwarz */
+    color: bisque;
+    text-align: center;
+    padding: 15px 0;
+    font-family: 'zabars', sans-serif;
+    font-weight: 100;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 10px;
 }
 
 h1 {
-    padding-top:100px; 
+    padding-top:50px; 
+    padding-bottom:20px; 
     font-size: 85px;
     font-weight: 100;
     initial-letter: 3px;
     text-shadow: 2px 2px 4px #000000;
+    margin:0;
+}
+
+h2 {
+    padding-top:10px; 
+    padding-left:80px; 
+    padding-bottom:10px; 
+    font-size: 35px;
+    text-shadow: 1px 1px 2px #000000;
+    font-weight: 100;
+    initial-letter: 3px;
+    font-family: zabars, sans-serif;
+    margin:0;
 }
 
 body {
@@ -27,6 +61,35 @@ body {
     background-position: center;
     color: bisque;
     font-family: 'zabars', sans-serif;
+}
+
+.impressum-body {
+    min-height: unset;
+    display:flex; 
+    flex-direction: column;   
+}
+
+.impressum {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5); 
+    color: bisque;
+    border-radius: 10px;
+    font-family:'Baloo 2', sans-serif;
+}
+
+.impressum p {
+    margin: 0;
+    line-height: 1.5;
+    font-size: 16px;
+}
+
+.impressum a {
+    margin: 0;
+    line-height: 1.5;
+    font-size: 16px;
+    text-decoration: none;
 }
 
 /* Smartphones */
