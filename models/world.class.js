@@ -188,6 +188,9 @@ checkWinCondition() {
     if (!boss) return;
     if (boss.isDeadAnimationFinished) {
         this.gameState = "winning";
+        if (this.onGameEnded) {
+        this.onGameEnded();
+        }
     }
 }
 
@@ -250,6 +253,9 @@ checkCollisions() {
         }
         if (this.character.isDead()) {
             this.gameState = "gameover";
+            if (this.onGameEnded) {
+            this.onGameEnded();
+        }
         }
     });
 }

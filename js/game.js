@@ -14,6 +14,11 @@ function init(){
     updateMobileUI();
     exitFullscreenIfNeeded();
 };
+
+world.onGameEnded = () => {
+        gameState.started = false;
+        updateMobileUI();
+    };
 }
 
 function startGameButton() {
