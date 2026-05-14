@@ -26,7 +26,11 @@
     <script src="js/script.js"></script>
 </head>
 <body onload="init()">
-    <!-- <div id="fullscreen"> -->
+
+    <div id="rotate_overlay" class="rotate_overlay d_none">
+    <p>Please rotate your device</p>
+    </div>
+
     <h1>El Pollo Loco</h1>
     <div id="game_container">
     <canvas
@@ -41,12 +45,50 @@
         alt="Fullscreen"
         onclick="toggleFullscreen()"
     >
+
+  <div id="mobile_controls" class="d_none">
+    <div id="mobile_top_right">
+    <img id="mute_btn"
+             src="./icons/mute.png"
+             alt="Mute"
+             onclick="toggleMute()">
+
+    
+        <img id="menu_btn"
+             src="./icons/menu.png"
+             alt="Menu"
+             onclick="toggleMobileMenu()">
+    </div>
+
+    <div id="mobile_move_controls">
+        <img src="./icons/left-arrow.png"
+             ontouchstart="keyboard.LEFT = true"
+             ontouchend="keyboard.LEFT = false">
+
+        <img src="./icons/right-arrow.png"
+             ontouchstart="keyboard.RIGHT = true"
+             ontouchend="keyboard.RIGHT = false">
+    </div>
+
+    <div id="mobile_action_controls">
+        <img src="./icons/up-arrow.png"
+             ontouchstart="keyboard.SPACE = true"
+             ontouchend="keyboard.SPACE = false">
+
+        <img src="./icons/throw.png"
+             ontouchstart="keyboard.D = true"
+             ontouchend="keyboard.D = false">
+    </div>
+</div>
    </div>
-   
+
+
+
     <div class="game_description">
         <img id="info" src="./icons/info.png" alt="Info Icon" onclick="openModal('overlay')">
         <img id="start_game" src="./icons/start-button.png" alt="Start Game Icon" onclick="startGameButton()">
     </div>
+
     <div id="overlay" class="overlay d_none" onclick="closeModal('overlay')">
     <div class="modal_game_description" onclick="event.stopPropagation()">
         <h2>How to Play</h2>
@@ -60,9 +102,8 @@
         <li>Defeat the end boss to win the game.</li>
         <li>Press the 'P' key to pause the game.</li>
         <li>Press the 'ESC' key to leave and go back to start screen.</li>
-        
     </div>
-</div>
+    </div>
     <footer class="footer_style">
         <p>&copy; 2026 El Pollo Loco. All rights reserved.</p>
         <a href="impressum.html">IMPRESSUM</a>

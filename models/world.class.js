@@ -125,7 +125,6 @@ update() {
      this.gameState === "gameover" ||
      this.gameState === "winning")
     ) {
-    this.keyboard.ESC = false;
     this.goToStart();
     }
     }
@@ -196,6 +195,14 @@ goToStart() {
     this.gameState = "start";
     this.keyboard.S = false;
     this.keyboard.D = false;
+    this.keyboard.LEFT = false;
+    this.keyboard.RIGHT = false;
+    this.keyboard.SPACE = false;
+    this.keyboard.P = false;
+    this.keyboard.ESC = false;
+    if (this.onExitToMenu) {
+        this.onExitToMenu();
+    }
 }
 
 

@@ -1,15 +1,37 @@
 let canvas;
 let world; 
 let keyboard = new Keyboard();
+let gameState = {
+    started: false,
+};
 
 
 function init(){
     canvas = document.getElementById("canvas")
     world = new World(canvas, keyboard);
+    world.onExitToMenu = () => {
+    gameState.started = false;
+    updateMobileUI();
+    exitFullscreenIfNeeded();
+};
 }
 
 function startGameButton() {
     keyboard.S = true;
+    gameState.started = true;
+
+     if (isMobile()) {
+        console.log("Entering fullscreen mode for mobile.");
+        enterGameFullscreen();
+        console.log("mobile detected, updating UI.");
+        updateMobileUI() 
+    }
+}
+
+function exitFullscreenIfNeeded() {
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    }
 }
 
 window.addEventListener("keydown", (e) => { 
