@@ -6,8 +6,54 @@
 canvas {
     background-color: black;
     display:block;
-    margin-bottom: 200px; 
+    margin-bottom: 20px; 
 }
+
+.game_description {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 150px;
+    margin-top: px;
+    
+}
+
+.game_description img {
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+}   
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal_game_description {
+    background-color:rgba(255, 228, 196, 0.9);
+    padding: 30px;
+    border-radius: 12px;
+    color:bisque;
+}
+
+.modal_game_description h2 {
+    text-shadow: 4px 3px 16px #000000;
+  
+}
+
+.modal_game_description li {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-family: 'Baloo 2', sans-serif;
+    color: black;
+    font-size: 18px;
+}
+
 
 .footer_style {
     position: fixed;
@@ -29,7 +75,7 @@ a {
 }
 
 h1 {
-    padding-top:50px; 
+    padding-top:32px; 
     padding-bottom:20px; 
     font-size: 85px;
     font-weight: 100;
@@ -40,7 +86,6 @@ h1 {
 
 h2 {
     padding-top:10px; 
-    padding-left:80px; 
     padding-bottom:10px; 
     font-size: 35px;
     text-shadow: 1px 1px 2px #000000;
@@ -91,6 +136,14 @@ body {
     font-size: 16px;
     text-decoration: none;
 }
+
+.d_none {
+    display: none;
+}
+
+.no_scroll {
+    overflow: hidden;
+    }
 
 /* Smartphones */
 @media only screen and (max-width: 740px) {

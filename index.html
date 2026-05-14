@@ -23,6 +23,7 @@
     <script src="models/screen.class.js"></script>
     <script src="level/level1.js"></script>
     <script src="js/game.js"></script>
+    <script src="js/script.js"></script>
 </head>
 <body onload="init()">
     <!-- <div id="fullscreen"> -->
@@ -33,7 +34,29 @@
         height="480">
 
     </canvas>
-    <!-- </div> -->
+    <!-- <div id="fullscreen">
+        <button id="fullscreen-btn" onclick="toggleFullScreen()">Toggle Fullscreen</button> 
+    </div> -->
+    <div class="game_description">
+        <img id="info" src="./icons/info.png" alt="Info Icon" onclick="openModal('overlay')">
+        <img id="start_game" src="./icons/start-button.png" alt="Start Game Icon" onclick="startGameButton()">
+    </div>
+    <div id="overlay" class="overlay d_none" onclick="closeModal('overlay')">
+    <div class="modal_game_description" onclick="event.stopPropagation()">
+        <h2>How to Play</h2>
+        <li>Press the 'S' key to start the game.</li>
+        <li>Use the arrow keys to move left and right.</li>
+        <li>Press the spacebar to jump.</li>
+        <li>Jump on enemies to defeat them.</li>
+        <li>Collect bottles for throwing them.</li>   
+        <li>Press the 'D' key to throw a bottle to damage enemies.</li>
+        <li>Collect coins to increase your score.</li>
+        <li>Defeat the end boss to win the game.</li>
+        <li>Press the 'P' key to pause the game.</li>
+        <li>Press the 'ESC' key to leave and go back to start screen.</li>
+        
+    </div>
+</div>
     <footer class="footer_style">
         <p>&copy; 2026 El Pollo Loco. All rights reserved.</p>
         <a href="impressum.html">IMPRESSUM</a>

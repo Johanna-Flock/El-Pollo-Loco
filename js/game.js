@@ -8,6 +8,10 @@ function init(){
     world = new World(canvas, keyboard);
 }
 
+function startGameButton() {
+    keyboard.S = true;
+}
+
 window.addEventListener("keydown", (e) => { 
     if(e.keyCode == 39) keyboard.RIGHT = true;
     if(e.keyCode == 37) keyboard.LEFT = true;
