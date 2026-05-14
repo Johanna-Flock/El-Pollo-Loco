@@ -28,15 +28,21 @@
 <body onload="init()">
     <!-- <div id="fullscreen"> -->
     <h1>El Pollo Loco</h1>
+    <div id="game_container">
     <canvas
         id="canvas"
         width="720"
         height="480">
 
     </canvas>
-    <!-- <div id="fullscreen">
-        <button id="fullscreen-btn" onclick="toggleFullScreen()">Toggle Fullscreen</button> 
-    </div> -->
+    <img
+        id="fullscreen_btn"
+        src="./icons/fullscreen.png"
+        alt="Fullscreen"
+        onclick="toggleFullscreen()"
+    >
+   </div>
+   
     <div class="game_description">
         <img id="info" src="./icons/info.png" alt="Info Icon" onclick="openModal('overlay')">
         <img id="start_game" src="./icons/start-button.png" alt="Start Game Icon" onclick="startGameButton()">
