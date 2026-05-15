@@ -2,8 +2,9 @@ let canvas;
 let world; 
 let keyboard = new Keyboard();
 let gameState = {
-    started: false,
-};
+    started: false,};
+let pendingGameStart = false;
+
 
 
 function init(){
@@ -13,25 +14,41 @@ function init(){
     gameState.started = false;
     updateMobileUI();
     exitFullscreenIfNeeded();
-};
-
-world.onGameEnded = () => {
+    };
+    world.onGameEnded = () => {
         gameState.started = false;
         updateMobileUI();
     };
 }
 
 function startGameButton() {
+    // Desktop -> direkt starten
+    if (!isMobile()) {
+        startGame();
+        return;
+    }
+    // Mobile + Landscape -> starten
+    if (window.innerWidth > window.innerHeight) {
+        startGame();
+    } else {
+    // Mobile + Portrait
+        pendingGameStart = true;
+        checkOrientation()
+    }
+}
+
+function startGame() {
     keyboard.S = true;
     gameState.started = true;
-
-     if (isMobile()) {
+    hideRotateMessage();
+   if (isMobile()) {
         console.log("Entering fullscreen mode for mobile.");
         enterGameFullscreen();
         console.log("mobile detected, updating UI.");
         updateMobileUI() 
     }
 }
+
 
 function exitFullscreenIfNeeded() {
     if (document.fullscreenElement) {

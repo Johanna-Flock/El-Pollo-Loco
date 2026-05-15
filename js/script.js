@@ -29,13 +29,31 @@ window.addEventListener("resize", () => {
 
 window.addEventListener("orientationchange", () => {
     checkOrientation();
+    updateMobileUI();
 });
 
 function checkOrientation() {
-    if (window.innerHeight > window.innerWidth) {
-        showRotateMessage();
-    } else {
-        hideRotateMessage();
+    if (!isMobile()) return;
+    const isLandscape = window.innerWidth > window.innerHeight;
+    if (pendingGameStart) {
+        if (isLandscape) {
+            pendingGameStart = false;
+            startGame();
+        } else {
+            showRotateMessage();
+        }
+        return;
+    }
+    if (gameState.started) {
+        if (!isLandscape) {
+            showRotateMessage();
+            keyboard.P = true;
+            
+        } else {
+            hideRotateMessage();
+            keyboard.P = false;
+            
+        }
     }
 }
 
@@ -53,11 +71,10 @@ function isMobile() {
 
 function updateMobileUI() {
     const controls = document.getElementById("mobile_controls");
-    console.log("Updating mobile UI. Mobile detected:", isMobile(), "Game started:", gameState.started);    
-    if (isMobile() && gameState.started) {
+    const isLandscape = window.innerWidth > window.innerHeight;
+    if (isMobile() && gameState.started && isLandscape) {
         controls.classList.remove("d_none");
         document.getElementById("fullscreen_btn").classList.add("d_none");
-      
     } else {
         controls.classList.add("d_none");
         document.getElementById("fullscreen_btn").classList.remove("d_none");

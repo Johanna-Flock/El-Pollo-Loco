@@ -230,7 +230,7 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 24px;
-    z-index: 9999;
+    z-index: 999999;
 }
 
 .d_none {
