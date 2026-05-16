@@ -16,23 +16,29 @@ class AudioManager {
         this.bigChickenSound = new Audio("./audio/big_chicken_sound.mp3");
         this.smallChickenSound = new Audio("./audio/small_chicken_sound.mp3");
         this.endBossBeginningSound = new Audio("./audio/end_boss_beginning_sound.mp3");
-        this.allSounds = [
-            this.startScreenMusic,
-            this.openGameDescriptionSound,
-            this.gameEscapeSound,
-            this.jumpSound,
-            this.throwSound,
-            this.sleepSound,
-            this.characterHurtSound,
-            this.startGameMusic,
-            this.winningSound,
-            this.gameOverSound,
-            this.pauseSound,
-            this.chickenDeadSound,
-            this.bigChickenSound,
-            this.smallChickenSound,
-            this.endBossBeginningSound
+
+        this.music = [
+        this.startScreenMusic,
         ];
+
+        this.sfx = [
+        this.openGameDescriptionSound,
+        this.gameEscapeSound,
+        this.sleepSound,
+        this.characterHurtSound,
+        this.startGameMusic,
+        this.jumpSound,
+        this.throwSound,
+        this.winningSound,
+        this.gameOverSound,
+        this.pauseSound,
+        this.chickenDeadSound,
+        this.bigChickenSound,
+        this.smallChickenSound,
+        this.endBossBeginningSound
+        ];    
+
+        this.allSounds = [...this.music, ...this.sfx];
 
         this.currentMusic = null;
         this.startScreenMusic.loop = true;
@@ -50,60 +56,37 @@ loadSoundSettings() {
     } else {
         this.soundMuted = false;
     }
-    this.updateMuteButtonDesktop();
-    this.updateMuteButton();
+    this.updateMuteButtons();
+}
+
+toggleMute() {
+    this.soundMuted = !this.soundMuted;
+    localStorage.setItem("soundMuted", this.soundMuted);
+    this.updateMuteButtons();
+    if (this.soundMuted) {
+        this.pauseMusic();
+    } else {
+        this.resumeMusic();
+    }
+}
+
+updateMuteButtons() {
+    const desktop = document.getElementById("mute_btn_desktop");
+    const mobile = document.getElementById("mute_btn");
+
+    [desktop, mobile].forEach(btn => {
+        if (!btn) return;
+        btn.src = this.soundMuted
+            ? "./icons/mute.png"
+            : "./icons/unmute.png";
+    });
 }
 
 playMusic(sound) {
-    this.stopAllSounds();
+    this.stopMusic();
     this.currentMusic = sound;
+    sound.loop = true;
     this.playSound(sound);
-}
-
-toggleMuteDesktop() {
-    this.soundMuted = !this.soundMuted;
-    localStorage.setItem("soundMuted", this.soundMuted);
-    this.updateMuteButtonDesktop();
-    if (this.soundMuted) {
-        this.stopAllSounds();
-    } else {
-        this.resumeSounds();
-    }
-}
-
-toggleMuteMobile() {
-    this.soundMuted = !this.soundMuted;
-    localStorage.setItem("soundMuted", this.soundMuted);
-    this.updateMuteButton();
-    if (this.soundMuted) {
-        this.stopAllSounds();
-    } else {
-        this.resumeSounds();
-    }
-}
-
-resumeSounds() {
-    if (this.currentMusic) {
-        this.playSound(this.currentMusic);
-    }
-}
-
-updateMuteButtonDesktop() {
-    const muteBtn = document.getElementById("mute_btn_desktop");
-    if (this.soundMuted) {
-        muteBtn.src = "./icons/mute.png";
-    } else {
-        muteBtn.src = "./icons/unmute.png";
-    }
-}
-
-updateMuteButton() {
-    const muteBtn = document.getElementById("mute_btn");
-    if (this.soundMuted) {
-        muteBtn.src = "./icons/mute.png";
-    } else {
-        muteBtn.src = "./icons/unmute.png";
-    }
 }
 
 playSound(sound) {
@@ -112,10 +95,23 @@ playSound(sound) {
     sound.play();
 }
 
-stopAllSounds() {
-    this.allSounds.forEach(sound => {
-        sound.pause();
-    });
+pauseMusic() {
+    if (this.currentMusic) {
+        this.currentMusic.pause();
+    }
+}
+
+stopMusic() {
+    if (this.currentMusic) {
+        this.currentMusic.pause();
+        this.currentMusic.currentTime = 0;
+    }
+}
+
+resumeMusic() {
+    if (this.currentMusic) {
+        this.currentMusic.play();
+    }
 }
 
 }
