@@ -53,12 +53,11 @@
              src="./icons/mute.png"
              alt="Mute"
              onclick="toggleMute()">
-
-          <div id="menu_wrapper">
+        <div id="menu_wrapper">
             <img id="menu_btn"
                  src="./icons/menu.png"
                  alt="Menu"
-                 onclick="toggleMobileMenu()">
+                 onclick="toggleMobileMenu(event)">
             <!-- MOBILE MENU -->
             <div id="mobile_menu" class="mobile_menu d_none">
                 <button onclick="continueGame()">
@@ -67,7 +66,7 @@
                 <button onclick="restartGame()">
                     RESTART GAME
                 </button>
-                <button onclick="openModal('overlay')">
+                <button onclick="openModalGameDescriptionMobile()">
                     HOW TO PLAY
                 </button>
                 <button onclick="goBackToStartScreen()">
@@ -76,7 +75,6 @@
             </div>
         </div>
     </div>
-
     <div id="mobile_move_controls">
         <img src="./icons/left-arrow.png"
              ontouchstart="keyboard.LEFT = true"
@@ -96,9 +94,22 @@
              ontouchstart="keyboard.D = true"
              ontouchend="keyboard.D = false">
     </div>
-  </div>
+    </div>
     <div id="rotate_overlay_gameplay" class="rotate_overlay_gameplay d_none">
     <p>Please rotate your device</p>
+    </div>
+
+    <div id="overlay_mobile_game_description" class="overlay d_none" onclick="closeModal('overlay_mobile_game_description')">
+    <div class="modal_game_description" onclick="event.stopPropagation()">
+        <h2>How to Play</h2>
+        <li>Use the arrow keys to move left and right.</li>
+        <li>Press the Up-Button to jump.</li>
+        <li>Jump on enemies to defeat them.</li>
+        <li>Collect bottles for throwing them.</li>   
+        <li>Press the Hand-Button to throw a bottle to damage enemies.</li>
+        <li>Collect coins to increase your score.</li>
+        <li>Defeat the end boss to win the game.</li>
+    </div>
     </div>
    </div>
 

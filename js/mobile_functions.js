@@ -91,6 +91,13 @@ function toggleFullscreen() {
 }
 
 function toggleMobileMenu() {
+    if (event) {
+        event.stopPropagation();
+    }
+    if (document.getElementById('overlay_mobile_game_description').classList.contains("d_none") === false) {
+        closeModal('overlay_mobile_game_description');
+    }
+    
     const menu = document.getElementById("mobile_menu");  
     const movecontrols = document.getElementById("mobile_move_controls");  
     const actioncontrols = document.getElementById("mobile_action_controls"); 
@@ -108,4 +115,46 @@ function toggleMobileMenu() {
         actioncontrols.classList.remove("d_none");
         world.gameState = "playing";
     }   
+}
+
+function continueGame() {
+    event.stopPropagation();
+    const menu = document.getElementById("mobile_menu");  
+    const movecontrols = document.getElementById("mobile_move_controls");  
+    const actioncontrols = document.getElementById("mobile_action_controls"); 
+    menu.classList.add("d_none");
+    document.body.classList.remove("no_scroll");
+    movecontrols.classList.remove("d_none");
+    actioncontrols.classList.remove("d_none");
+    world.gameState = "playing";
+}
+
+function restartGame() {
+    world.startGame();
+    const menu = document.getElementById("mobile_menu");  
+    const movecontrols = document.getElementById("mobile_move_controls");  
+    const actioncontrols = document.getElementById("mobile_action_controls"); 
+    menu.classList.add("d_none");
+    document.body.classList.remove("no_scroll");
+    movecontrols.classList.remove("d_none");
+    actioncontrols.classList.remove("d_none");
+}
+
+function goBackToStartScreen() {
+    world.goToStart();
+    const menu = document.getElementById("mobile_menu");  
+    const movecontrols = document.getElementById("mobile_move_controls");  
+    const actioncontrols = document.getElementById("mobile_action_controls"); 
+    menu.classList.add("d_none");
+    document.body.classList.remove("no_scroll");
+    movecontrols.classList.remove("d_none");
+    actioncontrols.classList.remove("d_none");  
+}
+
+function openModalGameDescriptionMobile() {
+    openModal('overlay_mobile_game_description');
+    const menu = document.getElementById("mobile_menu"); 
+    menu.classList.add("d_none");
+
+
 }
