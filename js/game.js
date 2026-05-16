@@ -4,7 +4,7 @@ let keyboard = new Keyboard();
 let gameState = {
     started: false,};
 let pendingGameStart = false;
-
+let soundMuted = false;
 
 
 function init(){
@@ -20,6 +20,7 @@ function init(){
         updateMobileUI();
         exitFullscreenIfNeeded();
     };
+    world.audio.initialize();
 }
 
 function startGameButton() {
