@@ -1,25 +1,9 @@
-function openModal(id) {
-    document.getElementById(id).classList.remove("d_none");
-    document.body.classList.add("no_scroll");
-}
-
-function closeModal(id) {
-    document.getElementById(id).classList.add("d_none");
-    document.body.classList.remove("no_scroll");
-}
-
-function toggleFullscreen() {
-    let game = document.getElementById("game_container");
-    if (!document.fullscreenElement) {
-        game.requestFullscreen();
-    } else {
-        document.exitFullscreen();
-    }
-}
-
 window.addEventListener("load", () => {
     updateMobileUI();
     checkOrientation();
+    document.querySelectorAll("#mobile_controls img").forEach(img => {
+    img.addEventListener("contextmenu", e => e.preventDefault());
+});
 });
 
 window.addEventListener("resize", () => {
@@ -48,10 +32,12 @@ function checkOrientation() {
         if (!isLandscape) {
             showRotateMessage();
             keyboard.P = true;
+            document.getElementById("rotate_overlay_gameplay").classList.remove("d_none");
             
         } else {
             hideRotateMessage();
             keyboard.P = false;
+            document.getElementById("rotate_overlay_gameplay").classList.add("d_none");
             
         }
     }
@@ -89,3 +75,17 @@ function enterGameFullscreen() {
     }
 }
 
+function exitFullscreenIfNeeded() {
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    }
+}
+
+function toggleFullscreen() {
+    let game = document.getElementById("game_container");
+    if (!document.fullscreenElement) {
+        game.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
