@@ -19,7 +19,7 @@ class World {
         this.startScreen = new Screen("img/9_intro_outro_screens/start/startscreen_1.png");
         this.gameOverScreen = new Screen("img/You won, you lost/You lost.png");
         this.winScreen = new Screen("img/You won, you lost/You won A.png");
-        this.pauseScreen = new Screen("icons/Pause_Screen.png");
+        this.pauseScreen = new Screen("icons/Pause_Screen_Version3.png");
         this.draw(); // 👉 EINZIGER LOOP
         this.run();  // 👉 Logik-Loop
        
