@@ -100,6 +100,7 @@ class Character extends MovableObject {
             this.IMAGES_LONG_IDLE
         );
         this.applyGravity();
+        this.lastAnimationState = null;
         // this.animate(); 
     }
 
@@ -123,8 +124,6 @@ class Character extends MovableObject {
             this.canJump = false;
             this.lastAction = Date.now();
         }
-
-
         this.world.camera_x = -this.x + 50; 
             //„Verschiebe die Welt so, dass der Charakter immer bei x = 100 bleibt“
             // console.log("Person in x: ", this.x);
@@ -134,22 +133,52 @@ class Character extends MovableObject {
 
     }, 1000/60); 
 
-    this.animationInterval = setInterval(() => {
-        if(this.isSleeping()) {
-            this.playAnimation(this.IMAGES_LONG_IDLE);
-        }else if(this.isIdle()) {
-            this.playAnimation(this.IMAGES_IDLE);
-        } else if(this.isHurt()) {
-            this.playAnimation(this.IMAGES_HURT);
-        } else if(this.isDead()) {
-            this.playAnimation(this.IMAGES_DEAD);
-        } else if(this.isAboveGround()) {
-            this.playAnimation(this.IMAGES_JUMPING);
-        } else if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-            this.playAnimation(this.IMAGES_WALKING);
-        }
+   this.animationInterval = setInterval(() => {
 
+    let currentState = null;
+
+    if(this.isSleeping()) {
+        currentState = "sleeping";
+        this.playAnimation(this.IMAGES_LONG_IDLE);
+    } else if(this.isIdle()) {
+        currentState = "idle";
+        this.playAnimation(this.IMAGES_IDLE);
+    } else if(this.isHurt()) {
+        currentState = "hurt";
+        this.playAnimation(this.IMAGES_HURT);
+    } else if(this.isDead()) {
+        currentState = "dead";
+        this.playAnimation(this.IMAGES_DEAD);
+    } else if(this.isAboveGround()) {
+        currentState = "jumping";
+        this.playAnimation(this.IMAGES_JUMPING);
+    } else if(this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+        currentState = "walking";
+        this.playAnimation(this.IMAGES_WALKING);
+    }
+    // 🔥 NUR BEI WECHSEL SOUND
+    if(currentState !== this.lastAnimationState) {
+        this.handleStateSound(currentState);
+        this.lastAnimationState = currentState;
+    }
     }, 100);
+    }
+
+    handleStateSound(state) {
+    switch(state) {
+        case "hurt":
+            this.world.onCharacterHurt();
+            break;
+        case "dead":
+            this.world.onCharacterDeath();
+            break;
+        case "sleeping":
+            this.world.onSleep();
+            break;
+        case "jumping":
+            this.world.onJump();
+            break;
+    }
     }
 
     stop() {
@@ -157,8 +186,8 @@ class Character extends MovableObject {
     clearInterval(this.animationInterval);
     }
 
-    jump() {
-      this.speedY = -20;
+   jump() {
+    this.speedY = -20;
     }
 
    hit() {

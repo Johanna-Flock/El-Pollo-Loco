@@ -159,6 +159,8 @@ update() {
     this.setWorld();
     this.gameState = "playing";
     this.keyboard.S = false;
+    this.audio.stopMusic();
+    this.audio.playMusic(this.audio.GameMusicLevel1);
     }
     
 
@@ -191,12 +193,22 @@ removeDeadEnemies() {
 checkWinCondition() {
     let boss = this.level.enemies.find(e => e instanceof Endboss);
     if (!boss) return;
-    if (boss.isDeadAnimationFinished) {
-        this.gameState = "winning";
+    if (boss.isDeadAnimationFinished && this.gameState !== "winning") {
+        this.setWinning();
         if (this.onGameEnded) {
-        this.onGameEnded();
+            this.onGameEnded();
         }
     }
+}
+
+setWinning() {
+    this.gameState = "winning";
+    this.audio.stopMusic();
+    this.audio.playSound(this.audio.winningSound);
+    setTimeout(() => {
+        this.gameState = "start";
+        this.audio.playMusic(this.audio.startScreenMusic);
+    }, 4000);
 }
 
 goToStart() {
@@ -257,12 +269,24 @@ checkCollisions() {
             enemy.canDealDamage = true;
         }
         if (this.character.isDead()) {
-            this.gameState = "gameover";
+            this.setGameOver();
             if (this.onGameEnded) {
             this.onGameEnded();
         }
         }
     });
+}
+
+setGameOver() {
+    this.gameState = "gameover";
+
+    this.audio.stopMusic();
+    this.audio.playSound(this.audio.gameOverSound);
+
+    setTimeout(() => {
+        this.gameState = "start";
+        this.audio.playMusic(this.audio.startScreenMusic);
+    }, 3000);
 }
 
   throwObjects() {
@@ -344,4 +368,46 @@ checkCollisions() {
         mo.draw(this.ctx);
         }
     } 
+
+    onSleep() {
+    this.audio.playSound(this.audio.sleepSound);
+    }
+
+    onCharacterHurt() {
+    this.audio.playSound(this.audio.characterHurtSound);
+    }
+
+    onJump() {
+    this.audio.playSound(this.audio.jumpSound);
+    }
+
+
+
+    
+
+    onThrow() {
+    this.audio.playSound(this.audio.throwSound);
+    }
+
+    onPause() {
+    this.audio.playSound(this.audio.pauseSound);
+    }
+
+    onChickenDead() {
+    this.audio.playSound(this.audio.chickenDeadSound);
+    }
+
+    onBigChicken() {
+    this.audio.playSound(this.audio.bigChickenSound);
+    }
+
+    onSmallChicken() {
+    this.audio.playSound(this.audio.smallChickenSound);
+    }
+
+    onEndBossBeginning() {
+    this.audio.playSound(this.audio.endBossBeginningSound);
+    }
+
+
 }

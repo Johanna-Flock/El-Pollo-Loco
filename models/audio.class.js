@@ -8,7 +8,7 @@ class AudioManager {
         this.throwSound = new Audio("./audio/throw_sound.mp3");
         this.sleepSound = new Audio("./audio/sleep_sound.mp3");
         this.characterHurtSound = new Audio("./audio/character_hurt_sound.mp3");
-        this.startGameMusic = new Audio("./audio/start_game_music.mp3");
+        this.GameMusicLevel1 = new Audio("./audio/gameplay_music_level1.mp3");
         this.winningSound = new Audio("./audio/winning_sound.mp3");
         this.gameOverSound = new Audio("./audio/game_over_sound.mp3");
         this.pauseSound = new Audio("./audio/pause_sound.mp3");
@@ -19,6 +19,9 @@ class AudioManager {
 
         this.music = [
         this.startScreenMusic,
+        this.winningSound,
+        this.gameOverSound,
+        this.GameMusicLevel1,
         ];
 
         this.sfx = [
@@ -26,11 +29,8 @@ class AudioManager {
         this.gameEscapeSound,
         this.sleepSound,
         this.characterHurtSound,
-        this.startGameMusic,
         this.jumpSound,
         this.throwSound,
-        this.winningSound,
-        this.gameOverSound,
         this.pauseSound,
         this.chickenDeadSound,
         this.bigChickenSound,
@@ -38,7 +38,7 @@ class AudioManager {
         this.endBossBeginningSound
         ];    
 
-        this.allSounds = [...this.music, ...this.sfx];
+        // this.allSounds = [...this.music, ...this.sfx];
 
         this.currentMusic = null;
         this.startScreenMusic.loop = true;
@@ -86,6 +86,7 @@ playMusic(sound) {
     this.stopMusic();
     this.currentMusic = sound;
     sound.loop = true;
+    sound.volume = 0.1;
     this.playSound(sound);
 }
 
