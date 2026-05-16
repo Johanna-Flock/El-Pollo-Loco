@@ -6,6 +6,7 @@
     <title>El Pollo Loco - Let's Play!</title>
     <link  rel="icon" type="image/png" href="./img/3_enemies_chicken/chicken_normal/1_walk/1_w.png" width:16px;>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mobile_style.css">
     <script src="models/drawable-object.class.js"></script>
     <script src="models/status-bar.class.js"></script>
     <script src="models/world.class.js"></script>
@@ -53,11 +54,27 @@
              alt="Mute"
              onclick="toggleMute()">
 
-    
-        <img id="menu_btn"
-             src="./icons/menu.png"
-             alt="Menu"
-             onclick="toggleMobileMenu()">
+          <div id="menu_wrapper">
+            <img id="menu_btn"
+                 src="./icons/menu.png"
+                 alt="Menu"
+                 onclick="toggleMobileMenu()">
+            <!-- MOBILE MENU -->
+            <div id="mobile_menu" class="mobile_menu d_none">
+                <button onclick="continueGame()">
+                    CONTINUE
+                </button>
+                <button onclick="restartGame()">
+                    RESTART GAME
+                </button>
+                <button onclick="openModal('overlay')">
+                    HOW TO PLAY
+                </button>
+                <button onclick="goBackToStartScreen()">
+                    GO BACK TO START SCREEN
+                </button>
+            </div>
+        </div>
     </div>
 
     <div id="mobile_move_controls">
@@ -79,7 +96,7 @@
              ontouchstart="keyboard.D = true"
              ontouchend="keyboard.D = false">
     </div>
-</div>
+  </div>
     <div id="rotate_overlay_gameplay" class="rotate_overlay_gameplay d_none">
     <p>Please rotate your device</p>
     </div>

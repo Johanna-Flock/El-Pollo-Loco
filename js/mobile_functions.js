@@ -31,12 +31,12 @@ function checkOrientation() {
     if (gameState.started) {
         if (!isLandscape) {
             showRotateMessage();
-            keyboard.P = true;
+            world.gameState = "paused";
             document.getElementById("rotate_overlay_gameplay").classList.remove("d_none");
             
         } else {
             hideRotateMessage();
-            keyboard.P = false;
+            world.gameState = "playing";
             document.getElementById("rotate_overlay_gameplay").classList.add("d_none");
             
         }
@@ -88,4 +88,24 @@ function toggleFullscreen() {
     } else {
         document.exitFullscreen();
     }
+}
+
+function toggleMobileMenu() {
+    const menu = document.getElementById("mobile_menu");  
+    const movecontrols = document.getElementById("mobile_move_controls");  
+    const actioncontrols = document.getElementById("mobile_action_controls"); 
+    if (menu.classList.contains("d_none")) {
+        movecontrols.classList.add("d_none");
+        actioncontrols.classList.add("d_none");
+        menu.classList.remove("d_none");
+        document.body.classList.add("no_scroll");
+        world.gameState = "paused";
+    } else {      
+        console.log("CLOSE MENU");  
+        menu.classList.add("d_none");
+        document.body.classList.remove("no_scroll");
+        movecontrols.classList.remove("d_none");
+        actioncontrols.classList.remove("d_none");
+        world.gameState = "playing";
+    }   
 }

@@ -3,6 +3,40 @@
     src: url('fonts/zabars.ttf') format('truetype');
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh; /* wichtig! */
+    background-image: url('img/falkenpost-desert-1654439.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: bisque;
+    font-family: 'zabars', sans-serif;
+}
+
+h1 {
+    padding-top:32px; 
+    padding-bottom:20px; 
+    font-size: 85px;
+    font-weight: 100;
+    initial-letter: 3px;
+    text-shadow: 2px 2px 4px #000000;
+    margin:0;
+}
+
+h2 {
+    padding-top:10px; 
+    padding-bottom:10px; 
+    font-size: 35px;
+    text-shadow: 1px 1px 2px #000000;
+    font-weight: 100;
+    initial-letter: 3px;
+    font-family: zabars, sans-serif;
+    margin:0;
+}
+
 canvas {
     background-color: black;
     display:block;
@@ -79,8 +113,8 @@ canvas {
 
 #fullscreen_btn {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    bottom: 27px;
+    right: 6px;
     width: 32px;
     height: 32px;
     cursor: pointer;
@@ -96,48 +130,6 @@ canvas {
     opacity: 1;
 }
 
-
-#mobile_controls {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    z-index: 9999;
-    pointer-events: none;
-    inset: 0;
-}
-
-#mobile_controls img {
-    width: 50px;
-    height: 50px;
-    pointer-events: auto;
-}
-
-#mobile_top_right {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    gap: 10px;
-}
-
-#mobile_move_controls {
-    position: absolute;
-    bottom: 20px;
-    left: 40px;
-
-    display: flex;
-    gap: 25px;
-}
-
-#mobile_action_controls {
-    position: absolute;
-    bottom: 20px;
-    right: 40px;
-    display: flex;
-    gap: 25px;
-}
 
 .footer_style {
     position: fixed;
@@ -156,40 +148,6 @@ a {
     color: inherit;
     font-family: 'Baloo 2', sans-serif;
     font-size: 10px;
-}
-
-h1 {
-    padding-top:32px; 
-    padding-bottom:20px; 
-    font-size: 85px;
-    font-weight: 100;
-    initial-letter: 3px;
-    text-shadow: 2px 2px 4px #000000;
-    margin:0;
-}
-
-h2 {
-    padding-top:10px; 
-    padding-bottom:10px; 
-    font-size: 35px;
-    text-shadow: 1px 1px 2px #000000;
-    font-weight: 100;
-    initial-letter: 3px;
-    font-family: zabars, sans-serif;
-    margin:0;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh; /* wichtig! */
-    background-image: url('img/falkenpost-desert-1654439.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    color: bisque;
-    font-family: 'zabars', sans-serif;
 }
 
 .impressum-body {
@@ -255,14 +213,6 @@ body {
 
 .no_scroll {
     overflow: hidden;
-}
-
-#mobile_controls img {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-
-    -webkit-user-drag: none;
 }
 
 /* Smartphones */
