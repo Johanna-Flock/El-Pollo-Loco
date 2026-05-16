@@ -61,6 +61,7 @@ function updateMobileUI() {
     if (isMobile() && gameState.started && isLandscape) {
         controls.classList.remove("d_none");
         document.getElementById("fullscreen_btn").classList.add("d_none");
+        document.getElementById("mute_btn_desktop").classList.add("d_none");
     } else {
         controls.classList.add("d_none");
         document.getElementById("fullscreen_btn").classList.remove("d_none");

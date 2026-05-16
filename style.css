@@ -126,6 +126,16 @@ canvas {
     transition: opacity 0.2s ease;
 }
 
+#mute_btn_desktop {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    z-index: 100;
+}
+
 #game_container:hover #fullscreen_btn {
     opacity: 1;
 }

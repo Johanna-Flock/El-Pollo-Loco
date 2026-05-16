@@ -1,6 +1,7 @@
 class AudioManager {
     constructor() {
-        this.backgroundMusic = new Audio("./audio/background_music.mp3");
+        this.soundMuted = false;
+        this.startScreenMusic = new Audio("./audio/start_screen_music.mp3");
         this.openGameDescriptionSound = new Audio("./audio/open_game_description.mp3");
         this.gameEscapeSound = new Audio("./audio/game_escape_sound.mp3");
         this.jumpSound = new Audio("./audio/jump_sound.mp3");
@@ -16,7 +17,7 @@ class AudioManager {
         this.smallChickenSound = new Audio("./audio/small_chicken_sound.mp3");
         this.endBossBeginningSound = new Audio("./audio/end_boss_beginning_sound.mp3");
         this.allSounds = [
-            this.backgroundMusic,
+            this.startScreenMusic,
             this.openGameDescriptionSound,
             this.gameEscapeSound,
             this.jumpSound,
@@ -33,57 +34,86 @@ class AudioManager {
             this.endBossBeginningSound
         ];
 
-        this.backgroundMusic.loop = true;
-        this.backgroundMusic.volume = 0.2;
+        this.currentMusic = null;
+        this.startScreenMusic.loop = true;
+        this.startScreenMusic.volume = 0.1;
     }
 
 initialize() {
-    localStorage.setItem("soundMuted", "false");
     this.loadSoundSettings();
 }
 
 loadSoundSettings() {
     const savedState = localStorage.getItem("soundMuted");
     if (savedState === "true") {
-        soundMuted = true;
+        this.soundMuted = true;
     } else {
-        soundMuted = false;
+        this.soundMuted = false;
     }
-    updateMuteButton();
+    this.updateMuteButtonDesktop();
+    this.updateMuteButton();
 }
 
-toggleMute() {
-    soundMuted = !soundMuted;
-    localStorage.setItem("soundMuted", soundMuted);
-    updateMuteButton();
-    if (soundMuted) {
-        stopAllSounds();
+playMusic(sound) {
+    this.stopAllSounds();
+    this.currentMusic = sound;
+    this.playSound(sound);
+}
+
+toggleMuteDesktop() {
+    this.soundMuted = !this.soundMuted;
+    localStorage.setItem("soundMuted", this.soundMuted);
+    this.updateMuteButtonDesktop();
+    if (this.soundMuted) {
+        this.stopAllSounds();
     } else {
-        resumeSounds();
+        this.resumeSounds();
+    }
+}
+
+toggleMuteMobile() {
+    this.soundMuted = !this.soundMuted;
+    localStorage.setItem("soundMuted", this.soundMuted);
+    this.updateMuteButton();
+    if (this.soundMuted) {
+        this.stopAllSounds();
+    } else {
+        this.resumeSounds();
     }
 }
 
 resumeSounds() {
-    playSound(backgroundMusic);
+    if (this.currentMusic) {
+        this.playSound(this.currentMusic);
+    }
+}
+
+updateMuteButtonDesktop() {
+    const muteBtn = document.getElementById("mute_btn_desktop");
+    if (this.soundMuted) {
+        muteBtn.src = "./icons/mute.png";
+    } else {
+        muteBtn.src = "./icons/unmute.png";
+    }
 }
 
 updateMuteButton() {
     const muteBtn = document.getElementById("mute_btn");
-    if (soundMuted) {
+    if (this.soundMuted) {
         muteBtn.src = "./icons/mute.png";
     } else {
-        muteBtn.src = "./icons/mute.png";
+        muteBtn.src = "./icons/unmute.png";
     }
 }
 
 playSound(sound) {
-    if (soundMuted) return;
+    if (this.soundMuted) return;
     sound.currentTime = 0;
     sound.play();
 }
 
 stopAllSounds() {
-    allSounds.forEach(sound => {
+    this.allSounds.forEach(sound => {
         sound.pause();
     });
 }

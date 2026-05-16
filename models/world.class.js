@@ -20,6 +20,7 @@ class World {
         this.gameOverScreen = new Screen("img/You won, you lost/You lost.png");
         this.winScreen = new Screen("img/You won, you lost/You won A.png");
         this.pauseScreen = new Screen("icons/Pause_Screen_Version3.png");
+        this.audio = new AudioManager();
         this.draw(); // 👉 EINZIGER LOOP
         this.run();  // 👉 Logik-Loop
        
