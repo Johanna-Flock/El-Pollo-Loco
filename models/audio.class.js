@@ -20,6 +20,7 @@ class AudioManager {
         this.endbossChasingSound = new Audio("./audio/endboss_chasing.mp3");
         this.endbossHurt = new Audio("./audio/endboss_hurt.mp3");
         this.endbossDead = new Audio("./audio/endboss_dead.mp3");
+        this.endbossWalking = new Audio("./audio/big_chicken_sound.mp3");
 
         this.music = [
         this.startScreenMusic,
@@ -42,7 +43,8 @@ class AudioManager {
         this.endbossAlert,
         this.endbossChasingSound,
         this.endbossHurt,
-        this.endbossDead
+        this.endbossDead,
+        this.endbossWalking,
         ];    
 
         // this.allSounds = [...this.music, ...this.sfx];
@@ -99,16 +101,40 @@ playMusic(sound) {
     sound.play();
 }
 
+
 playSound(sound) {
     if (this.soundMuted) return;
+
     let soundClone = sound.cloneNode();
     soundClone.volume = sound.volume;
     soundClone.play();
+
     this.activeSounds.push(soundClone);
+
     soundClone.onended = () => {
         this.activeSounds =
             this.activeSounds.filter(s => s !== soundClone);
     };
+}
+
+playBossSound(sound, { loop = false } = {}) {
+    if (this.soundMuted) return;
+    if (this.currentBossSound) {
+        this.currentBossSound.pause();
+        this.currentBossSound.currentTime = 0;
+    }
+    this.currentBossSound = sound;
+    sound.loop = loop;
+    sound.currentTime = 0;
+    sound.play();
+}
+
+stopBossSound() {
+    if (this.currentBossSound) {
+        this.currentBossSound.pause();
+        this.currentBossSound.currentTime = 0;
+        this.currentBossSound = null;
+    }
 }
 
 pauseMusic() {

@@ -437,27 +437,35 @@ setGameOver() {
     this.audio.playSound(this.audio.smallChickenSound);
     }
 
+    onEndbossWalking() {
+    this.audio.endbossWalking.volume = 1.0;
+    this.audio.playBossSound(this.audio.endbossWalking, true);
+    console.log("Endboss Walking Sound abgespielt");
+    }
+
     onEndbossAlert() {
     this.audio.endbossAlert.volume = 1.0;
-    this.audio.playSound(this.audio.endbossAlert);
+    this.audio.playBossSound(this.audio.endbossAlert, false);
     console.log("Endboss Alert Sound abgespielt");
     }
 
     onEndbossChasing() {
     this.audio.endbossChasingSound.volume = 1.0;
-    this.audio.playSound(this.audio.endbossChasingSound);
+    this.audio.playBossSound(this.audio.endbossChasingSound,true);
     console.log("Endboss Chasing Sound abgespielt");
     }
 
     onEndbossHurt() {
     this.audio.endbossHurt.volume = 1.0;
-    this.audio.playSound(this.audio.endbossHurt);
+    this.audio.playBossSound(this.audio.endbossHurt,true);
     console.log("Endboss Hurt Sound abgespielt");
     }
 
     onEndbossDead() {
     this.audio.endbossDead.volume = 1.0;
-    this.audio.playSound(this.audio.endbossDead);
+    this.audio.playBossSound(this.audio.endbossDead, false);
     console.log("Endboss Dead Sound abgespielt");
     }
+
+
 }

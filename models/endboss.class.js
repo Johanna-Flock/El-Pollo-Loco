@@ -165,9 +165,16 @@ handleState() {
 }
 
 handleStateSound(state) {
+
+    this.world.audio.stopBossSound(this.world.audio.endbossWalkingSound);
+    this.world.audio.stopBossSound(this.world.audio.endbossAlert);
+    this.world.audio.stopBossSound(this.world.audio.endbossChasingSound);
+    this.world.audio.stopBossSound(this.world.audio.endbossHurt);
+    this.world.audio.stopBossSound(this.world.audio.endbossDead);
+
     switch(state) {
         case "walking":
-            this.world.onBigChicken();
+            this.world.onEndbossWalking();
             break;
         case "alert":
             this.world.onEndbossAlert();
