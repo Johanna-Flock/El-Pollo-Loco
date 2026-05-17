@@ -173,13 +173,13 @@ handleStateSound(state) {
             this.world.onEndbossAlert();
             break;
         case "chase":
-            this.world.onBigChicken();
+            this.world.onEndbossChasing();
             break;
         case "hurt":
-            this.world.onCharacterHurt();
+            this.world.onEndbossHurt();
             break;
         case "dead":
-            this.world.onChickenDead();
+            this.world.onEndbossDead();
             break;
     }
 }

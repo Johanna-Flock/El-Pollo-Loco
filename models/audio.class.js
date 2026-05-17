@@ -16,7 +16,10 @@ class AudioManager {
         this.chickenDeadSound = new Audio("./audio/chicken_dead_sound.mp3");
         this.bigChickenSound = new Audio("./audio/big_chicken_sound.mp3");
         this.smallChickenSound = new Audio("./audio/small_chicken_sound.mp3");
-        this.endBossBeginningSound = new Audio("./audio/end_boss_beginning_sound.mp3");
+        this.endbossAlert = new Audio("./audio/endboss_alert.mp3");
+        this.endbossChasingSound = new Audio("./audio/endboss_chasing.mp3");
+        this.endbossHurt = new Audio("./audio/endboss_hurt.mp3");
+        this.endbossDead = new Audio("./audio/endboss_dead.mp3");
 
         this.music = [
         this.startScreenMusic,
@@ -36,7 +39,10 @@ class AudioManager {
         this.chickenDeadSound,
         this.bigChickenSound,
         this.smallChickenSound,
-        this.endBossBeginningSound
+        this.endbossAlert,
+        this.endbossChasingSound,
+        this.endbossHurt,
+        this.endbossDead
         ];    
 
         // this.allSounds = [...this.music, ...this.sfx];
