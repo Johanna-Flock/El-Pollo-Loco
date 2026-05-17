@@ -40,7 +40,7 @@ class AudioManager {
         ];    
 
         // this.allSounds = [...this.music, ...this.sfx];
-
+        this.activeSounds = [];
         this.currentMusic = null;
         this.startScreenMusic.loop = true;
         this.startScreenMusic.volume = 0.1;
@@ -88,13 +88,21 @@ playMusic(sound) {
     this.currentMusic = sound;
     sound.loop = true;
     sound.volume = 0.1;
-    this.playSound(sound);
+    if (this.soundMuted) return;
+    sound.currentTime = 0;
+    sound.play();
 }
 
 playSound(sound) {
     if (this.soundMuted) return;
-    sound.currentTime = 0;
-    sound.play();
+    let soundClone = sound.cloneNode();
+    soundClone.volume = sound.volume;
+    soundClone.play();
+    this.activeSounds.push(soundClone);
+    soundClone.onended = () => {
+        this.activeSounds =
+            this.activeSounds.filter(s => s !== soundClone);
+    };
 }
 
 pauseMusic() {
@@ -121,6 +129,11 @@ stopAllSounds() {
         sound.pause();
         sound.currentTime = 0;
     });
+    this.activeSounds.forEach(sound => {
+        sound.pause();
+        sound.currentTime = 0;
+    });
+    this.activeSounds = [];
 }
 
 }

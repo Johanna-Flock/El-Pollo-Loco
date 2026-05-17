@@ -133,12 +133,14 @@ update() {
      this.gameState === "gameover" ||
      this.gameState === "winning")
     ) {
+    this.keyboard.ESC = false;
     this.onEscape()
     setTimeout(() => {
         this.goToStart();
     }, 500);
     }
     }
+
 
     startGame() {
     if (this.character) {
@@ -408,7 +410,7 @@ setGameOver() {
     this.audio.playSound(this.audio.throwSound);
     }
 
-   onCharacterDeath() {
+    onCharacterDeath() {
     if (this.deathSoundPlayed) return;
     this.deathSoundPlayed = true;
     this.audio.playSound(this.audio.characterDeathSound);
@@ -431,10 +433,12 @@ setGameOver() {
     }
 
     onSmallChicken() {
+    this.audio.smallChickenSound.volume = 0.03;
     this.audio.playSound(this.audio.smallChickenSound);
     }
 
     onEndbossAlert() {
+    this.audio.endBossBeginningSound.volume = 1.0;
     this.audio.playSound(this.audio.endBossBeginningSound);
     console.log("Endboss Alert Sound abgespielt");
     }

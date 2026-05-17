@@ -140,7 +140,7 @@ handleState() {
     this.handleStateSound("alert");
     setTimeout(() => {
         this.state = "chase";
-    }, 1000);
+    }, 3000);
     return;
    
     }

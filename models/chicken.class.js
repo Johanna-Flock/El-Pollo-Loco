@@ -25,11 +25,14 @@ currentImage = 0;
     this.state = "walking";
     this.startFalling = false;
     this.speed = 0.15 + Math.random() * 0.5;
+    this.soundPlayed = false;
     this.animate()
+    
 }
     
 animate() {
     this.movementInterval = setInterval(() => {
+        this.checkSoundTrigger();
         if (this.state === "falling") {
             this.y += 5;
             return;
@@ -66,5 +69,13 @@ hit() {
 stop() {
     clearInterval(this.movementInterval);
     clearInterval(this.animationInterval);
+}
+
+checkSoundTrigger() {
+    let distance = Math.abs(this.world.character.x - this.x);
+    if (distance < 400 && !this.soundPlayed) {
+        this.soundPlayed = true;
+        this.world.onBigChicken();
+    }
 }
 }

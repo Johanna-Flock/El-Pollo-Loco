@@ -28,6 +28,7 @@ class SmallChicken extends MovableObject {
     this.jumpInterval = null;
     this.isJumping = false;
     this.applyGravity()
+    this.soundPlayed = false;
     this.animate();
     this.startBouncing();
 
@@ -55,6 +56,7 @@ startBouncing() {
 
 animate() {
     this.movementInterval = setInterval(() => {
+        this.checkSoundTrigger();
         if (this.state === "falling") {
             this.y += 5;
             return;
@@ -89,6 +91,14 @@ hit() {
 stop() {
     clearInterval(this.movementInterval);
     clearInterval(this.animationInterval);
+}
+
+checkSoundTrigger() {
+    let distance = Math.abs(this.world.character.x - this.x);
+    if (distance < 400 && !this.soundPlayed) {
+        this.soundPlayed = true;
+        this.world.onSmallChicken();
+    }
 }
 
 

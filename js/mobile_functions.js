@@ -65,6 +65,7 @@ function updateMobileUI() {
     } else {
         controls.classList.add("d_none");
         document.getElementById("fullscreen_btn").classList.remove("d_none");
+        document.getElementById("mute_btn_desktop").classList.remove("d_none");
     }
 }
 
