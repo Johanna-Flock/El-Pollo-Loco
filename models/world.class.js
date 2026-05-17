@@ -195,11 +195,13 @@ checkWinCondition() {
     let boss = this.level.enemies.find(e => e instanceof Endboss);
     if (!boss) return;
     if (boss.isDeadAnimationFinished && this.gameState !== "winning") {
-        this.audio.stopBossSound();
-        this.setWinning();
-        if (this.onGameOverUI) {
-        this.onGameOverUI();
-    }
+       setTimeout(() => {
+            this.audio.stopBossSound();
+            this.setWinning();
+            if (this.onGameOverUI) {
+                this.onGameOverUI();
+            }
+        }, 200);
     }
 }
 
