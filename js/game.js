@@ -14,7 +14,7 @@ function init(){
     updateMobileUI();
     exitFullscreenIfNeeded();
     };
-    world.onGameEnded = () => {
+    world.onGameOverUI = () => {
         gameState.started = false;
         updateMobileUI();
         exitFullscreenIfNeeded();
@@ -54,11 +54,13 @@ function startGame() {
 function openModal(id) {
     document.getElementById(id).classList.remove("d_none");
     document.body.classList.add("no_scroll");
+    world.audio.playSound(world.audio.openGameDescriptionSound);
 }
 
 function closeModal(id) {
     document.getElementById(id).classList.add("d_none");
     document.body.classList.remove("no_scroll");
+    world.audio.playSound(world.audio.openGameDescriptionSound);
 }
 
 window.addEventListener("keydown", (e) => { 

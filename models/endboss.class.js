@@ -5,8 +5,6 @@ class Endboss extends MovableObject {
     x; 
     currentImage = 0;
     isDead = false;
-    alertPlayed = false;
-    state = "walking";
     energy = 200;
     deadFrameIndex = 0;
     isDeadAnimationFinished = false;
@@ -70,6 +68,9 @@ class Endboss extends MovableObject {
 
         // this.animate();
         this.x = x; 
+        this.state = "walking";
+        this.previousState = null;
+        this.alertPlayed = false;
     }
 
     start() {
@@ -115,40 +116,33 @@ handleAnimation() {
 
 getCurrentState() {
     if (this.state === "dead") return "dead";
-    if (Date.now() - this.lastHitTime < 500) return "hurt";
     if (this.state === "alert") return "alert";
+    if (Date.now() - this.lastHitTime < 500) return "hurt";
     if (this.state === "chase") return "chase";
     return "walking";
+
 }
 
 handleState() {
-
    let distance = Math.abs(this.world.character.x - this.x);
-
     if (this.state === "dead") {
         this.y += 5; 
         return;
     }
-
     if (this.state === "hurt") {
         return;
     }
-
     if (this.state === "walking") {
         this.moveLeft();
     }
-    if (this.state === "walking" && distance < 500){
-        this.state = "alert";
-        this.alertPlayed = false;
-    }
-    if (this.state === "alert") {
-        if (!this.alertPlayed) {
-            this.alertPlayed = true;
-            setTimeout(() => {
-                this.state = "chase";
-            }, 1000);
-        }
-        return; // ❗️ Logik für "alert" stoppen, bis der Timer abgelaufen ist
+    if (this.state === "walking" && distance < 500) {
+    this.state = "alert";
+    this.handleStateSound("alert");
+    setTimeout(() => {
+        this.state = "chase";
+    }, 1000);
+    return;
+   
     }
 
     if (this.state === "chase") {
@@ -161,6 +155,32 @@ handleState() {
         if (Math.abs(distance) > 600) {
             this.state = "walking";
         }
+    }
+
+    let currentState = this.getCurrentState();
+    if (currentState !== this.previousState) {
+    this.handleStateSound(currentState);
+    this.previousState = currentState;
+    }
+}
+
+handleStateSound(state) {
+    switch(state) {
+        case "walking":
+            this.world.onBigChicken();
+            break;
+        case "alert":
+            this.world.onEndbossAlert();
+            break;
+        case "chase":
+            this.world.onBigChicken();
+            break;
+        case "hurt":
+            this.world.onCharacterHurt();
+            break;
+        case "dead":
+            this.world.onChickenDead();
+            break;
     }
 }
 

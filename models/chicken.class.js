@@ -57,6 +57,7 @@ hit() {
     if (this.state === "dead") return;
     this.energy = 0;
     this.state = "dead";
+    this.world.onChickenDead();
     setTimeout(() => {
         this.state = "falling";
     }, 200); 

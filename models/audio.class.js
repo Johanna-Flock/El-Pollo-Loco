@@ -7,6 +7,7 @@ class AudioManager {
         this.jumpSound = new Audio("./audio/jump_sound.mp3");
         this.throwSound = new Audio("./audio/throw_sound.mp3");
         this.sleepSound = new Audio("./audio/sleep_sound.mp3");
+        this.characterDeathSound = new Audio("./audio/character_death_sound.mp3");
         this.characterHurtSound = new Audio("./audio/character_hurt_sound.mp3");
         this.GameMusicLevel1 = new Audio("./audio/gameplay_music_level1.mp3");
         this.winningSound = new Audio("./audio/winning_sound.mp3");
@@ -19,12 +20,12 @@ class AudioManager {
 
         this.music = [
         this.startScreenMusic,
-        this.winningSound,
-        this.gameOverSound,
         this.GameMusicLevel1,
         ];
 
         this.sfx = [
+        this.winningSound,
+        this.gameOverSound,
         this.openGameDescriptionSound,
         this.gameEscapeSound,
         this.sleepSound,
@@ -113,6 +114,13 @@ resumeMusic() {
     if (this.currentMusic) {
         this.currentMusic.play();
     }
+}
+
+stopAllSounds() {
+    [...this.music, ...this.sfx].forEach(sound => {
+        sound.pause();
+        sound.currentTime = 0;
+    });
 }
 
 }

@@ -23,6 +23,8 @@ class World {
         this.audio = new AudioManager();
         this.draw(); // 👉 EINZIGER LOOP
         this.run();  // 👉 Logik-Loop
+        this.gameOverTriggered = false;
+        this.deathSoundPlayed = false;
        
     }
 
@@ -117,6 +119,7 @@ update() {
     if (this.keyboard.P && this.gameState === "playing") {
         this.keyboard.P = false;
         this.gameState = "paused";
+        this.onPause();
         return;
     }
     if (this.keyboard.P && this.gameState === "paused") {
@@ -130,20 +133,16 @@ update() {
      this.gameState === "gameover" ||
      this.gameState === "winning")
     ) {
-    this.goToStart();
+    this.onEscape()
+    setTimeout(() => {
+        this.goToStart();
+    }, 500);
     }
     }
 
     startGame() {
     if (this.character) {
-        this.character.stop(); // 👈 ALTE INTERVALLE STOPPEN
-    }
-    if (this.level && this.level.enemies) {
-    this.level.enemies.forEach(enemy => {
-        if (enemy.stop) {
-            enemy.stop();
-        }
-    });
+    this.stopCharacterAndEnemies();
     }
     initLevel1();
     this.level = level1;
@@ -195,9 +194,9 @@ checkWinCondition() {
     if (!boss) return;
     if (boss.isDeadAnimationFinished && this.gameState !== "winning") {
         this.setWinning();
-        if (this.onGameEnded) {
-            this.onGameEnded();
-        }
+        if (this.onGameOverUI) {
+        this.onGameOverUI();
+    }
     }
 }
 
@@ -205,14 +204,30 @@ setWinning() {
     this.gameState = "winning";
     this.audio.stopMusic();
     this.audio.playSound(this.audio.winningSound);
+   this.stopCharacterAndEnemies();
     setTimeout(() => {
         this.gameState = "start";
         this.audio.playMusic(this.audio.startScreenMusic);
     }, 4000);
 }
 
+stopCharacterAndEnemies() {
+    this.character.stop();  
+     if (this.level && this.level.enemies) {
+    this.level.enemies.forEach(enemy => {
+        if (enemy.stop) {
+            enemy.stop();
+        }
+    });
+    }
+}
+
+
 goToStart() {
     this.gameState = "start";
+    this.stopCharacterAndEnemies();
+    this.audio.stopAllSounds();
+    this.audio.playMusic(this.audio.startScreenMusic);
     this.keyboard.S = false;
     this.keyboard.D = false;
     this.keyboard.LEFT = false;
@@ -268,30 +283,37 @@ checkCollisions() {
         if (Math.abs(dx) > 80) {
             enemy.canDealDamage = true;
         }
-        if (this.character.isDead()) {
-            this.setGameOver();
-            if (this.onGameEnded) {
-            this.onGameEnded();
-        }
-        }
+        if (this.character.isDead() && !this.gameOverTriggered) {
+        this.gameOverTriggered = true;
+        this.onCharacterDeath();
+        
+        setTimeout(() => {
+        this.setGameOver();
+        }, 2000);
+        return;
+    }
     });
 }
 
 setGameOver() {
+    // if (this.gameOverTriggered) return;
     this.gameState = "gameover";
-
     this.audio.stopMusic();
     this.audio.playSound(this.audio.gameOverSound);
-
+    this.stopCharacterAndEnemies();
+    if (this.onGameOverUI) {
+        this.onGameOverUI();
+    }
     setTimeout(() => {
         this.gameState = "start";
         this.audio.playMusic(this.audio.startScreenMusic);
+        this.gameOverTriggered = false;
+        this.deathSoundPlayed = false;
     }, 3000);
 }
 
   throwObjects() {
     if (this.keyboard.D) {
-
         if (this.bottleCount <= 0) {
             this.keyboard.D = false;
             return;
@@ -302,6 +324,7 @@ setGameOver() {
             this.character.y + 100, 8 * direction
         );
         this.throwableObject.push(bottle);
+        this.onThrow();
         this.bottleCount--;
         this.bottleBar.setValueBottles(this.bottleCount, this.maxBottles);
         this.keyboard.D = false;
@@ -381,16 +404,22 @@ setGameOver() {
     this.audio.playSound(this.audio.jumpSound);
     }
 
-
-
-    
-
     onThrow() {
     this.audio.playSound(this.audio.throwSound);
     }
 
+   onCharacterDeath() {
+    if (this.deathSoundPlayed) return;
+    this.deathSoundPlayed = true;
+    this.audio.playSound(this.audio.characterDeathSound);
+    }
+
     onPause() {
     this.audio.playSound(this.audio.pauseSound);
+    }
+
+    onEscape() {
+    this.audio.playSound(this.audio.gameEscapeSound);
     }
 
     onChickenDead() {
@@ -405,8 +434,9 @@ setGameOver() {
     this.audio.playSound(this.audio.smallChickenSound);
     }
 
-    onEndBossBeginning() {
+    onEndbossAlert() {
     this.audio.playSound(this.audio.endBossBeginningSound);
+    console.log("Endboss Alert Sound abgespielt");
     }
 
 
