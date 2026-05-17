@@ -21,6 +21,8 @@ class AudioManager {
         this.endbossHurt = new Audio("./audio/endboss_hurt.mp3");
         this.endbossDead = new Audio("./audio/endboss_dead.mp3");
         this.endbossWalking = new Audio("./audio/big_chicken_sound.mp3");
+        this.coinCollectSound = new Audio("./audio/coin.mp3");
+        this.bottleCollectSound = new Audio("./audio/bottle.mp3");
 
         this.music = [
         this.startScreenMusic,
@@ -45,6 +47,8 @@ class AudioManager {
         this.endbossHurt,
         this.endbossDead,
         this.endbossWalking,
+        this.coinCollectSound,
+        this.bottleCollectSound,
         ];    
 
         // this.allSounds = [...this.music, ...this.sfx];
@@ -167,5 +171,81 @@ stopAllSounds() {
     });
     this.activeSounds = [];
 }
+
+    onSleep() {
+    this.playSound(this.sleepSound);
+    }
+
+    onCharacterHurt() {
+    this.playSound(this.characterHurtSound);
+    }
+
+    onJump() {
+    this.playSound(this.jumpSound);
+    }
+
+    onThrow() {
+    this.playSound(this.throwSound);
+    }
+
+    onCharacterDeath() {
+    if (this.deathSoundPlayed) return;
+    this.deathSoundPlayed = true;
+    this.playSound(this.characterDeathSound);
+    }
+
+    onPause() {
+    this.playSound(this.pauseSound);
+    }
+
+    onEscape() {
+    this.playSound(this.gameEscapeSound);
+    }
+
+    onCoinCollect() {
+    this.playSound(this.coinCollectSound);
+    }
+
+    onBottleCollect() {
+    this.playSound(this.bottleCollectSound);
+    }
+
+    onChickenDead() {
+    this.playSound(this.chickenDeadSound);
+    }
+
+    onBigChicken() {
+    this.playSound(this.bigChickenSound);
+    }
+
+    onSmallChicken() {
+    this.smallChickenSound.volume = 0.03;
+    this.playSound(this.smallChickenSound);
+    }
+
+    onEndbossWalking() {
+    this.endbossWalking.volume = 1.0;
+    this.playBossSound(this.endbossWalking, true);
+    }
+
+    onEndbossAlert() {
+    this.endbossAlert.volume = 1.0;
+    this.playBossSound(this.endbossAlert, false);
+    }
+
+    onEndbossChasing() {
+    this.endbossChasingSound.volume = 1.0;
+    this.playBossSound(this.endbossChasingSound,true);
+    }
+
+    onEndbossHurt() {
+    this.endbossHurt.volume = 1.0;
+    this.playBossSound(this.endbossHurt,true);
+    }
+
+    onEndbossDead() {
+    this.endbossDead.volume = 1.0;
+    this.playBossSound(this.endbossDead, false);
+    }
 
 }

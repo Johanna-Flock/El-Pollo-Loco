@@ -119,7 +119,7 @@ update() {
     if (this.keyboard.P && this.gameState === "playing") {
         this.keyboard.P = false;
         this.gameState = "paused";
-        this.onPause();
+        this.audio.onPause();
         return;
     }
     if (this.keyboard.P && this.gameState === "paused") {
@@ -134,7 +134,7 @@ update() {
      this.gameState === "winning")
     ) {
     this.keyboard.ESC = false;
-    this.onEscape()
+    this.audio.onEscape()
     setTimeout(() => {
         this.goToStart();
     }, 500);
@@ -195,6 +195,7 @@ checkWinCondition() {
     let boss = this.level.enemies.find(e => e instanceof Endboss);
     if (!boss) return;
     if (boss.isDeadAnimationFinished && this.gameState !== "winning") {
+        this.audio.stopBossSound();
         this.setWinning();
         if (this.onGameOverUI) {
         this.onGameOverUI();
@@ -246,6 +247,7 @@ goToStart() {
 checkCollectables() {
     this.level.coins = this.level.coins.filter((coin) => {
         if (this.character.isNearItem(coin, 50)) {
+            this.audio.onCoinCollect();
             this.coinCount++;
             this.coinBar.setValueCoins(this.coinCount, this.maxCoins);
             return false;
@@ -254,6 +256,7 @@ checkCollectables() {
     });
     this.level.bottles = this.level.bottles.filter((bottle) => {
         if (this.character.isNearItem(bottle, 80)) {
+            this.audio.onBottleCollect();
             this.bottleCount++;
             this.bottleBar.setValueBottles(this.bottleCount, this.maxBottles);
             return false;
@@ -287,7 +290,8 @@ checkCollisions() {
         }
         if (this.character.isDead() && !this.gameOverTriggered) {
         this.gameOverTriggered = true;
-        this.onCharacterDeath();
+        this.audio.stopBossSound();
+        this.audio.onCharacterDeath();
         
         setTimeout(() => {
         this.setGameOver();
@@ -326,33 +330,32 @@ setGameOver() {
             this.character.y + 100, 8 * direction
         );
         this.throwableObject.push(bottle);
-        this.onThrow();
+        this.audio.onThrow();
         this.bottleCount--;
         this.bottleBar.setValueBottles(this.bottleCount, this.maxBottles);
         this.keyboard.D = false;
     }
 }
 
-   checkEnemyHits() {
-    this.throwableObject = this.throwableObject.filter((bottle) => {
+  
+checkEnemyHits() {
+
+    this.throwableObject =
+        this.throwableObject.filter((bottle) => {
         let hit = false;
         this.level.enemies.forEach((enemy) => {
-            if (bottle.isColliding(enemy)) {
-                if (enemy instanceof Endboss) {
-                    enemy.hit();
-                } 
-                if (enemy instanceof SmallChicken) {
-                    enemy.hit();
-                }
-                else if (enemy instanceof Chicken) {
-                    enemy.hit();
-                }
+            if (
+                bottle.state !== "splash" &&
+                bottle.isColliding(enemy)
+            ) {
+                enemy.hit();
+                bottle.splash();
                 hit = true;
             }
         });
-        return !hit;
+        return !bottle.splashAnimationFinished;
     });
-    }
+}
 
     checkStompEnemies() {
     this.level.enemies.forEach((enemy) => {
@@ -393,79 +396,5 @@ setGameOver() {
         mo.draw(this.ctx);
         }
     } 
-
-    onSleep() {
-    this.audio.playSound(this.audio.sleepSound);
-    }
-
-    onCharacterHurt() {
-    this.audio.playSound(this.audio.characterHurtSound);
-    }
-
-    onJump() {
-    this.audio.playSound(this.audio.jumpSound);
-    }
-
-    onThrow() {
-    this.audio.playSound(this.audio.throwSound);
-    }
-
-    onCharacterDeath() {
-    if (this.deathSoundPlayed) return;
-    this.deathSoundPlayed = true;
-    this.audio.playSound(this.audio.characterDeathSound);
-    }
-
-    onPause() {
-    this.audio.playSound(this.audio.pauseSound);
-    }
-
-    onEscape() {
-    this.audio.playSound(this.audio.gameEscapeSound);
-    }
-
-    onChickenDead() {
-    this.audio.playSound(this.audio.chickenDeadSound);
-    }
-
-    onBigChicken() {
-    this.audio.playSound(this.audio.bigChickenSound);
-    }
-
-    onSmallChicken() {
-    this.audio.smallChickenSound.volume = 0.03;
-    this.audio.playSound(this.audio.smallChickenSound);
-    }
-
-    onEndbossWalking() {
-    this.audio.endbossWalking.volume = 1.0;
-    this.audio.playBossSound(this.audio.endbossWalking, true);
-    console.log("Endboss Walking Sound abgespielt");
-    }
-
-    onEndbossAlert() {
-    this.audio.endbossAlert.volume = 1.0;
-    this.audio.playBossSound(this.audio.endbossAlert, false);
-    console.log("Endboss Alert Sound abgespielt");
-    }
-
-    onEndbossChasing() {
-    this.audio.endbossChasingSound.volume = 1.0;
-    this.audio.playBossSound(this.audio.endbossChasingSound,true);
-    console.log("Endboss Chasing Sound abgespielt");
-    }
-
-    onEndbossHurt() {
-    this.audio.endbossHurt.volume = 1.0;
-    this.audio.playBossSound(this.audio.endbossHurt,true);
-    console.log("Endboss Hurt Sound abgespielt");
-    }
-
-    onEndbossDead() {
-    this.audio.endbossDead.volume = 1.0;
-    this.audio.playBossSound(this.audio.endbossDead, false);
-    console.log("Endboss Dead Sound abgespielt");
-    }
-
 
 }

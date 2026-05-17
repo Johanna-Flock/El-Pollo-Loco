@@ -35,10 +35,10 @@ function initLevel1() {
     ...generateBottles(2, 5600, 1200),
     ...generateBottles(2, 6800, 800),
     ...generateBottleLine(2000, 500, 3, 80),
-    ...generateBottleDiagonal(3000, 400, 4),
+    ...generateBottleDiagonal(3000, 900, 4),
     ...generateBottleLine(4500, 300, 3, 90),
     ...generateBottleDiagonal(5500, 700, 4),
-    ...generateBottleDiagonal(6500, 400, 4),
+    ...generateBottleDiagonal(6500, 800, 4),
 ], 
 );
 
@@ -55,7 +55,7 @@ function spawnGroup(type, startX, count, spacing) {
 
 function generateBackground() {
     let backgrounds = [];
-     let tiles = 10;
+     let tiles = 11;
     for (let i = -1; i < tiles; i++) {
         backgrounds.push(
             new BackgroundObject('img/5_background/layers/air.png', 720 * i),

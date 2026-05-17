@@ -82,7 +82,7 @@ hit() {
     if (this.state === "dead") return;
     this.energy = 0;
     this.state = "dead";
-    this.world.onChickenDead();
+    this.world.audio.onChickenDead();
     setTimeout(() => {
         this.state = "falling";
     }, 200); 
@@ -97,7 +97,7 @@ checkSoundTrigger() {
     let distance = Math.abs(this.world.character.x - this.x);
     if (distance < 400 && !this.soundPlayed) {
         this.soundPlayed = true;
-        this.world.onSmallChicken();
+        this.world.audio.onSmallChicken();
     }
 }
 

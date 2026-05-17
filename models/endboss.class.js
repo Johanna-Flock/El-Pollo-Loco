@@ -174,19 +174,19 @@ handleStateSound(state) {
 
     switch(state) {
         case "walking":
-            this.world.onEndbossWalking();
+            this.world.audio.onEndbossWalking();
             break;
         case "alert":
-            this.world.onEndbossAlert();
+            this.world.audio.onEndbossAlert();
             break;
         case "chase":
-            this.world.onEndbossChasing();
+            this.world.audio.onEndbossChasing();
             break;
         case "hurt":
-            this.world.onEndbossHurt();
+            this.world.audio.onEndbossHurt();
             break;
         case "dead":
-            this.world.onEndbossDead();
+            this.world.audio.onEndbossDead();
             break;
     }
 }

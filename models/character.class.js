@@ -167,16 +167,16 @@ class Character extends MovableObject {
     handleStateSound(state) {
     switch(state) {
         case "hurt":
-            this.world.onCharacterHurt();
+            this.world.audio.onCharacterHurt();
             break;
         case "dead":
-            this.world.onCharacterDeath();
+            this.world.audio.onCharacterDeath();
             break;
         case "sleeping":
-            this.world.onSleep();
+            this.world.audio.onSleep();
             break;
         case "jumping":
-            this.world.onJump();
+            this.world.audio.onJump();
             break;
     }
     }
