@@ -10,6 +10,7 @@ class MovableObject extends DrawableObject {
     groundY = 420;
     canDealDamage = true;
     isTouching = false;
+    active = true;
 
   
     moveRight() {

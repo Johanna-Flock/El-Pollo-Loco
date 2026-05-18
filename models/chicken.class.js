@@ -32,6 +32,7 @@ currentImage = 0;
     
 animate() {
     this.movementInterval = setInterval(() => {
+        if (!this.active) return;
         this.checkSoundTrigger();
         if (this.state === "falling") {
             this.y += 5;
@@ -48,6 +49,7 @@ animate() {
 
 
     this.animationInterval = setInterval(() => {
+        if (!this.active) return;
         if (this.state === "dead" || this.state === "falling") {
             this.playAnimation(this.IMAGES_DEAD);
         } else {
@@ -67,6 +69,7 @@ hit() {
 }
 
 stop() {
+    this.active = false;
     clearInterval(this.movementInterval);
     clearInterval(this.animationInterval);
 }

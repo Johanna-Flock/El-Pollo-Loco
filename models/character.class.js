@@ -108,7 +108,7 @@ class Character extends MovableObject {
     animate() {  
 
     this.movementInterval = setInterval(() => {
-
+        if (!this.active) return;
         if(this.world.keyboard.RIGHT && this.world.level.level_end_x > this.x) {
             this.moveRight(); 
             this.otherDirection = false;
@@ -134,7 +134,7 @@ class Character extends MovableObject {
     }, 1000/60); 
 
    this.animationInterval = setInterval(() => {
-
+    if (!this.active) return;
     let currentState = null;
 
     if(this.isSleeping()) {
@@ -182,6 +182,7 @@ class Character extends MovableObject {
     }
 
     stop() {
+    this.active = false;
     clearInterval(this.movementInterval);
     clearInterval(this.animationInterval);
     }
