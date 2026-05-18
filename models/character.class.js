@@ -101,7 +101,8 @@ class Character extends MovableObject {
         );
         this.applyGravity();
         this.lastAnimationState = null;
-        // this.animate(); 
+        this.deathFrameIndex = 0;
+        this.deathAnimationDone = false;
     }
 
 
@@ -126,10 +127,6 @@ class Character extends MovableObject {
         }
         this.world.camera_x = -this.x + 50; 
             //„Verschiebe die Welt so, dass der Charakter immer bei x = 100 bleibt“
-            // console.log("Person in x: ", this.x);
-            // test collision
-            // let distanceToEnemie1 = this.x - this.world.enemies[0].x;
-            // console.log("Distance to Enemie 1: ", distanceToEnemie1);
 
     }, 1000/60); 
 
@@ -148,7 +145,7 @@ class Character extends MovableObject {
         this.playAnimation(this.IMAGES_HURT);
     } else if(this.isDead()) {
         currentState = "dead";
-        this.playAnimation(this.IMAGES_DEAD);
+        this.controlDeathAnimation();
     } else if(this.isAboveGround()) {
         currentState = "jumping";
         this.playAnimation(this.IMAGES_JUMPING);
@@ -164,12 +161,25 @@ class Character extends MovableObject {
     }, 100);
     }
 
+    controlDeathAnimation() {
+         if (!this.deathAnimationDone) {
+        let totalFrames = this.IMAGES_DEAD.length;
+        let index = this.deathFrameIndex;
+        this.img = this.ImageCache[this.IMAGES_DEAD[index]];
+        this.deathFrameIndex++;
+        if (this.deathFrameIndex >= totalFrames - 1) {
+            this.deathAnimationDone = true;
+        }
+    }
+    }
+
     handleStateSound(state) {
     switch(state) {
         case "hurt":
             this.world.audio.onCharacterHurt();
             break;
         case "dead":
+            this.deathSoundPlayed = true;
             this.world.audio.onCharacterDeath();
             break;
         case "sleeping":

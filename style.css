@@ -90,9 +90,12 @@ canvas {
 
 #game_container {
     position: relative;
-    width: 720px;
+    /* width: 720px; */
     /* height: 480px; */
     max-width: 100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #game_container:fullscreen {

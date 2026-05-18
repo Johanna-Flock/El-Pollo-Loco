@@ -316,7 +316,7 @@ checkGameOver() {
         this.gameOverTriggered = true;
         setTimeout(() => {
             this.setGameOver();
-        }, 1200); // nur Delay für Animation
+        }, 3000); // nur Delay für Animation
     }
 }
 

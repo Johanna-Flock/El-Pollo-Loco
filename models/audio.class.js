@@ -190,8 +190,7 @@ stopAllSounds() {
 
     onCharacterDeath() {
     if (this.deathSoundPlayed) return;
-    this.deathSoundPlayed = true;
-    this.audio.stopBossSound();
+    this.stopBossSound();
     this.playSound(this.characterDeathSound);
     }
 
