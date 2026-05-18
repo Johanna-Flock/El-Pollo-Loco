@@ -106,6 +106,7 @@ update() {
     this.throwObjects();
     this.checkWinCondition();
     this.removeDeadEnemies();
+    this.checkGameOver();
 }
 
  handleInput() {
@@ -306,32 +307,31 @@ checkCollisions() {
         // let dx = this.character.x - enemy.x; 
         // if (Math.abs(dx) > 80) 
         //     { enemy.canDealDamage = true; }
-        
-        if (this.character.isDead() && !this.gameOverTriggered) {
-        this.gameOverTriggered = true;
-        this.audio.stopBossSound();
-        this.audio.onCharacterDeath();
-        
-        setTimeout(() => {
-        this.setGameOver();
-        }, 2000);
-        return;
-    }
     });
 }
 
+checkGameOver() {
+    if (this.gameState !== "playing") return;
+    if (this.character.isDead() && !this.gameOverTriggered) {
+        this.gameOverTriggered = true;
+        setTimeout(() => {
+            this.setGameOver();
+        }, 1200); // nur Delay für Animation
+    }
+}
+
 setGameOver() {
-    // if (this.gameOverTriggered) return;
     this.gameState = "gameover";
-     this.audio.stopAllSounds();
-    this.audio.playSound(this.audio.gameOverSound);
     this.stopCharacterAndEnemies();
+    this.audio.stopAllSounds();
+    this.audio.playSound(this.audio.gameOverSound);
     if (this.onGameOverUI) {
         this.onGameOverUI();
     }
     setTimeout(() => {
         this.gameState = "start";
         this.audio.playMusic(this.audio.startScreenMusic);
+
         this.gameOverTriggered = false;
         this.deathSoundPlayed = false;
     }, 3000);
