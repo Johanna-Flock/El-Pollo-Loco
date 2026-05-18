@@ -108,14 +108,14 @@ function toggleMobileMenu() {
         actioncontrols.classList.add("d_none");
         menu.classList.remove("d_none");
         document.body.classList.add("no_scroll");
-        world.gameState = "paused";
+        world.pauseGame();
     } else {      
         console.log("CLOSE MENU");  
         menu.classList.add("d_none");
         document.body.classList.remove("no_scroll");
         movecontrols.classList.remove("d_none");
         actioncontrols.classList.remove("d_none");
-        world.gameState = "playing";
+        world.resumeGame();
     }   
 }
 
@@ -128,7 +128,7 @@ function continueGame() {
     document.body.classList.remove("no_scroll");
     movecontrols.classList.remove("d_none");
     actioncontrols.classList.remove("d_none");
-    world.gameState = "playing";
+    world.resumeGame();
 }
 
 function restartGame() {

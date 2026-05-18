@@ -84,6 +84,21 @@ class World {
     this.ctx.translate(-this.camera_x, 0); 
     }
 
+pauseGame() {
+    this.gameState = "paused";
+    this.character.active = false;
+    this.level.enemies.forEach(e => e.active = false);
+    this.audio.pauseMusic();
+    this.audio.onPause();
+}
+
+resumeGame() {
+    this.gameState = "playing";
+    this.character.active = true;
+    this.level.enemies.forEach(e => e.active = true);
+    this.audio.resumeMusic();
+}
+
 
 
 run() {
@@ -128,14 +143,13 @@ update() {
     }
     // PAUSE
     if (this.keyboard.P && this.gameState === "playing") {
+        this.pauseGame()
         this.keyboard.P = false;
-        this.gameState = "paused";
-        this.audio.onPause();
         return;
     }
     if (this.keyboard.P && this.gameState === "paused") {
+        this.resumeGame()
         this.keyboard.P = false;
-        this.gameState = "playing";
         return;
     }
     if (
