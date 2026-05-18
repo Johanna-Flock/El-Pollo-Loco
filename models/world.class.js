@@ -66,10 +66,20 @@ class World {
     this.ctx.translate(this.camera_x, 0);
 
     this.addToMap(this.character);
-    this.addObjectsToMap(this.throwableObject);
-    this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.coins);
     this.addObjectsToMap(this.level.bottles);
+    this.addObjectsToMap(
+    this.throwableObject.filter(
+        bottle => bottle.state !== "splash"
+    )
+);
+    this.addObjectsToMap(this.level.enemies);
+    this.addObjectsToMap(
+    this.throwableObject.filter(
+        bottle => bottle.state === "splash"
+    )
+    );
+    
 
     this.ctx.translate(-this.camera_x, 0); 
     }
@@ -209,7 +219,7 @@ setWinning() {
     this.gameState = "winning";
     this.audio.stopMusic();
     this.audio.playSound(this.audio.winningSound);
-   this.stopCharacterAndEnemies();
+    this.stopCharacterAndEnemies();
     setTimeout(() => {
         this.gameState = "start";
         this.audio.playMusic(this.audio.startScreenMusic);
@@ -248,7 +258,7 @@ goToStart() {
 
 checkCollectables() {
     this.level.coins = this.level.coins.filter((coin) => {
-        if (this.character.isNearItem(coin, 50)) {
+        if (this.character.isNearItem(coin, 65)) {
             this.audio.onCoinCollect();
             this.coinCount++;
             this.coinBar.setValueCoins(this.coinCount, this.maxCoins);
@@ -270,6 +280,7 @@ checkCollectables() {
 checkCollisions() {
     this.level.enemies.forEach((enemy) => {
         let colliding = this.character.isColliding(enemy);
+        //Stomp
         if (colliding && this.character.isStomping(enemy)) {
             enemy.hit?.();
             this.character.speedY = -10;
@@ -277,19 +288,25 @@ checkCollisions() {
             enemy.isTouching = true;
             return;
         }
+        //Damage
         if (colliding && enemy.canDealDamage) {
             enemy.isTouching = true;
             this.character.hit();
             this.healthBar.setPercentage(this.character.energy);
             enemy.canDealDamage = false;
         }
-        if (!colliding) {
-            enemy.isTouching = false;
-        }
+        //Reset
         let dx = this.character.x - enemy.x;
-        if (Math.abs(dx) > 80) {
-            enemy.canDealDamage = true;
+        if (!colliding || Math.abs(dx) > 80) {
+        enemy.isTouching = false;
+        enemy.canDealDamage = true;
         }
+        // if (!colliding) 
+        //     { enemy.isTouching = false; } 
+        // let dx = this.character.x - enemy.x; 
+        // if (Math.abs(dx) > 80) 
+        //     { enemy.canDealDamage = true; }
+        
         if (this.character.isDead() && !this.gameOverTriggered) {
         this.gameOverTriggered = true;
         this.audio.stopBossSound();
@@ -306,7 +323,7 @@ checkCollisions() {
 setGameOver() {
     // if (this.gameOverTriggered) return;
     this.gameState = "gameover";
-    this.audio.stopMusic();
+     this.audio.stopAllSounds();
     this.audio.playSound(this.audio.gameOverSound);
     this.stopCharacterAndEnemies();
     if (this.onGameOverUI) {
