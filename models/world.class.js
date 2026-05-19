@@ -116,12 +116,14 @@ run() {
 update() {
     this.checkCollectables();
     this.checkCollisions();
+    this.checkBossBlock();
     this.checkEnemyHits();
     this.checkStompEnemies()
     this.throwObjects();
     this.checkWinCondition();
     this.removeDeadEnemies();
     this.checkGameOver();
+    
 }
 
  handleInput() {
@@ -370,9 +372,33 @@ setGameOver() {
     }
 }
 
-  
-checkEnemyHits() {
+checkBossBlock() {
+    this.level.enemies.forEach(enemy => {
+        if (!(enemy instanceof Endboss)) return;
+        if (enemy.state === "dead") return;
+        if (
+            this.character.isColliding(enemy) &&
+            !this.character.isStomping(enemy)
+        ) {
+            if (
+                this.character.x < enemy.x &&
+                this.keyboard.RIGHT
+            ) {
+                this.character.x =
+                    enemy.x - this.character.width + 20;
+            }
+            else if (
+                this.character.x > enemy.x &&
+                this.keyboard.LEFT
+            ) {
+                this.character.x =
+                    enemy.x + enemy.width - 20;
+            }
+        }
+    });
+}
 
+checkEnemyHits() {
     this.throwableObject =
         this.throwableObject.filter((bottle) => {
         let hit = false;

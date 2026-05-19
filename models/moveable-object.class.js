@@ -101,6 +101,7 @@ class MovableObject extends DrawableObject {
     }
 
     isSleeping() {
+    if (this.world.gameState !== "playing") return false;
     let timePassed = Date.now() - this.lastAction;
     timePassed = timePassed / 1000;
     return timePassed > 10; // 👉 nach 10 Sekunden schlafen
