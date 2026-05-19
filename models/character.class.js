@@ -4,6 +4,7 @@ class Character extends MovableObject {
     y=140; 
     speed=10;
     speedY = 0;
+    energy = 100;
     canJump = true;
     lastAction = Date.now();
     movementInterval;
@@ -206,10 +207,10 @@ class Character extends MovableObject {
     this.speedY = -20;
     }
 
-   hit() {
-    let now = new Date().getTime();
+   hit(damage) {
+    const now = Date.now();
     this.lastHit = now;
-    this.energy -= 5;
+    this.energy -= damage;
     if (this.energy < 0) {
         this.energy = 0;
     }

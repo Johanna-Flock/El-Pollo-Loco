@@ -5,7 +5,8 @@ class Endboss extends MovableObject {
     x; 
     currentImage = 0;
     isDead = false;
-    energy = 200;
+    energy = 400;
+    damage = 20;
     deadFrameIndex = 0;
     isDeadAnimationFinished = false;
 
@@ -195,12 +196,10 @@ handleStateSound(state) {
 
 hit() {
     this.energy = Math.max(0, this.energy - 20);
-
     if (this.energy <= 0) {
         this.state = "dead";
         return;
     }
-
     this.lastHitTime = Date.now();
 }
 

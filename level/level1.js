@@ -10,7 +10,7 @@ function initLevel1() {
         ...spawnGroup(SmallChicken, 5000, 3, 120),
         ...spawnGroup(Chicken, 5500, 2, 300),
         ...spawnGroup(Chicken, 6000, 2, 300),
-    new Endboss(7000),
+    new Endboss(7300),
     ],
     [
     new Cloud(),
@@ -28,17 +28,17 @@ function initLevel1() {
             ...generateCoinDiagonalDown(6000, 200, 5),
     ],
    [
-    ...generateBottles(2, 200, 1200),
+    ...generateBottles(2, 200, 1200), //12
     ...generateBottles(2, 1400, 1200),
     ...generateBottles(2, 2800, 1200),
     ...generateBottles(2, 4200, 1200),
     ...generateBottles(2, 5600, 1200),
-    ...generateBottles(2, 6800, 800),
-    ...generateBottleLine(2000, 500, 3, 80),
-    ...generateBottleDiagonal(3000, 900, 4),
-    ...generateBottleLine(4500, 300, 3, 90),
-    ...generateBottleDiagonal(5500, 700, 4),
-    ...generateBottleDiagonal(6500, 800, 4),
+    ...generateBottles(2, 6500, 300),
+    ...generateHighBossBottles(),//5
+    ...generateBottleLine(3200, 220, 3, 70), //3
+    ...generateBottleDiagonal(3000, 300, 4), //4
+    ...generateBottleLine(4600, 100, 3, 90), //3
+    ...generateBottleDiagonal(6000, 200, 3), //4
 ], 
 );
 
@@ -55,7 +55,7 @@ function spawnGroup(type, startX, count, spacing) {
 
 function generateBackground() {
     let backgrounds = [];
-     let tiles = 11;
+     let tiles = 12;
     for (let i = -1; i < tiles; i++) {
         backgrounds.push(
             new BackgroundObject('img/5_background/layers/air.png', 720 * i),
@@ -85,7 +85,6 @@ function generateCoins(amount) {
 
 function generateCoinLine(startX, startY, amount) {
     let coins = [];
-
     for (let i = 0; i < amount; i++) {
         coins.push(
             new CollectableObject(
@@ -95,13 +94,11 @@ function generateCoinLine(startX, startY, amount) {
             )
         );
     }
-
     return coins;
 }
 
 function generateCoinDiagonal(startX, startY, amount) {
     let coins = [];
-
     for (let i = 0; i < amount; i++) {
         coins.push(
             new CollectableObject(
@@ -111,7 +108,6 @@ function generateCoinDiagonal(startX, startY, amount) {
             )
         );
     }
-
     return coins;
 }
 
@@ -131,7 +127,6 @@ function generateCoinDiagonalDown(startX, startY, amount) {
 
 function generateCoinArc(centerX, baseY, amount) {
     let coins = [];
-
     for (let i = 0; i < amount; i++) {
         let x = centerX + i * 50;
         let y = baseY - Math.sin(i / amount * Math.PI) * 100;
@@ -140,7 +135,6 @@ function generateCoinArc(centerX, baseY, amount) {
             new CollectableObject('img/8_coin/coin_2.png', x, y)
         );
     }
-
     return coins;
 }
 
@@ -189,6 +183,36 @@ function generateBottleDiagonal(startX, startY, amount) {
         );
     }
     return bottles;
+}
+
+function generateHighBossBottles() {
+    return [
+        new CollectableObject(
+            'img/6_salsa_bottle/salsa_bottle.png',
+            6400,
+            120
+        ),
+        new CollectableObject(
+            'img/6_salsa_bottle/salsa_bottle.png',
+            6550,
+            100
+        ),
+        new CollectableObject(
+            'img/6_salsa_bottle/salsa_bottle.png',
+            6700,
+            140
+        ),
+        new CollectableObject(
+            'img/6_salsa_bottle/salsa_bottle.png',
+            6850,
+            110
+        ),
+        new CollectableObject(
+            'img/6_salsa_bottle/salsa_bottle.png',
+            7000,
+            130
+        )
+    ];
 }
 
 

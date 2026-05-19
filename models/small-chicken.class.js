@@ -2,6 +2,7 @@ class SmallChicken extends MovableObject {
     height = 50;
     width = 50      
     y = 140;
+    damage = 5;
 
     
 
@@ -37,20 +38,30 @@ class SmallChicken extends MovableObject {
 
 jump() {
     if (this.isAboveGround()) return;
-    this.speedY = -12; 
+    this.speedY = -15; 
 }
 
+// startBouncing() {
+//     const bounce = () => {
+//         if (this.state === "walking") {
+//             if (Math.random() < 0.4) {
+//                 this.jump();
+//             }
+//         }
+//         const delay = 1200 + Math.random() * 2000;
+//         setTimeout(bounce, delay);
+//     };
+//     bounce();
+// }
+
 startBouncing() {
-    const bounce = () => {
-        if (this.state === "walking") {
-            if (Math.random() < 0.4) {
-                this.jump();
-            }
+    this.bounceInterval = setInterval(() => {
+        if (this.state !== "walking") return;
+        if (this.isAboveGround()) return;
+        if (Math.random() < 0.6) {
+            this.jump();
         }
-        const delay = 1200 + Math.random() * 2000;
-        setTimeout(bounce, delay);
-    };
-    bounce();
+    }, 400);
 }
 
 
