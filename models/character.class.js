@@ -238,7 +238,9 @@ class Character extends MovableObject {
                 break;
             case "jumping":
                 this.world.audio.onJump();
-                break;}}
+                break;
+        }
+    }
 
     stop() {
         this.active = false;
