@@ -58,13 +58,13 @@ function generateBackground() {
      let tiles = 12;
     for (let i = -1; i < tiles; i++) {
         backgrounds.push(
-            new BackgroundObject('img/5_background/layers/air.png', 720 * i),
-            new BackgroundObject('img/5_background/layers/3_third_layer/' + (i % 2 ? '1.png' : '2.png'), 720 * i),
-            new BackgroundObject('img/5_background/layers/2_second_layer/' + (i % 2 ? '1.png' : '2.png'), 720 * i),
-            new BackgroundObject('img/5_background/layers/1_first_layer/' + (i % 2 ? '1.png' : '2.png'), 720 * i),
+            new BackgroundObject('img/5_background/layers/air.png', 719 * i),
+            new BackgroundObject('img/5_background/layers/3_third_layer/' + (i % 2 ? '1.png' : '2.png'), 719 * i),
+            new BackgroundObject('img/5_background/layers/2_second_layer/' + (i % 2 ? '1.png' : '2.png'), 719 * i),
+            new BackgroundObject('img/5_background/layers/1_first_layer/' + (i % 2 ? '1.png' : '2.png'), 719 * i),
         );
     }
-    level1EndX = tiles * 720;
+    level1EndX = tiles * 719;
     return backgrounds;
 }
 

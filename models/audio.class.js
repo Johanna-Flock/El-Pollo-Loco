@@ -23,12 +23,10 @@ class AudioManager {
         this.endbossWalking = new Audio("./audio/big_chicken_sound.mp3");
         this.coinCollectSound = new Audio("./audio/coin.mp3");
         this.bottleCollectSound = new Audio("./audio/bottle.mp3");
-
         this.music = [
         this.startScreenMusic,
         this.GameMusicLevel1,
         ];
-
         this.sfx = [
         this.winningSound,
         this.gameOverSound,
@@ -50,7 +48,6 @@ class AudioManager {
         this.coinCollectSound,
         this.bottleCollectSound,
         ];    
-
         // this.allSounds = [...this.music, ...this.sfx];
         this.activeSounds = [];
         this.currentMusic = null;
@@ -105,16 +102,12 @@ playMusic(sound) {
     sound.play();
 }
 
-
 playSound(sound) {
     if (this.soundMuted) return;
-
     let soundClone = sound.cloneNode();
     soundClone.volume = sound.volume;
     soundClone.play();
-
     this.activeSounds.push(soundClone);
-
     soundClone.onended = () => {
         this.activeSounds =
             this.activeSounds.filter(s => s !== soundClone);

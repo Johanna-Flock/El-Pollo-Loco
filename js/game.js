@@ -64,6 +64,16 @@ function closeModal(id) {
 }
 
 window.addEventListener("keydown", (e) => { 
+    const blockedKeys = [
+        32, // Space
+        37, // Left
+        38, // Up
+        39, // Right
+        40  // Down
+    ];
+    if (blockedKeys.includes(e.keyCode)) {
+        e.preventDefault();
+    }
     if(e.keyCode == 39) keyboard.RIGHT = true;
     if(e.keyCode == 37) keyboard.LEFT = true;
     if(e.keyCode == 38) keyboard.UP = true;
@@ -78,6 +88,16 @@ window.addEventListener("keydown", (e) => {
 
 
 window.addEventListener("keyup", (e) => { 
+      const blockedKeys = [
+        32, // Space
+        37, // Left
+        38, // Up
+        39, // Right
+        40  // Down
+    ];
+    if (blockedKeys.includes(e.keyCode)) {
+        e.preventDefault();
+    }
     if(e.keyCode == 39) keyboard.RIGHT = false;
     if(e.keyCode == 37) keyboard.LEFT = false;
     if(e.keyCode == 38) keyboard.UP = false;

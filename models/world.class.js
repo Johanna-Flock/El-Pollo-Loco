@@ -308,7 +308,7 @@ checkCollisions() {
         //Damage
         if (colliding && enemy.canDealDamage) {
             enemy.isTouching = true;
-            this.character.hit();
+            this.character.hit(enemy.damage);
             this.healthBar.setPercentage(this.character.energy);
             enemy.canDealDamage = false;
         }
@@ -380,17 +380,13 @@ checkBossBlock() {
             this.character.isColliding(enemy) &&
             !this.character.isStomping(enemy)
         ) {
-            if (
-                this.character.x < enemy.x &&
-                this.keyboard.RIGHT
-            ) {
+            if (this.character.x < enemy.x) {
+
                 this.character.x =
                     enemy.x - this.character.width + 20;
             }
-            else if (
-                this.character.x > enemy.x &&
-                this.keyboard.LEFT
-            ) {
+            else {
+
                 this.character.x =
                     enemy.x + enemy.width - 20;
             }
