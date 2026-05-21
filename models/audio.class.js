@@ -24,30 +24,30 @@ class AudioManager {
         this.coinCollectSound = new Audio("./audio/coin.mp3");
         this.bottleCollectSound = new Audio("./audio/bottle.mp3");
         this.music = [
-        this.startScreenMusic,
-        this.GameMusicLevel1,
+            this.startScreenMusic,
+            this.GameMusicLevel1,
         ];
         this.sfx = [
-        this.winningSound,
-        this.gameOverSound,
-        this.openGameDescriptionSound,
-        this.gameEscapeSound,
-        this.sleepSound,
-        this.characterHurtSound,
-        this.jumpSound,
-        this.throwSound,
-        this.pauseSound,
-        this.chickenDeadSound,
-        this.bigChickenSound,
-        this.smallChickenSound,
-        this.endbossAlert,
-        this.endbossChasingSound,
-        this.endbossHurt,
-        this.endbossDead,
-        this.endbossWalking,
-        this.coinCollectSound,
-        this.bottleCollectSound,
-        ];    
+            this.winningSound,
+            this.gameOverSound,
+            this.openGameDescriptionSound,
+            this.gameEscapeSound,
+            this.sleepSound,
+            this.characterHurtSound,
+            this.jumpSound,
+            this.throwSound,
+            this.pauseSound,
+            this.chickenDeadSound,
+            this.bigChickenSound,
+            this.smallChickenSound,
+            this.endbossAlert,
+            this.endbossChasingSound,
+            this.endbossHurt,
+            this.endbossDead,
+            this.endbossWalking,
+            this.coinCollectSound,
+            this.bottleCollectSound,
+        ];
         // this.allSounds = [...this.music, ...this.sfx];
         this.activeSounds = [];
         this.currentMusic = null;
@@ -55,190 +55,190 @@ class AudioManager {
         this.startScreenMusic.volume = 0.1;
     }
 
-initialize() {
-    this.loadSoundSettings();
-}
-
-loadSoundSettings() {
-    const savedState = localStorage.getItem("soundMuted");
-    if (savedState === "true") {
-        this.soundMuted = true;
-    } else {
-        this.soundMuted = false;
+    initialize() {
+        this.loadSoundSettings();
     }
-    this.updateMuteButtons();
-}
 
-toggleMute() {
-    this.soundMuted = !this.soundMuted;
-    localStorage.setItem("soundMuted", this.soundMuted);
-    this.updateMuteButtons();
-    if (this.soundMuted) {
-        this.pauseMusic();
-    } else {
-        this.resumeMusic();
+    loadSoundSettings() {
+        const savedState = localStorage.getItem("soundMuted");
+        if (savedState === "true") {
+            this.soundMuted = true;
+        } else {
+            this.soundMuted = false;
+        }
+        this.updateMuteButtons();
     }
-}
 
-updateMuteButtons() {
-    const desktop = document.getElementById("mute_btn_desktop");
-    const mobile = document.getElementById("mute_btn");
-
-    [desktop, mobile].forEach(btn => {
-        if (!btn) return;
-        btn.src = this.soundMuted
-            ? "./icons/mute.png"
-            : "./icons/unmute.png";
-    });
-}
-
-playMusic(sound) {
-    this.stopMusic();
-    this.currentMusic = sound;
-    sound.loop = true;
-    sound.volume = 0.1;
-    if (this.soundMuted) return;
-    sound.currentTime = 0;
-    sound.play();
-}
-
-playSound(sound) {
-    if (this.soundMuted) return;
-    let soundClone = sound.cloneNode();
-    soundClone.volume = sound.volume;
-    soundClone.play();
-    this.activeSounds.push(soundClone);
-    soundClone.onended = () => {
-        this.activeSounds =
-            this.activeSounds.filter(s => s !== soundClone);
-    };
-}
-
-playBossSound(sound, { loop = false } = {}) {
-    if (this.soundMuted) return;
-    if (this.currentBossSound) {
-        this.currentBossSound.pause();
-        this.currentBossSound.currentTime = 0;
+    toggleMute() {
+        this.soundMuted = !this.soundMuted;
+        localStorage.setItem("soundMuted", this.soundMuted);
+        this.updateMuteButtons();
+        if (this.soundMuted) {
+            this.pauseMusic();
+        } else {
+            this.resumeMusic();
+        }
     }
-    this.currentBossSound = sound;
-    sound.loop = loop;
-    sound.currentTime = 0;
-    sound.play();
-}
 
-stopBossSound() {
-    if (this.currentBossSound) {
-        this.currentBossSound.pause();
-        this.currentBossSound.currentTime = 0;
-        this.currentBossSound = null;
+    updateMuteButtons() {
+        const desktop = document.getElementById("mute_btn_desktop");
+        const mobile = document.getElementById("mute_btn");
+
+        [desktop, mobile].forEach(btn => {
+            if (!btn) return;
+            btn.src = this.soundMuted
+                ? "./icons/mute.png"
+                : "./icons/unmute.png";
+        });
     }
-}
 
-pauseMusic() {
-    if (this.currentMusic) {
-        this.currentMusic.pause();
-    }
-}
-
-stopMusic() {
-    if (this.currentMusic) {
-        this.currentMusic.pause();
-        this.currentMusic.currentTime = 0;
-    }
-}
-
-resumeMusic() {
-    if (this.currentMusic) {
-        this.currentMusic.play();
-    }
-}
-
-stopAllSounds() {
-    [...this.music, ...this.sfx].forEach(sound => {
-        sound.pause();
+    playMusic(sound) {
+        this.stopMusic();
+        this.currentMusic = sound;
+        sound.loop = true;
+        sound.volume = 0.1;
+        if (this.soundMuted) return;
         sound.currentTime = 0;
-    });
-    this.activeSounds.forEach(sound => {
-        sound.pause();
+        sound.play();
+    }
+
+    playSound(sound) {
+        if (this.soundMuted) return;
+        let soundClone = sound.cloneNode();
+        soundClone.volume = sound.volume;
+        soundClone.play();
+        this.activeSounds.push(soundClone);
+        soundClone.onended = () => {
+            this.activeSounds =
+                this.activeSounds.filter(s => s !== soundClone);
+        };
+    }
+
+    playBossSound(sound, { loop = false } = {}) {
+        if (this.soundMuted) return;
+        if (this.currentBossSound) {
+            this.currentBossSound.pause();
+            this.currentBossSound.currentTime = 0;
+        }
+        this.currentBossSound = sound;
+        sound.loop = loop;
         sound.currentTime = 0;
-    });
-    this.activeSounds = [];
-}
+        sound.play();
+    }
+
+    stopBossSound() {
+        if (this.currentBossSound) {
+            this.currentBossSound.pause();
+            this.currentBossSound.currentTime = 0;
+            this.currentBossSound = null;
+        }
+    }
+
+    pauseMusic() {
+        if (this.currentMusic) {
+            this.currentMusic.pause();
+        }
+    }
+
+    stopMusic() {
+        if (this.currentMusic) {
+            this.currentMusic.pause();
+            this.currentMusic.currentTime = 0;
+        }
+    }
+
+    resumeMusic() {
+        if (this.currentMusic) {
+            this.currentMusic.play();
+        }
+    }
+
+    stopAllSounds() {
+        [...this.music, ...this.sfx].forEach(sound => {
+            sound.pause();
+            sound.currentTime = 0;
+        });
+        this.activeSounds.forEach(sound => {
+            sound.pause();
+            sound.currentTime = 0;
+        });
+        this.activeSounds = [];
+    }
 
     onSleep() {
-    this.playSound(this.sleepSound);
+        this.playSound(this.sleepSound);
     }
 
     onCharacterHurt() {
-    this.playSound(this.characterHurtSound);
+        this.playSound(this.characterHurtSound);
     }
 
     onJump() {
-    this.playSound(this.jumpSound);
+        this.playSound(this.jumpSound);
     }
 
     onThrow() {
-    this.playSound(this.throwSound);
+        this.playSound(this.throwSound);
     }
 
     onCharacterDeath() {
-    if (this.deathSoundPlayed) return;
-    this.stopBossSound();
-    this.playSound(this.characterDeathSound);
+        if (this.deathSoundPlayed) return;
+        this.stopBossSound();
+        this.playSound(this.characterDeathSound);
     }
 
     onPause() {
-    this.playSound(this.pauseSound);
+        this.playSound(this.pauseSound);
     }
 
     onEscape() {
-    this.playSound(this.gameEscapeSound);
+        this.playSound(this.gameEscapeSound);
     }
 
     onCoinCollect() {
-    this.playSound(this.coinCollectSound);
+        this.playSound(this.coinCollectSound);
     }
 
     onBottleCollect() {
-    this.playSound(this.bottleCollectSound);
+        this.playSound(this.bottleCollectSound);
     }
 
     onChickenDead() {
-    this.playSound(this.chickenDeadSound);
+        this.playSound(this.chickenDeadSound);
     }
 
     onBigChicken() {
-    this.playSound(this.bigChickenSound);
+        this.playSound(this.bigChickenSound);
     }
 
     onSmallChicken() {
-    this.smallChickenSound.volume = 0.03;
-    this.playSound(this.smallChickenSound);
+        this.smallChickenSound.volume = 0.03;
+        this.playSound(this.smallChickenSound);
     }
 
     onEndbossWalking() {
-    this.endbossWalking.volume = 1.0;
-    this.playBossSound(this.endbossWalking, true);
+        this.endbossWalking.volume = 1.0;
+        this.playBossSound(this.endbossWalking, true);
     }
 
     onEndbossAlert() {
-    this.endbossAlert.volume = 1.0;
-    this.playBossSound(this.endbossAlert, false);
+        this.endbossAlert.volume = 1.0;
+        this.playBossSound(this.endbossAlert, false);
     }
 
     onEndbossChasing() {
-    this.endbossChasingSound.volume = 1.0;
-    this.playBossSound(this.endbossChasingSound,true);
+        this.endbossChasingSound.volume = 1.0;
+        this.playBossSound(this.endbossChasingSound, true);
     }
 
     onEndbossHurt() {
-    this.endbossHurt.volume = 1.0;
-    this.playBossSound(this.endbossHurt,true);
+        this.endbossHurt.volume = 1.0;
+        this.playBossSound(this.endbossHurt, true);
     }
 
     onEndbossDead() {
-    this.endbossDead.volume = 1.0;
-    this.playBossSound(this.endbossDead, false);
+        this.endbossDead.volume = 1.0;
+        this.playBossSound(this.endbossDead, false);
     }
 
 }
