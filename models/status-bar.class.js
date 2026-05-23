@@ -2,10 +2,9 @@ class StatusBar extends DrawableObject {
     width = 200;
     height = 60;
     x;
-    y;         
+    y;
     percentage = 100;
-    img; 
-
+    img;
 
     IMAGES_HEALTH = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png',
@@ -14,7 +13,7 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/60.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/80.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/100.png'
-    ];  
+    ];
 
     IMAGES_COINS = [
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png',
@@ -23,7 +22,7 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/60.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png'
-    ];  
+    ];
 
     IMAGES_BOTTLES = [
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/0.png',
@@ -32,18 +31,18 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/60.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/80.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/100.png'
-    ]; 
+    ];
 
- constructor(x, y, type) {
+    constructor(x, y, type) {
         super();
         this.x = x;
         this.y = y;
-         if (!type) {
-         console.warn("⚠️ StatusBar ohne type erstellt!");
-         type = "health";
-    }
-         if (type === "health") {
-           this.loadImages(this.IMAGES_HEALTH);
+        if (!type) {
+            console.warn("⚠️ StatusBar ohne type erstellt!");
+            type = "health";
+        }
+        if (type === "health") {
+            this.loadImages(this.IMAGES_HEALTH);
             this.setPercentage(100);
 
         } else if (type === "coins") {
@@ -54,8 +53,8 @@ class StatusBar extends DrawableObject {
             this.img = this.ImageCache[this.IMAGES_BOTTLES[0]];
         }
         else {
-        console.error("❌ Unknown type:", type);
-    }
+            console.error("❌ Unknown type:", type);
+        }
     }
 
     setPercentage(percentage) {
@@ -74,9 +73,9 @@ class StatusBar extends DrawableObject {
         let path = this.IMAGES_COINS[index];
         if (!this.ImageCache[path]) {
             console.warn("Missing image:", path);
-        return;
-    }
-    this.img = this.ImageCache[path];
+            return;
+        }
+        this.img = this.ImageCache[path];
     }
 
     setValueBottles(valueBottles, maxBottles) {

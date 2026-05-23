@@ -8,7 +8,4 @@ class Screen extends DrawableObject {
         this.width = 720;
         this.height = 480;
     }
-
-
-
 }

@@ -1,6 +1,5 @@
 class ThrowableObject extends MovableObject {
 
-
     constructor(x, y, speedX) {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
         this.x = x;
@@ -29,31 +28,29 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
-   throw() {
-    this.speedY = -15;
+    throw() {
+        this.speedY = -15;
+        setInterval(() => {
+            this.x += this.speedX; // 👈 statt 7
+        }, 25);
+        this.applyGravity();
+    }
 
-    setInterval(() => { 
-        this.x += this.speedX; // 👈 statt 7
-    }, 25);
-
-    this.applyGravity();
-}
-
-splash() {
-    if (this.state === "splash") return;
-    this.state = "splash";
-    let frame = 0;
-    let splashInterval = setInterval(() => {
-        this.img =
-            this.ImageCache[
+    splash() {
+        if (this.state === "splash") return;
+        this.state = "splash";
+        let frame = 0;
+        let splashInterval = setInterval(() => {
+            this.img =
+                this.ImageCache[
                 this.IMAGES_BOTTLE_SPLASH[frame]
-            ];
-        frame++;
-        if (frame >= this.IMAGES_BOTTLE_SPLASH.length) {
-            clearInterval(splashInterval);
-            this.splashAnimationFinished = true;
-        }
-    }, 80);
-}
+                ];
+            frame++;
+            if (frame >= this.IMAGES_BOTTLE_SPLASH.length) {
+                clearInterval(splashInterval);
+                this.splashAnimationFinished = true;
+            }
+        }, 80);
+    }
 
 }

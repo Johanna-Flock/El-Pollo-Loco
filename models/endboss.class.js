@@ -172,11 +172,7 @@ class Endboss extends MovableObject {
     }
 
     handleStateSound(state) {
-        this.world.audio.stopBossSound(this.world.audio.endbossWalkingSound);
-        this.world.audio.stopBossSound(this.world.audio.endbossAlert);
-        this.world.audio.stopBossSound(this.world.audio.endbossChasingSound);
-        this.world.audio.stopBossSound(this.world.audio.endbossHurt);
-        this.world.audio.stopBossSound(this.world.audio.endbossDead);
+        this.stopAllBossSounds();
         switch (state) {
             case "walking":
                 this.world.audio.onEndbossWalking();
@@ -194,6 +190,24 @@ class Endboss extends MovableObject {
                 this.world.audio.onEndbossDead();
                 break;
         }
+    }
+
+    stopAllBossSounds() {
+        this.world.audio.stopBossSound(
+            this.world.audio.endbossWalkingSound
+        );
+        this.world.audio.stopBossSound(
+            this.world.audio.endbossAlert
+        );
+        this.world.audio.stopBossSound(
+            this.world.audio.endbossChasingSound
+        );
+        this.world.audio.stopBossSound(
+            this.world.audio.endbossHurt
+        );
+        this.world.audio.stopBossSound(
+            this.world.audio.endbossDead
+        );
     }
 
     hit() {
