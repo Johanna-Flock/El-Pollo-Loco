@@ -152,7 +152,7 @@ class Endboss extends MovableObject {
 
     handleChaseState(distance) {
         if (this.state !== "chase") return;
-        this.speed = 2;
+        this.speed = 2.7;
         if (this.world.character.x < this.x) {
             this.moveLeft();
         } else {

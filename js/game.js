@@ -63,27 +63,43 @@ function closeModal(id) {
     world.audio.playSound(world.audio.openGameDescriptionSound);
 }
 
-window.addEventListener("keydown", (e) => { 
+window.addEventListener("keydown", (e) => {
     const blockedKeys = [
-        32, // Space
-        37, // Left
-        38, // Up
-        39, // Right
-        40  // Down
+        32,
+        37,
+        38,
+        39,
+        40
     ];
     if (blockedKeys.includes(e.keyCode)) {
         e.preventDefault();
     }
-    if(e.keyCode == 39) keyboard.RIGHT = true;
-    if(e.keyCode == 37) keyboard.LEFT = true;
-    if(e.keyCode == 38) keyboard.UP = true;
-    if(e.keyCode == 40) keyboard.DOWN = true;
-    if(e.keyCode == 32) keyboard.SPACE = true;
-    if(e.key == "d" || e.key == "D") keyboard.D = true;
-    if(e.key == "s" || e.key == "S") keyboard.S = true; 
-    if(e.key == "p" || e.key == "P") keyboard.P = true; 
-    if(e.key === "Escape") keyboard.ESC = true;
-    
+
+    if (e.keyCode == 39) keyboard.RIGHT = true;
+    if (e.keyCode == 37) keyboard.LEFT = true;
+    if (e.keyCode == 38) keyboard.UP = true;
+    if (e.keyCode == 40) keyboard.DOWN = true;
+    if (e.keyCode == 32) keyboard.SPACE = true;
+
+    // D-Taste nur einmal triggern
+    if (
+        (e.key == "d" || e.key == "D")
+        && !e.repeat
+    ) {
+        keyboard.D = true;
+    }
+
+    if (e.key == "s" || e.key == "S") {
+        keyboard.S = true;
+    }
+
+    if (e.key == "p" || e.key == "P") {
+        keyboard.P = true;
+    }
+
+    if (e.key === "Escape") {
+        keyboard.ESC = true;
+    }
 });
 
 

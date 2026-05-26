@@ -151,29 +151,22 @@ class World {
     handleStartInput() {
         if (
             this.keyboard.S &&
-            (
-                this.gameState === "start" ||
-                this.gameState === "gameover" ||
-                this.gameState === "winning"
-            )
+            this.gameState === "start"
         ) {
+
             this.keyboard.S = false;
             this.startGame();
         }
     }
 
     handlePauseInput() {
-        if (
-            this.keyboard.P &&
-            this.gameState === "playing"
+        if (this.keyboard.P && this.gameState === "playing"
         ) {
             this.pauseGame();
             this.keyboard.P = false;
             return;
         }
-        if (
-            this.keyboard.P &&
-            this.gameState === "paused"
+        if (this.keyboard.P && this.gameState === "paused"
         ) {
             this.resumeGame();
             this.keyboard.P = false;
@@ -372,30 +365,17 @@ class World {
         this.level.enemies.forEach((enemy) => {
             let colliding =
                 this.character.isColliding(enemy);
-            if (
-                this.handleStompCollision(
-                    enemy,
-                    colliding
-                )
+            if (this.handleStompCollision(enemy, colliding)
             ) {
                 return;
             }
-            this.handleDamageCollision(
-                enemy,
-                colliding
-            );
-            this.resetEnemyCollision(
-                enemy,
-                colliding
-            );
+            this.handleDamageCollision(enemy, colliding);
+            this.resetEnemyCollision(enemy, colliding);
         });
     }
 
     handleStompCollision(enemy, colliding) {
-        if (
-            colliding &&
-            this.character.isStomping(enemy)
-        ) {
+        if (colliding && this.character.isStomping(enemy)) {
             enemy.hit?.();
             this.character.speedY = -10;
             enemy.canDealDamage = false;
@@ -406,10 +386,7 @@ class World {
     }
 
     handleDamageCollision(enemy, colliding) {
-        if (
-            colliding &&
-            enemy.canDealDamage
-        ) {
+        if (colliding && enemy.canDealDamage) {
             enemy.isTouching = true;
             this.character.hit(enemy.damage);
             this.healthBar.setPercentage(
@@ -421,46 +398,11 @@ class World {
 
     resetEnemyCollision(enemy, colliding) {
         let dx = this.character.x - enemy.x;
-        if (
-            !colliding ||
-            Math.abs(dx) > 80
-        ) {
+        if (!colliding || Math.abs(dx) > 80) {
             enemy.isTouching = false;
             enemy.canDealDamage = true;
         }
     }
-
-    // checkCollisions() {
-    //     this.level.enemies.forEach((enemy) => {
-    //         let colliding = this.character.isColliding(enemy);
-    //         //Stomp
-    //         if (colliding && this.character.isStomping(enemy)) {
-    //             enemy.hit?.();
-    //             this.character.speedY = -10;
-    //             enemy.canDealDamage = false;
-    //             enemy.isTouching = true;
-    //             return;
-    //         }
-    //         //Damage
-    //         if (colliding && enemy.canDealDamage) {
-    //             enemy.isTouching = true;
-    //             this.character.hit(enemy.damage);
-    //             this.healthBar.setPercentage(this.character.energy);
-    //             enemy.canDealDamage = false;
-    //         }
-    //         //Reset
-    //         let dx = this.character.x - enemy.x;
-    //         if (!colliding || Math.abs(dx) > 80) {
-    //             enemy.isTouching = false;
-    //             enemy.canDealDamage = true;
-    //         }
-    //         // if (!colliding) 
-    //         //     { enemy.isTouching = false; } 
-    //         // let dx = this.character.x - enemy.x; 
-    //         // if (Math.abs(dx) > 80) 
-    //         //     { enemy.canDealDamage = true; }
-    //     });
-    // }
 
     checkGameOver() {
         if (this.gameState !== "playing") return;
@@ -480,55 +422,58 @@ class World {
         if (this.onGameOverUI) {
             this.onGameOverUI();
         }
-        setTimeout(() => {
-            if (this.gameState === "playing") {
-                return;
-            }
+        setTimeout(() => { //
             this.gameState = "start";
             this.audio.playMusic(this.audio.startScreenMusic);
-
             this.gameOverTriggered = false;
             this.deathSoundPlayed = false;
         }, 3000);
     }
 
     throwObjects() {
-        if (this.keyboard.D) {
-            if (this.bottleCount <= 0) {
-                this.keyboard.D = false;
-                return;
-            }
-            let direction = this.character.otherDirection ? -1 : 1;
-            let bottle = new ThrowableObject(
-                this.character.x + (direction === 1 ? 100 : -20),
-                this.character.y + 100, 8 * direction
-            );
-            this.throwableObject.push(bottle);
-            this.audio.onThrow();
-            this.bottleCount--;
-            this.bottleBar.setValueBottles(this.bottleCount, this.maxBottles);
-            this.keyboard.D = false;
+        if (!this.keyboard.D || this.character.isThrowing) {
+            return;
         }
+        this.character.isThrowing = true;
+        if (this.bottleCount <= 0) {
+            this.resetThrowState();
+            return;
+        }
+        this.createThrowableBottle();
+        this.updateBottleUI();
+        this.audio.onThrow();
+        this.resetThrowState();
+    }
+
+    createThrowableBottle() {
+        let direction =
+            this.character.otherDirection
+                ? -1
+                : 1;
+        let bottle =
+            new ThrowableObject(this.character.x + (direction === 1 ? 100 : -20), this.character.y + 100, 8 * direction);
+        this.throwableObject.push(bottle);
+        this.bottleCount--;
+    }
+
+    updateBottleUI() {
+        this.bottleBar.setValueBottles(this.bottleCount, this.maxBottles);
+    }
+
+    resetThrowState() {
+        this.keyboard.D = false;
+        this.character.isThrowing = false;
     }
 
     checkBossBlock() {
         this.level.enemies.forEach(enemy => {
             if (!(enemy instanceof Endboss)) return;
             if (enemy.state === "dead") return;
-            if (
-                this.character.isColliding(enemy) &&
-                !this.character.isStomping(enemy)
-            ) {
+            if (this.character.isColliding(enemy) && !this.character.isStomping(enemy)) {
                 if (this.character.x < enemy.x) {
-
-                    this.character.x =
-                        enemy.x - this.character.width + 20;
+                    this.character.x = enemy.x - this.character.width + 20;
                 }
-                else {
-
-                    this.character.x =
-                        enemy.x + enemy.width - 20;
-                }
+                else { this.character.x = enemy.x + enemy.width - 20; }
             }
         });
     }
@@ -538,10 +483,7 @@ class World {
             this.throwableObject.filter((bottle) => {
                 let hit = false;
                 this.level.enemies.forEach((enemy) => {
-                    if (
-                        bottle.state !== "splash" &&
-                        bottle.isColliding(enemy)
-                    ) {
+                    if (bottle.state !== "splash" && bottle.isColliding(enemy)) {
                         enemy.hit();
                         bottle.splash();
                         hit = true;
@@ -561,16 +503,36 @@ class World {
                 let isAboveEnemy = characterBottom <= enemyTop + 30;
                 if (fallingDown && isAboveEnemy) {
                     enemy.hit();
-                    this.character.speedY = -10; // bounce
+                    this.character.speedY = -10;
                 }
             }
         });
     }
+
     addObjectsToMap(objects) {
         objects.forEach(object => {
             this.addToMap(object);
         });
     }
+
+    // addToMap(mo) {
+    //     if (!mo.img) {
+    //         console.error("Kein Bild:", mo);
+    //     }
+    //     if (mo.isDeadAnimationFinished) {
+    //         return;
+    //     }
+    //     if (mo.otherDirection) {
+    //         this.ctx.save();
+    //         this.ctx.translate(mo.x + mo.width, 0);
+    //         this.ctx.scale(-1, 1);
+    //         this.ctx.drawImage(mo.img, 0, mo.y, mo.width, mo.height); //hier benötigt man die x-Koordinate 0, da das Bild bereits durch die translate-Methode verschoben wurde  
+    //         this.ctx.restore();
+
+    //     } else {
+    //         mo.draw(this.ctx);
+    //     }
+    // }
 
     addToMap(mo) {
         if (!mo.img) {
@@ -580,15 +542,27 @@ class World {
             return;
         }
         if (mo.otherDirection) {
-            this.ctx.save();
-            this.ctx.translate(mo.x + mo.width, 0);
-            this.ctx.scale(-1, 1);
-            this.ctx.drawImage(mo.img, 0, mo.y, mo.width, mo.height); //hier benötigt man die x-Koordinate 0, da das Bild bereits durch die translate-Methode verschoben wurde  
-            this.ctx.restore();
-
+            this.drawFlipped(mo);
         } else {
             mo.draw(this.ctx);
         }
+    }
+
+    drawFlipped(mo) {
+        this.ctx.save();
+        this.ctx.translate(
+            mo.x + mo.width,
+            0
+        );
+        this.ctx.scale(-1, 1);
+        this.ctx.drawImage(
+            mo.img,
+            0,
+            mo.y,
+            mo.width,
+            mo.height
+        );
+        this.ctx.restore();
     }
 
 }

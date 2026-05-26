@@ -9,6 +9,7 @@ class Character extends MovableObject {
     lastAction = Date.now();
     movementInterval;
     animationInterval;
+    isThrowing = false;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -188,6 +189,9 @@ class Character extends MovableObject {
     }
 
     handleJump() {
+        if (this.isDead()) {
+            return;
+        }
         if (
             this.world.keyboard.SPACE &&
             !this.isAboveGround() &&
@@ -200,6 +204,9 @@ class Character extends MovableObject {
     }
 
     handleMovement() {
+        if (this.isDead()) {
+            return;
+        }
         if (this.world.keyboard.RIGHT && this.world.level.level_end_x > this.x) {
             this.moveRight();
             this.otherDirection = false;
@@ -253,6 +260,9 @@ class Character extends MovableObject {
     }
 
     hit(damage) {
+        if (this.isHurt()) {
+            return;
+        }
         const now = Date.now();
         this.lastHit = now;
         this.energy -= damage;
