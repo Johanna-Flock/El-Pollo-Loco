@@ -202,11 +202,13 @@ class AudioManager {
 /**
  * Resumes the currently paused background music.
  */
-    resumeMusic() {
-        if (this.currentMusic) {
-            this.currentMusic.play();
-        }
+   resumeMusic() {
+    if (this.soundMuted) return;
+
+    if (this.currentMusic) {
+        this.currentMusic.play();
     }
+}
 
 /**
  * Stops and resets all active music and sound effects in the game.

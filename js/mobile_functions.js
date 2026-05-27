@@ -6,8 +6,8 @@ window.addEventListener("load", () => {
     updateMobileUI();
     checkOrientation();
     document.querySelectorAll("#mobile_controls img").forEach(img => {
-    img.addEventListener("contextmenu", e => e.preventDefault());
-});
+        img.addEventListener("contextmenu", e => e.preventDefault());
+    });
 });
 
 /**
@@ -28,45 +28,75 @@ window.addEventListener("orientationchange", () => {
     updateMobileUI();
 });
 
+/**
+ * Checks device orientation and handles game behavior accordingly.
+ * - Handles pending game start
+ * - Pauses/resumes gameplay on orientation change
+ */
 function checkOrientation() {
     if (!isMobile()) return;
     const isLandscape = window.innerWidth > window.innerHeight;
-    if (pendingGameStart) {
-        if (isLandscape) {
-            pendingGameStart = false;
-            startGame();
-        } else {
-            showRotateMessage();
-        }
-        return;
-    }
-    if (gameState.started) {
-        if (!isLandscape) {
-            showRotateMessage();
-            world.gameState = "paused";
-            document.getElementById("rotate_overlay_gameplay").classList.remove("d_none");
-            
-        } else {
-            hideRotateMessage();
-            world.gameState = "playing";
-            document.getElementById("rotate_overlay_gameplay").classList.add("d_none");
-            
-        }
+    handlePendingStart(isLandscape);
+    handleGameplayOrientation(isLandscape);
+}
+
+/**
+ * Handles game start that was triggered in portrait mode.
+ * Starts the game automatically when landscape is reached.
+ */
+function handlePendingStart(isLandscape) {
+    if (!pendingGameStart) return;
+    if (isLandscape) {
+        pendingGameStart = false;
+        startGame();
+    } else {
+        showRotateMessage();
     }
 }
 
+/**
+ * Handles orientation changes during active gameplay.
+ * Pauses or resumes the game depending on screen orientation.
+ */
+function handleGameplayOrientation(isLandscape) {
+    if (!gameState.started) return;
+    const overlay = document.getElementById("rotate_overlay_gameplay");
+    if (!isLandscape) {
+        showRotateMessage();
+        world.gameState = "paused";
+        overlay.classList.remove("d_none");
+    } else {
+        hideRotateMessage();
+        world.gameState = "playing";
+        overlay.classList.add("d_none");
+    }
+}
+
+/**
+ * Shows the rotate device overlay.
+ */
 function showRotateMessage() {
     document.getElementById("rotate_overlay").classList.remove("d_none");
 }
 
+/**
+ * Hides the rotate device overlay.
+ */
 function hideRotateMessage() {
     document.getElementById("rotate_overlay").classList.add("d_none");
 }
 
+/**
+ * Detects whether the user is on a mobile device.
+ * @returns {boolean}
+ */
 function isMobile() {
     return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
+/**
+ * Updates mobile UI visibility depending on device, orientation and game state.
+ */
 function updateMobileUI() {
     const controls = document.getElementById("mobile_controls");
     const isLandscape = window.innerWidth > window.innerHeight;
@@ -81,20 +111,29 @@ function updateMobileUI() {
     }
 }
 
+/**
+ * Enters fullscreen mode for the game container if not already in fullscreen.
+ */
 function enterGameFullscreen() {
     const game = document.getElementById("game_container");
-
     if (!document.fullscreenElement) {
         game.requestFullscreen();
     }
 }
 
+/**
+ * Exits fullscreen mode if the document is currently in fullscreen.
+ */
 function exitFullscreenIfNeeded() {
     if (document.fullscreenElement) {
         document.exitFullscreen();
     }
 }
 
+/**
+ * Toggles fullscreen mode for the game container.
+ * Enters fullscreen if not active, otherwise exits fullscreen.
+ */
 function toggleFullscreen() {
     let game = document.getElementById("game_container");
     if (!document.fullscreenElement) {
@@ -104,38 +143,57 @@ function toggleFullscreen() {
     }
 }
 
+/**
+ * Toggles the mobile menu open/close state and handles game pause/resume logic.
+ */
 function toggleMobileMenu() {
     if (event) {
         event.stopPropagation();
     }
-    if (document.getElementById('overlay_mobile_game_description').classList.contains("d_none") === false) {
-        closeModal('overlay_mobile_game_description');
+    closeMobileDescriptionIfOpen();
+    const menu = document.getElementById("mobile_menu");
+    const movecontrols = document.getElementById("mobile_move_controls");
+    const actioncontrols = document.getElementById("mobile_action_controls");
+    if (isMenuClosed(menu)) {
+        openMobileMenu(menu, movecontrols, actioncontrols);
+    } else {
+        closeMobileMenu(menu, movecontrols, actioncontrols);
     }
-    
-    const menu = document.getElementById("mobile_menu");  
-    const movecontrols = document.getElementById("mobile_move_controls");  
-    const actioncontrols = document.getElementById("mobile_action_controls"); 
-    if (menu.classList.contains("d_none")) {
-        movecontrols.classList.add("d_none");
-        actioncontrols.classList.add("d_none");
-        menu.classList.remove("d_none");
-        document.body.classList.add("no_scroll");
-        world.pauseGame();
-    } else {      
-        console.log("CLOSE MENU");  
-        menu.classList.add("d_none");
-        document.body.classList.remove("no_scroll");
-        movecontrols.classList.remove("d_none");
-        actioncontrols.classList.remove("d_none");
-        world.resumeGame();
-    }   
 }
 
-function continueGame() {
-    event.stopPropagation();
-    const menu = document.getElementById("mobile_menu");  
-    const movecontrols = document.getElementById("mobile_move_controls");  
-    const actioncontrols = document.getElementById("mobile_action_controls"); 
+/**
+ * Closes the mobile game description overlay if it is currently open.
+ */
+function closeMobileDescriptionIfOpen() {
+    const overlay = document.getElementById('overlay_mobile_game_description');
+    if (!overlay.classList.contains("d_none")) {
+        closeModal('overlay_mobile_game_description');
+    }
+}
+
+/**
+ * Checks whether the mobile menu is currently closed.
+ */
+function isMenuClosed(menu) {
+    return menu.classList.contains("d_none");
+}
+
+/**
+ * Opens the mobile menu and hides in-game controls.
+ */
+function openMobileMenu(menu, movecontrols, actioncontrols) {
+    movecontrols.classList.add("d_none");
+    actioncontrols.classList.add("d_none");
+    menu.classList.remove("d_none");
+    document.body.classList.add("no_scroll");
+    world.pauseGame();
+}
+
+/**
+ * Closes the mobile menu and restores in-game controls.
+ */
+function closeMobileMenu(menu, movecontrols, actioncontrols) {
+    console.log("CLOSE MENU");
     menu.classList.add("d_none");
     document.body.classList.remove("no_scroll");
     movecontrols.classList.remove("d_none");
@@ -143,30 +201,54 @@ function continueGame() {
     world.resumeGame();
 }
 
+/**
+ * Continues the game from the paused mobile menu state.
+ */
+function continueGame() {
+    event.stopPropagation();
+    const menu = document.getElementById("mobile_menu");
+    const movecontrols = document.getElementById("mobile_move_controls");
+    const actioncontrols = document.getElementById("mobile_action_controls");
+    menu.classList.add("d_none");
+    document.body.classList.remove("no_scroll");
+    movecontrols.classList.remove("d_none");
+    actioncontrols.classList.remove("d_none");
+    world.resumeGame();
+}
+
+/**
+ * Restarts the game and closes the mobile menu.
+ */
 function restartGame() {
     world.startGame();
-    const menu = document.getElementById("mobile_menu");  
-    const movecontrols = document.getElementById("mobile_move_controls");  
-    const actioncontrols = document.getElementById("mobile_action_controls"); 
+    const menu = document.getElementById("mobile_menu");
+    const movecontrols = document.getElementById("mobile_move_controls");
+    const actioncontrols = document.getElementById("mobile_action_controls");
     menu.classList.add("d_none");
     document.body.classList.remove("no_scroll");
     movecontrols.classList.remove("d_none");
     actioncontrols.classList.remove("d_none");
 }
 
+/**
+ * Returns to the start screen and closes the mobile menu.
+ */
 function goBackToStartScreen() {
     world.goToStart();
-    const menu = document.getElementById("mobile_menu");  
-    const movecontrols = document.getElementById("mobile_move_controls");  
-    const actioncontrols = document.getElementById("mobile_action_controls"); 
+    const menu = document.getElementById("mobile_menu");
+    const movecontrols = document.getElementById("mobile_move_controls");
+    const actioncontrols = document.getElementById("mobile_action_controls");
     menu.classList.add("d_none");
     document.body.classList.remove("no_scroll");
     movecontrols.classList.remove("d_none");
-    actioncontrols.classList.remove("d_none");  
+    actioncontrols.classList.remove("d_none");
 }
 
+/**
+ * Opens the mobile game description modal and closes the menu.
+ */
 function openModalGameDescriptionMobile() {
     openModal('overlay_mobile_game_description');
-    const menu = document.getElementById("mobile_menu"); 
+    const menu = document.getElementById("mobile_menu");
     menu.classList.add("d_none");
 }
