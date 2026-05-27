@@ -51,6 +51,12 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png',
     ];
 
+/**
+ * Creates an enemy instance at a given X position.
+ * Loads all animation frames and initializes default state values.
+ *
+ * @param {number} x - Initial X position of the enemy.
+ */
     constructor(x) {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -64,10 +70,17 @@ class Endboss extends MovableObject {
         this.alertPlayed = false;
     }
 
+/**
+ * Starts the enemy AI and animation loops.
+ */
     start() {
         this.animate();
     }
 
+
+/**
+ * Starts movement and animation intervals for the enemy.
+ */
     animate() {
         this.stateInterval = setInterval(() => {
             if (!this.active) return;
@@ -79,7 +92,9 @@ class Endboss extends MovableObject {
         }, 200);
     }
 
-
+/**
+ * Handles animation based on current enemy state.
+ */
     handleAnimation() {
         let state = this.getCurrentState();
         if (state === "alert") {
@@ -95,6 +110,9 @@ class Endboss extends MovableObject {
         }
     }
 
+/**
+ * Plays the death animation frame by frame until completion.
+ */
     playDeadAnimation() {
         if (this.isDeadAnimationFinished) return;
         let totalFrames = this.IMAGES_DEAD.length * 2;
@@ -109,6 +127,11 @@ class Endboss extends MovableObject {
         }
     }
 
+/**
+ * Determines the current animation state of the enemy.
+ *
+ * @returns {string} Current state ("walking", "alert", "chase", "hurt", "dead")
+ */
     getCurrentState() {
         if (this.state === "dead") return "dead";
         if (this.state === "alert") return "alert";
@@ -117,6 +140,9 @@ class Endboss extends MovableObject {
         return "walking";
     }
 
+/**
+ * Main state update logic for enemy behavior.
+ */
     handleState() {
         let distance =
             Math.abs(this.world.character.x - this.x);
@@ -127,17 +153,32 @@ class Endboss extends MovableObject {
         this.updateStateSound();
     }
 
+/**
+ * Handles behavior when enemy is dead.
+ *
+ * @returns {boolean} true if state is dead
+ */
     handleDeadState() {
         if (this.state !== "dead") return false;
         this.y += 5;
         return true;
     }
 
+/**
+ * Handles behavior when enemy is hurt.
+ *
+ * @returns {boolean} true if in hurt state
+ */
     handleHurtState() {
         if (this.state !== "hurt") return false;
         return true;
     }
 
+/**
+ * Handles walking behavior and alert trigger.
+ *
+ * @param {number} distance - Distance to the player character
+ */
     handleWalkingState(distance) {
         if (this.state !== "walking") return;
         this.moveLeft();
@@ -150,6 +191,14 @@ class Endboss extends MovableObject {
         }
     }
 
+/**
+ * Handles chase behavior when the enemy is in "chase" state.
+ *
+ * The enemy increases speed and moves toward the player character.
+ * If the player gets too far away, the enemy returns to "walking" state.
+ *
+ * @param {number} distance - Distance between enemy and player character
+ */
     handleChaseState(distance) {
         if (this.state !== "chase") return;
         this.speed = 2.7;
@@ -163,6 +212,11 @@ class Endboss extends MovableObject {
         }
     }
 
+/**
+ * Updates and triggers state-based sound effects when the state changes.
+ *
+ * Ensures sounds are only played once per state transition.
+ */
     updateStateSound() {
         let currentState = this.getCurrentState();
         if (currentState !== this.previousState) {
@@ -171,6 +225,12 @@ class Endboss extends MovableObject {
         }
     }
 
+/**
+ * Handles boss sound transitions based on the current state.
+ * Stops all previous boss sounds before playing the new one.
+ *
+ * @param {string} state - Current boss state ("walking", "alert", "chase", "hurt", "dead")
+ */
     handleStateSound(state) {
         this.stopAllBossSounds();
         switch (state) {
@@ -192,6 +252,9 @@ class Endboss extends MovableObject {
         }
     }
 
+/**
+ * Stops all currently playing boss-related sounds.
+ */
     stopAllBossSounds() {
         this.world.audio.stopBossSound(
             this.world.audio.endbossWalkingSound
@@ -210,6 +273,10 @@ class Endboss extends MovableObject {
         );
     }
 
+/**
+ * Applies damage to the boss and updates its state.
+ * If energy reaches zero, the boss enters the "dead" state.
+ */
     hit() {
         this.energy = Math.max(0, this.energy - 20);
         if (this.energy <= 0) {
@@ -219,6 +286,10 @@ class Endboss extends MovableObject {
         this.lastHitTime = Date.now();
     }
 
+
+/**
+ * Stops all boss logic and clears running intervals.
+ */
     stop() {
         this.active = false;
         clearInterval(this.stateInterval);

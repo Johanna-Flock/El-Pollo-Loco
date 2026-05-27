@@ -1,3 +1,7 @@
+/**
+ * Initializes mobile UI and orientation handling after page load.
+ * Prevents long-press context menu on mobile control images.
+ */
 window.addEventListener("load", () => {
     updateMobileUI();
     checkOrientation();
@@ -6,11 +10,19 @@ window.addEventListener("load", () => {
 });
 });
 
+/**
+ * Updates mobile UI layout whenever the window is resized.
+ * Also checks screen orientation to adjust gameplay/UI behavior.
+ */
 window.addEventListener("resize", () => {
     updateMobileUI();
     checkOrientation();
 });
 
+/**
+ * Handles device orientation changes (portrait/landscape).
+ * Ensures UI and game state adapt correctly after rotation.
+ */
 window.addEventListener("orientationchange", () => {
     checkOrientation();
     updateMobileUI();
@@ -157,6 +169,4 @@ function openModalGameDescriptionMobile() {
     openModal('overlay_mobile_game_description');
     const menu = document.getElementById("mobile_menu"); 
     menu.classList.add("d_none");
-
-
 }

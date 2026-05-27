@@ -33,6 +33,14 @@ class StatusBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/100.png'
     ];
 
+/**
+ * Creates a new status bar instance.
+ * Depending on the given type, the correct image set is loaded.
+ *
+ * @param {number} x - X position of the status bar
+ * @param {number} y - Y position of the status bar
+ * @param {string} type - Type of status bar ("health", "coins", or "bottles")
+ */
     constructor(x, y, type) {
         super();
         this.x = x;
@@ -57,6 +65,11 @@ class StatusBar extends DrawableObject {
         }
     }
 
+/**
+ * Updates the health bar image based on the current percentage.
+ *
+ * @param {number} percentage - Current health percentage
+ */
     setPercentage(percentage) {
         this.percentage = percentage;
         let index = this.resolveImageIndex();
@@ -64,11 +77,17 @@ class StatusBar extends DrawableObject {
         this.img = this.ImageCache[path];
     }
 
+/**
+ * Updates the coin status bar based on collected coins.
+ *
+ * @param {number} valueCoins - Current collected coins
+ * @param {number} maxCoins - Maximum number of coins in the level
+ */
     setValueCoins(valueCoins, maxCoins) {
         this.value = valueCoins;
         if (!maxCoins || maxCoins <= 0) return;
         let ratio = valueCoins / maxCoins;
-        ratio = Math.min(Math.max(ratio, 0), 1); // safety clamp
+        ratio = Math.min(Math.max(ratio, 0), 1); 
         let index = Math.floor(ratio * (this.IMAGES_COINS.length - 1));
         let path = this.IMAGES_COINS[index];
         if (!this.ImageCache[path]) {
@@ -78,6 +97,12 @@ class StatusBar extends DrawableObject {
         this.img = this.ImageCache[path];
     }
 
+/**
+ * Updates the bottle status bar based on collected bottles.
+ *
+ * @param {number} valueBottles - Current collected bottles
+ * @param {number} maxBottles - Maximum number of bottles in the level
+ */
     setValueBottles(valueBottles, maxBottles) {
         this.value = valueBottles;
         if (!maxBottles || maxBottles <= 0) return;
@@ -91,6 +116,12 @@ class StatusBar extends DrawableObject {
         this.img = this.ImageCache[path];
     }
 
+/**
+ * Resolves the correct image index for the health bar
+ * based on the current health percentage.
+ *
+ * @returns {number} Image index
+ */
     resolveImageIndex() {
         if (this.percentage == 100) return 5;
         else if (this.percentage > 80) return 4;

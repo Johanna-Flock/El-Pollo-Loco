@@ -77,6 +77,10 @@ class Character extends MovableObject {
     currentImage = 0;
     world;
 
+/**
+ * Initializes the character.
+ * Loads all animation assets and sets up physics + animation state tracking.
+ */
     constructor() {
         super().loadImage('img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(
@@ -106,11 +110,19 @@ class Character extends MovableObject {
         this.deathAnimationDone = false;
     }
 
+/**
+ * Starts the main animation system of the character.
+ * Splits logic into movement and animation loops.
+ */
     animate() {
         this.startMovementLoop();
         this.startAnimationLoop();
     }
 
+/**
+ * Handles the movement loop (60 FPS).
+ * Updates movement, jumping, and camera position.
+ */  
     startMovementLoop() {
         this.movementInterval = setInterval(() => {
             if (!this.active) return;
@@ -121,6 +133,10 @@ class Character extends MovableObject {
         }, 1000 / 60);
     }
 
+/**
+ * Handles the animation loop (state-based rendering).
+ * Determines current animation state and triggers sound changes.
+ */
     startAnimationLoop() {
         this.animationInterval = setInterval(() => {
             if (!this.active) return;
@@ -133,6 +149,10 @@ class Character extends MovableObject {
         }, 100);
     }
 
+/**
+ * Plays the death animation frame by frame.
+ * Stops when the animation has reached the final frame.
+ */
     playDeadAnimation() {
         if (this.deathAnimationDone) return;
         let index = this.deathFrameIndex;
@@ -147,6 +167,11 @@ class Character extends MovableObject {
         }
     }
 
+/**
+ * Plays the correct animation based on the current state.
+ *
+ * @param {string} state - Current animation state (e.g. "dead", "walking", "hurt").
+ */
     playStateAnimation(state) {
         switch (state) {
             case "dead":
@@ -169,6 +194,12 @@ class Character extends MovableObject {
         }
     }
 
+/**
+ * Determines the current animation state of the character.
+ * Priority: dead > hurt > jumping > walking > sleeping > idle.
+ *
+ * @returns {string} The current animation state.
+ */
     getAnimationState() {
         if (this.isDead()) {
             return "dead";
@@ -188,6 +219,10 @@ class Character extends MovableObject {
         return "idle";
     }
 
+/**
+ * Handles jump input and triggers jump if conditions are met.
+ * Prevents jumping while dead or mid-air.
+ */
     handleJump() {
         if (this.isDead()) {
             return;
@@ -203,6 +238,10 @@ class Character extends MovableObject {
         }
     }
 
+/**
+ * Handles horizontal movement input (left/right).
+ * Movement is disabled when the character is dead.
+ */
     handleMovement() {
         if (this.isDead()) {
             return;
@@ -219,6 +258,10 @@ class Character extends MovableObject {
         }
     }
 
+/**
+ * Controls the death animation frame progression.
+ * Stops once the last frame is reached.
+ */
     controlDeathAnimation() {
         if (!this.deathAnimationDone) {
             let totalFrames = this.IMAGES_DEAD.length;
@@ -231,6 +274,11 @@ class Character extends MovableObject {
         }
     }
 
+/**
+ * Triggers sound effects based on the current character state.
+ *
+ * @param {string} state - Current animation/state of the character.
+ */
     handleStateSound(state) {
         switch (state) {
             case "hurt":
@@ -249,16 +297,27 @@ class Character extends MovableObject {
         }
     }
 
+/**
+ * Stops character updates and clears all intervals.
+ */
     stop() {
         this.active = false;
         clearInterval(this.movementInterval);
         clearInterval(this.animationInterval);
     }
 
+/**
+ * Makes the character jump by applying upward velocity.
+ */
     jump() {
         this.speedY = -20;
     }
 
+/**
+ * Applies damage to the character if not currently invulnerable.
+ *
+ * @param {number} damage - Amount of damage to apply.
+ */
     hit(damage) {
         if (this.isHurt()) {
             return;
@@ -271,11 +330,16 @@ class Character extends MovableObject {
         }
     }
 
+/**
+ * Checks if the character is stomping on an enemy.
+ *
+ * @param {Object} enemy - The enemy object to check collision with.
+ * @returns {boolean} True if the character is stomping the enemy.
+ */
     isStomping(enemy) {
         let charBottom = this.y + this.height;
         let enemyTop = enemy.y;
         let isFalling = this.speedY > 0;
         return isFalling && charBottom <= enemyTop + 20;
     }
-
 }

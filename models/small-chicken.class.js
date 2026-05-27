@@ -15,6 +15,12 @@ class SmallChicken extends MovableObject {
         'img/3_enemies_chicken/chicken_small/2_dead/dead.png',
     ];
 
+/**
+ * Creates a small chicken enemy with randomized spawn position and speed.
+ * Loads all required animations, enables gravity, and starts movement/animation loops.
+ *
+ * @param {number} [x] - Initial X position of the enemy
+ */
     constructor(x = 800 + Math.random() * 1200) {
         super().loadImage('img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.x = x;
@@ -31,11 +37,18 @@ class SmallChicken extends MovableObject {
         this.startBouncing();
     }
 
+/**
+ * Makes the small chicken jump if it is currently on the ground.
+ */
     jump() {
         if (this.isAboveGround()) return;
         this.speedY = -15;
     }
 
+/**
+ * Starts random bouncing behavior while the chicken is walking.
+ * The enemy has a chance to jump every 400ms.
+ */
     startBouncing() {
         this.bounceInterval = setInterval(() => {
             if (this.state !== "walking") return;
@@ -46,11 +59,17 @@ class SmallChicken extends MovableObject {
         }, 400);
     }
 
+/**
+ * Starts movement and animation loops.
+ */
     animate() {
         this.startMovementLoop();
         this.startAnimationLoop();
     }
 
+/**
+ * Starts the movement update loop.
+ */
     startMovementLoop() {
         this.movementInterval = setInterval(() => {
             if (!this.active) return;
@@ -58,6 +77,9 @@ class SmallChicken extends MovableObject {
         }, 1000 / 60);
     }
 
+/**
+ * Handles movement logic depending on the current state.
+ */
     handleMovementState() {
         this.checkSoundTrigger();
         if (this.state === "falling") {
@@ -72,6 +94,9 @@ class SmallChicken extends MovableObject {
         }
     }
 
+/**
+ * Starts the animation update loop.
+ */
     startAnimationLoop() {
         this.animationInterval = setInterval(() => {
             if (!this.active) return;
@@ -79,6 +104,9 @@ class SmallChicken extends MovableObject {
         }, 200);
     }
 
+/**
+ * Handles animation playback depending on the current state.
+ */
     handleAnimationState() {
         if (
             this.state === "dead" ||
@@ -90,6 +118,9 @@ class SmallChicken extends MovableObject {
         }
     }
 
+/**
+ * Handles enemy death behavior and starts falling animation.
+ */
     hit() {
         if (this.state === "dead") return;
         this.energy = 0;
@@ -100,12 +131,18 @@ class SmallChicken extends MovableObject {
         }, 200);
     }
 
+/**
+ * Stops all active movement and animation intervals.
+ */
     stop() {
         this.active = false;
         clearInterval(this.movementInterval);
         clearInterval(this.animationInterval);
     }
 
+/**
+ * Triggers the chicken sound once when the player gets close enough.
+ */
     checkSoundTrigger() {
         let distance = Math.abs(this.world.character.x - this.x);
         if (distance < 400 && !this.soundPlayed) {

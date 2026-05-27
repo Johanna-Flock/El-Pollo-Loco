@@ -1,5 +1,13 @@
 class ThrowableObject extends MovableObject {
 
+/**
+ * Creates a throwable bottle object and initializes
+ * movement, animations, and state handling.
+ *
+ * @param {number} x - Initial X position of the bottle
+ * @param {number} y - Initial Y position of the bottle
+ * @param {number} speedX - Horizontal throw speed
+ */
     constructor(x, y, speedX) {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
         this.x = x;
@@ -28,6 +36,10 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
+/**
+ * Throws the bottle by applying horizontal movement
+ * and upward velocity combined with gravity.
+ */
     throw() {
         this.speedY = -15;
         setInterval(() => {
@@ -36,15 +48,17 @@ class ThrowableObject extends MovableObject {
         this.applyGravity();
     }
 
+/**
+ * Starts the splash animation after the bottle hits something.
+ * Prevents the splash animation from playing multiple times.
+ */
     splash() {
         if (this.state === "splash") return;
         this.state = "splash";
         let frame = 0;
         let splashInterval = setInterval(() => {
             this.img =
-                this.ImageCache[
-                this.IMAGES_BOTTLE_SPLASH[frame]
-                ];
+                this.ImageCache[this.IMAGES_BOTTLE_SPLASH[frame]];
             frame++;
             if (frame >= this.IMAGES_BOTTLE_SPLASH.length) {
                 clearInterval(splashInterval);
@@ -52,5 +66,4 @@ class ThrowableObject extends MovableObject {
             }
         }, 80);
     }
-
 }
