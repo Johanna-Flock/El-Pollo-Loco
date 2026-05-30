@@ -28,17 +28,21 @@
     <script src="js/game.js"></script>
     <script src="js/mobile_functions.js"></script>
 </head>
+
 <body onload="init()">
     <div id="rotate_overlay" class="rotate_overlay d_none">
         <p>Please rotate your device</p>
     </div>
-    <h1>El Pollo Loco</h1>
+   <div class="headline"> <h1>El Pollo Loco</h1></div>
     <div id="game_container">
+         
+        <div id="canvas_wrapper">
         <canvas id="canvas" width="720" height="480">
         </canvas>
+        
         <img id="fullscreen_btn" src="./icons/fullscreen.png" alt="Fullscreen" onclick="toggleFullscreen()">
         <img id="mute_btn_desktop" src="./icons/mute.png" alt="Mute" onclick="world.audio.toggleMute()">
-
+        </div>
         <div id="mobile_controls" class="d_none">
             <div id="mobile_top_right">
                 <img id="mute_btn" src="./icons/mute.png" alt="Mute" onclick="world.audio.toggleMute()">
@@ -92,9 +96,10 @@
         </div>
     </div>
     <div class="game_description">
-        <img id="info" src="./icons/info.png" alt="Info Icon" onclick="openModal('overlay')">
-        <img id="start_game" src="./icons/start-button.png" alt="Start Game Icon" onclick="startGameButton()">
-    </div>
+            <img id="info" src="./icons/info.png" alt="Info Icon" onclick="openModal('overlay')">
+            <img id="start_game" src="./icons/start-button.png" alt="Start Game Icon" onclick="startGameButton()">
+            <button id="impressum_btn" onclick="openModal('impressum_overlay')">IMPRESSUM</button>
+        </div>
     <div id="overlay" class="overlay d_none" onclick="closeModal('overlay')">
         <div class="modal_game_description" onclick="event.stopPropagation()">
             <h2>How to Play</h2>
@@ -110,10 +115,32 @@
             <li>Press the 'ESC' key to leave and go back to start screen.</li>
         </div>
     </div>
-    <footer class="footer_style">
-        <p>&copy; 2026 El Pollo Loco. All rights reserved.</p>
-        <a href="impressum.html">IMPRESSUM</a>
-    </footer>
+    <div id="impressum_overlay" class="overlay d_none" onclick="closeModal('impressum_overlay')">
+        <div class="modal_impressum" onclick="event.stopPropagation()">
+            <div class="impressum">
+                <h2>Impressum</h2>
+                <br>
+                <p>Angaben gemäß § 5 DDG</p>
+                <br>
+                <p><strong>Johanna Frühsommer</strong><br>
+                    Kapuzinerstraße 31 <br>
+                    80337 München <br>
+                </p>
+                <br>
+                <p><strong>Kontakt:</strong> <br>
+                    E-Mail: <a href='mailto:johanna.j.f@web.de'>johanna.j.f@web.de</a></br></p>
+                <br>
+                <p><strong>Bildnachweise:</strong><br>
+                <p>Right/Left/Jump-icons <a target="_blank"
+                        href="https://www.flaticon.com/de/suche?author_id=338&style_id=&type=standard&word=pfeil">by
+                        IconMarketPK</a> <br>
+                    <a target="_blank" href="https://icons8.com/icon/52134/close">Close</a> icon by <a target="_blank"
+                        href="https://icons8.com">Icons8</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>

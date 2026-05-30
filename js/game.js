@@ -57,6 +57,7 @@ function startGame() {
    if (isMobile()) {
         console.log("Entering fullscreen mode for mobile.");
         enterGameFullscreen();
+        resizeCanvas();
         console.log("mobile detected, updating UI.");
         updateMobileUI() 
     }

@@ -5,6 +5,7 @@
 window.addEventListener("load", () => {
     updateMobileUI();
     checkOrientation();
+    resizeCanvas();
     document.querySelectorAll("#mobile_controls img").forEach(img => {
         img.addEventListener("contextmenu", e => e.preventDefault());
     });
@@ -16,6 +17,7 @@ window.addEventListener("load", () => {
  */
 window.addEventListener("resize", () => {
     updateMobileUI();
+    resizeCanvas();
     checkOrientation();
 });
 
@@ -24,6 +26,7 @@ window.addEventListener("resize", () => {
  * Ensures UI and game state adapt correctly after rotation.
  */
 window.addEventListener("orientationchange", () => {
+    resizeCanvas();
     checkOrientation();
     updateMobileUI();
 });
@@ -251,4 +254,29 @@ function openModalGameDescriptionMobile() {
     openModal('overlay_mobile_game_description');
     const menu = document.getElementById("mobile_menu");
     menu.classList.add("d_none");
+}
+
+// function resizeCanvas() {
+//     const canvas = document.getElementById("canvas");
+//     const baseWidth = 720;
+//     const baseHeight = 480;
+
+//     const scale = Math.min(
+//         window.innerWidth / baseWidth,
+//         window.innerHeight / baseHeight,
+//         1
+//     );
+//     canvas.style.width = baseWidth * scale + "px";
+//     canvas.style.height = baseHeight * scale + "px";
+// }
+
+function resizeCanvas() {
+    const canvas = document.getElementById("canvas");
+    const scale = Math.min(
+        (window.innerWidth - 40) / 720,
+        (window.innerHeight - 300) / 480
+    );
+
+    canvas.style.width = 720 * scale + "px";
+    canvas.style.height = 480 * scale + "px";
 }
