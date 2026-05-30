@@ -16,9 +16,9 @@ window.addEventListener("load", () => {
  * Also checks screen orientation to adjust gameplay/UI behavior.
  */
 window.addEventListener("resize", () => {
-    updateMobileUI();
-    resizeCanvas();
+    updateMobileUI();   
     checkOrientation();
+    resizeCanvas();
 });
 
 /**
@@ -26,9 +26,9 @@ window.addEventListener("resize", () => {
  * Ensures UI and game state adapt correctly after rotation.
  */
 window.addEventListener("orientationchange", () => {
-    resizeCanvas();
     checkOrientation();
     updateMobileUI();
+    resizeCanvas();
 });
 
 /**
@@ -42,6 +42,10 @@ function checkOrientation() {
     handlePendingStart(isLandscape);
     handleGameplayOrientation(isLandscape);
 }
+
+
+ document.getElementById("game_description").classList.add("d_none");
+    document.getElementById("headline").classList.add("d_none");
 
 /**
  * Handles game start that was triggered in portrait mode.
@@ -256,27 +260,27 @@ function openModalGameDescriptionMobile() {
     menu.classList.add("d_none");
 }
 
+
 // function resizeCanvas() {
 //     const canvas = document.getElementById("canvas");
-//     const baseWidth = 720;
-//     const baseHeight = 480;
-
 //     const scale = Math.min(
-//         window.innerWidth / baseWidth,
-//         window.innerHeight / baseHeight,
-//         1
+//         (window.innerWidth - 40) / 720,
+//         (window.innerHeight - 300) / 480
 //     );
-//     canvas.style.width = baseWidth * scale + "px";
-//     canvas.style.height = baseHeight * scale + "px";
+
+//     canvas.style.width = 720 * scale + "px";
+//     canvas.style.height = 480 * scale + "px";
 // }
 
 function resizeCanvas() {
     const canvas = document.getElementById("canvas");
+    const container = document.getElementById("game_container");
+    const availableWidth = container.clientWidth;
+    const availableHeight = container.clientHeight;
     const scale = Math.min(
-        (window.innerWidth - 40) / 720,
-        (window.innerHeight - 300) / 480
+        availableWidth / 720,
+        availableHeight / 480
     );
-
     canvas.style.width = 720 * scale + "px";
     canvas.style.height = 480 * scale + "px";
 }

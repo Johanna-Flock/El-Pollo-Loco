@@ -56,7 +56,7 @@ function startGame() {
     hideRotateMessage();
    if (isMobile()) {
         console.log("Entering fullscreen mode for mobile.");
-        enterGameFullscreen();
+        // enterGameFullscreen();
         resizeCanvas();
         console.log("mobile detected, updating UI.");
         updateMobileUI() 
