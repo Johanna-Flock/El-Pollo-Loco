@@ -16,12 +16,12 @@ function init(){
     world.onExitToMenu = () => {
     gameState.started = false;
     updateMobileUI();
-    exitFullscreenIfNeeded();
+    mobileGameDescription();
     };
     world.onGameOverUI = () => {
         gameState.started = false;
         updateMobileUI();
-        exitFullscreenIfNeeded();};
+        mobileGameDescription();};
     world.audio.initialize();
     world.audio.playMusic(world.audio.startScreenMusic);
 }
@@ -51,17 +51,44 @@ function startGameButton() {
  * updates UI and hides orientation messages.
  */
 function startGame() {
+    console.log("START GAME");
     keyboard.S = true;
     gameState.started = true;
     hideRotateMessage();
    if (isMobile()) {
         console.log("Entering fullscreen mode for mobile.");
-        // enterGameFullscreen();
-        resizeCanvas();
         console.log("mobile detected, updating UI.");
         updateMobileUI() 
+        removeMobileGameDescription();
+        waitForLayoutStable(() => {
+            resizeCanvas();
+        });
     }
 }
+
+function waitForLayoutStable(callback) {
+    let lastWidth = window.innerWidth;
+    let lastHeight = window.innerHeight;
+    let stableFrames = 0;
+    function check() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        if (w === lastWidth && h === lastHeight) {
+            stableFrames++;
+        } else {
+            stableFrames = 0;
+            lastWidth = w;
+            lastHeight = h;
+        }
+        if (stableFrames >= 3) {
+            callback();
+        } else {
+            requestAnimationFrame(check);
+        }
+    }
+    requestAnimationFrame(check);
+}
+
 
 /**
  * Opens a modal dialog by id and locks page scrolling.

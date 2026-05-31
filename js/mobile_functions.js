@@ -5,9 +5,19 @@
 window.addEventListener("load", () => {
     updateMobileUI();
     checkOrientation();
-    resizeCanvas();
     document.querySelectorAll("#mobile_controls img").forEach(img => {
         img.addEventListener("contextmenu", e => e.preventDefault());
+    });
+    if (isMobile()) {
+        mobileGameDescription();
+    }
+     if (!isMobile()) {
+        GameDescription();
+    }
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            resizeCanvas();
+        });
     });
 });
 
@@ -18,7 +28,15 @@ window.addEventListener("load", () => {
 window.addEventListener("resize", () => {
     updateMobileUI();   
     checkOrientation();
-    resizeCanvas();
+     if (isMobile()) {
+        mobileGameDescription();
+    }
+    if (!isMobile()) {
+        GameDescription();
+    }
+     setTimeout(() => {
+        resizeCanvas();
+    }, 150);
 });
 
 /**
@@ -28,7 +46,15 @@ window.addEventListener("resize", () => {
 window.addEventListener("orientationchange", () => {
     checkOrientation();
     updateMobileUI();
-    resizeCanvas();
+    if (isMobile()) {
+        mobileGameDescription();
+    }
+    if (!isMobile()) {
+        GameDescription();
+    }
+    setTimeout(() => {
+        resizeCanvas();
+    }, 150);
 });
 
 /**
@@ -44,20 +70,18 @@ function checkOrientation() {
 }
 
 
- document.getElementById("game_description").classList.add("d_none");
-    document.getElementById("headline").classList.add("d_none");
-
 /**
  * Handles game start that was triggered in portrait mode.
  * Starts the game automatically when landscape is reached.
  */
 function handlePendingStart(isLandscape) {
     if (!pendingGameStart) return;
+    pendingGameStart = false;
     if (isLandscape) {
-        pendingGameStart = false;
         startGame();
     } else {
         showRotateMessage();
+        pendingGameStart = true;
     }
 }
 
@@ -67,14 +91,16 @@ function handlePendingStart(isLandscape) {
  */
 function handleGameplayOrientation(isLandscape) {
     if (!gameState.started) return;
+    if (!world) return;
+    if (!world.level) return;
     const overlay = document.getElementById("rotate_overlay_gameplay");
     if (!isLandscape) {
         showRotateMessage();
-        world.gameState = "paused";
+        world.pauseGame();
         overlay.classList.remove("d_none");
     } else {
         hideRotateMessage();
-        world.gameState = "playing";
+        world.resumeGame();
         overlay.classList.add("d_none");
     }
 }
@@ -98,7 +124,11 @@ function hideRotateMessage() {
  * @returns {boolean}
  */
 function isMobile() {
-    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    return (
+        window.matchMedia("(pointer: coarse)").matches &&
+        window.matchMedia("(hover: none)").matches
+    );
+    
 }
 
 /**
@@ -111,11 +141,41 @@ function updateMobileUI() {
         controls.classList.remove("d_none");
         document.getElementById("fullscreen_btn").classList.add("d_none");
         document.getElementById("mute_btn_desktop").classList.add("d_none");
+        removeMobileGameDescription()
+
     } else {
         controls.classList.add("d_none");
         document.getElementById("fullscreen_btn").classList.remove("d_none");
         document.getElementById("mute_btn_desktop").classList.remove("d_none");
     }
+    requestAnimationFrame(() => {
+    resizeCanvas();
+});
+}
+
+function mobileGameDescription() {
+if (gameState.started) return;
+    document.getElementById("game_description").classList.add("d_none");
+    document.getElementById("headline").classList.add("d_none");
+    document.getElementById("game_description_mobile").classList.remove("d_none");
+    requestAnimationFrame(() => {
+    resizeCanvas();
+});
+
+}
+
+function removeMobileGameDescription() {
+    document.getElementById("game_description_mobile").classList.add("d_none");
+    requestAnimationFrame(() => {
+    resizeCanvas();
+});
+}
+
+function GameDescription() {
+    document.getElementById("game_description_mobile").classList.add("d_none");
+    document.getElementById("headline").classList.remove("d_none");
+    document.getElementById("game_description").classList.remove("d_none");
+
 }
 
 /**
@@ -221,6 +281,7 @@ function continueGame() {
     movecontrols.classList.remove("d_none");
     actioncontrols.classList.remove("d_none");
     world.resumeGame();
+    resizeCanvas();
 }
 
 /**
@@ -235,6 +296,7 @@ function restartGame() {
     document.body.classList.remove("no_scroll");
     movecontrols.classList.remove("d_none");
     actioncontrols.classList.remove("d_none");
+    resizeCanvas();
 }
 
 /**
@@ -249,6 +311,9 @@ function goBackToStartScreen() {
     document.body.classList.remove("no_scroll");
     movecontrols.classList.remove("d_none");
     actioncontrols.classList.remove("d_none");
+    gameState.started = false;
+    mobileGameDescription();
+
 }
 
 /**
@@ -260,27 +325,55 @@ function openModalGameDescriptionMobile() {
     menu.classList.add("d_none");
 }
 
+// function resizeCanvas() {
+//     const canvas = document.getElementById("canvas");
+//     const container = document.getElementById("game_container");
+//     const availableWidth = container.clientWidth;
+//     const availableHeight = container.clientHeight;
+//     const scale = Math.min(
+//         availableWidth / 720,
+//         availableHeight / 480
+//     );
+//     canvas.style.width = 720 * scale + "px";
+//     canvas.style.height = 480 * scale + "px";
+// }
 
 // function resizeCanvas() {
 //     const canvas = document.getElementById("canvas");
-//     const scale = Math.min(
-//         (window.innerWidth - 40) / 720,
-//         (window.innerHeight - 300) / 480
-//     );
+//     const availableWidth = window.innerWidth;
+//     const availableHeight = window.innerHeight;
 
+//     const scale = Math.min(
+//         availableWidth / 720,
+//         availableHeight / 480
+//     );
 //     canvas.style.width = 720 * scale + "px";
 //     canvas.style.height = 480 * scale + "px";
 // }
 
 function resizeCanvas() {
-    const canvas = document.getElementById("canvas");
-    const container = document.getElementById("game_container");
-    const availableWidth = container.clientWidth;
-    const availableHeight = container.clientHeight;
-    const scale = Math.min(
-        availableWidth / 720,
-        availableHeight / 480
-    );
-    canvas.style.width = 720 * scale + "px";
-    canvas.style.height = 480 * scale + "px";
+    requestAnimationFrame(() => {
+        const canvas = document.getElementById("canvas");
+
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+
+        const scale = Math.min(w / 720, h / 480);
+
+        canvas.style.width = 720 * scale + "px";
+        canvas.style.height = 480 * scale + "px";
+    });
 }
+
+// function resizeCanvas() {
+//     requestAnimationFrame(() => {
+//          const canvas = document.getElementById("canvas");
+//     const w = window.innerWidth;
+//     const h = window.innerHeight;
+//     const scale = Math.min(w / 720, h / 480);
+//     const width = Math.floor(720 * scale);
+//     const height = Math.floor(480 * scale);
+//     canvas.style.width = width + "px";
+//     canvas.style.height = height + "px";
+//     });
+// }

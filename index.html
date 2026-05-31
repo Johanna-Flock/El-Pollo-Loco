@@ -79,9 +79,9 @@
                 </div>
             </div>
         </div>
-        <div id="rotate_overlay_gameplay" class="rotate_overlay_gameplay d_none">
+        <!-- <div id="rotate_overlay_gameplay" class="rotate_overlay_gameplay d_none">
             <p>Please rotate your device</p>
-        </div>
+        </div> -->
         <div id="overlay_mobile_game_description" class="overlay d_none"
             onclick="closeModal('overlay_mobile_game_description')">
             <div class="modal_game_description" onclick="event.stopPropagation()">
@@ -95,6 +95,11 @@
                 <li>Defeat the end boss to win the game.</li>
             </div>
         </div>
+        <div id="game_description_mobile" class="game_description d_none">
+        <img id="info" src="./icons/info.png" alt="Info Icon" ontouchstart="openModal('overlay')">
+        <img id="start_game" src="./icons/start-button.png" alt="Start Game Icon" ontouchstart="startGameButton()">
+        <button id="impressum_btn" ontouchstart="openModal('impressum_overlay')">IMPRESSUM</button>
+    </div>
     </div>
     <div id="game_description" class="game_description">
         <img id="info" src="./icons/info.png" alt="Info Icon" onclick="openModal('overlay')">

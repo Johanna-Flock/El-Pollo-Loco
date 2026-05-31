@@ -433,6 +433,7 @@ class World {
  * and removes collected items from the level.
  */
     checkCollectables() {
+        if (!this.level) return;
         this.level.coins =
             this.level.coins.filter(
                 coin => this.checkCoinCollect(coin)
