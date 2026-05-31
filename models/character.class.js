@@ -336,20 +336,23 @@ class Character extends MovableObject {
  * @param {Object} enemy - The enemy object to check collision with.
  * @returns {boolean} True if the character is stomping the enemy.
  */
-    isStomping(enemy) {
-    let charBottom = this.y + this.height;
+isStomping(enemy) {
     let enemyTop = enemy.y;
+    let feet = {left: this.x + 10,right: this.x + this.width - 10,bottom: this.y + this.height};
+    let enemyBox = {left: enemy.x,right: enemy.x + enemy.width,top: enemyTop};
     let isFalling = this.speedY > 0;
     let xOverlap =
-        this.x + this.width - 20 > enemy.x &&
-        this.x + 20 < enemy.x + enemy.width;
-    return (
-        isFalling &&
-        xOverlap &&
-        charBottom >= enemyTop &&
-        charBottom <= enemyTop + 35
-    );
+        feet.right > enemyBox.left &&
+        feet.left < enemyBox.right;
+    let footInEnemyTop =
+        feet.bottom >= enemyBox.top &&
+        feet.bottom <= enemyBox.top + 20;
+    return isFalling && xOverlap && footInEnemyTop;
 }
+
+/**
+ * Wakes the character up from sleeping state by updating the last action time.
+ */
     wakeUp() {
          this.lastAction = Date.now();
     }
