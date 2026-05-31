@@ -23,28 +23,28 @@ function initLevel1() {
         ],
 
         [
-            ...generateCoins(10),
-            ...generateCoinLine(500, 150, 5),
-            ...generateCoinDiagonal(900, 200, 5),
-            ...generateCoinDiagonalDown(1100, 200, 5),
-            ...generateCoinArc(1300, 200, 6),
-            ...generateCoinArc(2000, 200, 6),
-            ...generateCoinDiagonal(3000, 200, 5),
-            ...generateCoinDiagonalDown(5000, 200, 5),
-            ...generateCoinDiagonalDown(6000, 200, 5),
+            ...generateCoins(5),
+            // ...generateCoinLine(500, 150, 5),
+            // ...generateCoinDiagonal(900, 200, 5),
+            // ...generateCoinDiagonalDown(1100, 200, 5),
+            // ...generateCoinArc(1300, 200, 6),
+            // ...generateCoinArc(2000, 200, 6),
+            // ...generateCoinDiagonal(3000, 200, 5),
+            // ...generateCoinDiagonalDown(5000, 200, 5),
+            // ...generateCoinDiagonalDown(6000, 200, 5),
         ],
         [
             ...generateBottles(2, 200, 1200), //12
-            ...generateBottles(2, 1400, 1200),
+            // ...generateBottles(2, 1400, 1200),
             ...generateBottles(2, 2800, 1200),
-            ...generateBottles(2, 4200, 1200),
+            // ...generateBottles(2, 4200, 1200),
             ...generateBottles(2, 5600, 1200),
-            ...generateBottles(2, 6500, 300),
-            ...generateHighBossBottles(),//5
-            ...generateBottleLine(3200, 220, 3, 70), //3
-            ...generateBottleDiagonal(3000, 300, 4), //4
-            ...generateBottleLine(4600, 100, 3, 90), //3
-            ...generateBottleDiagonal(6000, 200, 3), //4
+            // ...generateBottles(2, 6500, 300),
+            // ...generateHighBossBottles(),
+            // ...generateBottleLine(3200, 220, 3, 70),
+            // ...generateBottleDiagonal(3000, 300, 4), 
+            // ...generateBottleLine(4600, 100, 3, 90), 
+            // ...generateBottleDiagonal(6000, 200, 3), 
         ],
     );
 

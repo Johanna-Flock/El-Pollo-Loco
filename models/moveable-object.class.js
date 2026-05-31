@@ -8,9 +8,11 @@ class MovableObject extends DrawableObject {
     energy = 300;
     lastHit = 0;
     groundY = 420;
+    active = true;
     canDealDamage = true;
     isTouching = false;
-    active = true;
+    stomped = false;
+    stompedTime = 0;
 
 /**
  * Moves the object to the right based on its speed value.
@@ -40,22 +42,21 @@ class MovableObject extends DrawableObject {
     };
 
 /**
- * Applies gravity to the object and updates vertical movement.
- * Also resets jump availability when the object lands on the ground.
+ * Applies gravity and updates vertical position.
+ * Resets position and jump state when ground is reached.
  */
-    applyGravity() {
-        setInterval(() => {
-            // if(this.isAboveGround() || this.speedY < 0 )
-            if (this.isAboveGround() || this.speedY <= 0) {
-                this.speedY += this.acceleration;
-                this.y += this.speedY;
-            }
-            if (!this.isAboveGround()) {
-                this.canJump = true;
-            }
+applyGravity() {
+    setInterval(() => {
+        this.speedY += this.acceleration;
+        this.y += this.speedY;
+        const groundLevel = this.groundY - this.height;
+        if (this.y >= groundLevel) {
+            this.y = groundLevel;
+            this.speedY = 0;
+            this.canJump = true;
         }
-            , 1000 / 25);
-    }
+    }, 1000 / 25);
+}
 
 /**
  * Checks whether the object is currently above the ground.
@@ -80,21 +81,6 @@ class MovableObject extends DrawableObject {
  * @param {MovableObject} mo - The object to check collision against
  * @returns {boolean} True if both objects overlap
  */
-    // isColliding(mo) {
-    //     let xOverlap =
-    //         this.x + this.width - 20 > mo.x &&
-    //         this.x + 20 < mo.x + mo.width;
-    //     let yOverlap =
-    //         this.y + this.height - 10 > mo.y &&
-    //         this.y + 10 < mo.y + mo.height;
-    //     let isJumping = this.speedY < 0;
-    //     let jumpTolerance = 35; // Toleranz, um das Stompen zu erleichtern
-    //     if (isJumping) {
-    //         return xOverlap && yOverlap && this.y > mo.y + jumpTolerance;
-    //     }
-    //     return xOverlap && yOverlap;
-    // }
-
     isColliding(mo) {
     return (
         this.x + this.width - 20 > mo.x &&

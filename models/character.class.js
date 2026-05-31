@@ -10,6 +10,9 @@ class Character extends MovableObject {
     movementInterval;
     animationInterval;
     isThrowing = false;
+    jumpFrameIndex = 0;
+    jumpPeakReached = false;
+    jumpFrameDelay = 0;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -181,7 +184,7 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_HURT);
                 break;
             case "jumping":
-                this.playAnimation(this.IMAGES_JUMPING);
+                this.playJumpAnimation();
                 break;
             case "walking":
                 this.playAnimation(this.IMAGES_WALKING);
@@ -311,7 +314,28 @@ class Character extends MovableObject {
  */
     jump() {
         this.speedY = -20;
+        this.jumpFrameIndex = 0;
+        this.jumpPeakReached = false;
     }
+
+/**
+ * Plays jump animation with frame control and peak frame handling.
+ */
+playJumpAnimation() {
+    let i = this.jumpFrameIndex;
+    if (this.speedY < 0 && !this.jumpPeakReached) {
+        if (this.y < this.world.groundY - this.height - 120) {
+            this.jumpPeakReached = true;
+            this.jumpFrameIndex = 5;}}
+    let path = this.IMAGES_JUMPING[i];
+    this.img = this.ImageCache[path];
+    this.jumpFrameDelay++;
+    if (this.jumpFrameDelay % 3 === 0) { 
+        if (!this.jumpPeakReached || i < 5) {
+            this.jumpFrameIndex++;}}
+    if (this.jumpFrameIndex >= this.IMAGES_JUMPING.length) {
+        this.jumpFrameIndex = this.IMAGES_JUMPING.length - 1;
+    }}
 
 /**
  * Applies damage to the character if not currently invulnerable.
@@ -331,10 +355,8 @@ class Character extends MovableObject {
     }
 
 /**
- * Checks if the character is stomping on an enemy.
- *
- * @param {Object} enemy - The enemy object to check collision with.
- * @returns {boolean} True if the character is stomping the enemy.
+ * Checks if the character stomps an enemy.
+ * Requires downward movement and foot overlap with enemy top area.
  */
 isStomping(enemy) {
     let enemyTop = enemy.y;
@@ -349,21 +371,6 @@ isStomping(enemy) {
         feet.bottom <= enemyBox.top + 20;
     return isFalling && xOverlap && footInEnemyTop;
 }
-
-//     isStomping(enemy) {
-//     let charBottom = this.y + this.height;
-//     let enemyTop = enemy.y;
-//     let isFalling = this.speedY > 0;
-//     let xOverlap =
-//         this.x + this.width - 20 > enemy.x &&
-//         this.x + 20 < enemy.x + enemy.width;
-//     return (
-//         isFalling &&
-//         xOverlap &&
-//         charBottom >= enemyTop &&
-//         charBottom <= enemyTop + 35
-//     );
-// }
 
 /**
  * Wakes the character up from sleeping state by updating the last action time.

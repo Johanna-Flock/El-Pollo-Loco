@@ -369,11 +369,17 @@ class AudioManager {
         this.playBossSound(this.endbossDead, false);
     }
 
+/**
+ * Plays game over sound.
+ */
     onGameOver() {
         this.gameOverSound.volume = 0.4;
         this.playSound(this.gameOverSound);
     }
 
+/**
+ * Plays winning sound.
+ */
     onWinning() {
         this.winningSound.volume = 0.4;
         this.playSound(this.winningSound);

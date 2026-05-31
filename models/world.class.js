@@ -485,75 +485,80 @@ class World {
     }
 
 /**
- * Checks collisions between the character and enemies.
- * Handles stomp damage, regular damage,
- * and collision reset logic.
+ * Returns collision type between character and enemy.
+ * @param {Object} enemy
+ * @returns {"stomp"|"damage"|"none"}
  */
-    checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
-            let colliding =
-                this.character.isColliding(enemy);
-            if (this.handleStompCollision(enemy, colliding)
-            ) {
-                return;
-            }
-            this.handleDamageCollision(enemy, colliding);
-            this.resetEnemyCollision(enemy, colliding);
-        });
+getCollisionType(enemy) {
+    if (this.character.isStomping(enemy)) {
+        return "stomp";
     }
+    if (this.character.isColliding(enemy)) {
+        return "damage";
+    }
+    return "none";
+}
 
 /**
- * Handles stomp collisions where the character jumps on an enemy.
- * 
- * @param {MovableObject} enemy - The collided enemy.
- * @param {boolean} colliding - Whether the character is colliding.
- * @returns {boolean} True if a stomp collision occurred.
+ * Main collision loop for all enemies.
  */
-    handleStompCollision(enemy, colliding) {
-        if (colliding && this.character.isStomping(enemy)) {
-            enemy.hit?.();
-            this.character.speedY = -10;
-            enemy.canDealDamage = false;
-            enemy.isTouching = true;
-            return true;
+checkCollisions() {
+    this.level.enemies.forEach((enemy) => {
+        let type = this.getCollisionType(enemy);
+        if (type === "stomp") {
+            this.handleStompCollision(enemy);
         }
-        return false;
-    }
+        if (type === "damage") {
+            this.handleDamageCollision(enemy);
+        }
+        this.resetEnemyCollision(enemy, type);
+    });
+}
 
 /**
- * Handles damage collisions between the character and enemies.
- * 
- * @param {MovableObject} enemy - The collided enemy.
- * @param {boolean} colliding - Whether the character is colliding.
+ * Handles stomp collision (enemy gets hit, player bounces).
  */
-    handleDamageCollision(enemy, colliding) {
-        if (this.character.isStomping(enemy)) {
-        return;
-    }
-        if (colliding && enemy.canDealDamage) {
-            enemy.isTouching = true;
-            this.character.hit(enemy.damage);
-            this.healthBar.setPercentage(
-                this.character.energy
-            );
-            enemy.canDealDamage = false;
-        }
-    }
+handleStompCollision(enemy) {
+    if (enemy.stomped) return;
+    enemy.stomped = true;
+    enemy.stompedTime = Date.now();
+    enemy.hit?.();
+    this.character.speedY = -10;
+    enemy.canDealDamage = false;
+    enemy.isTouching = true;
+}
 
 /**
- * Resets enemy collision states when the character
- * moves away from the enemy.
- * 
- * @param {MovableObject} enemy - The enemy to reset.
- * @param {boolean} colliding - Whether the character is colliding.
+ * Handles damage collision (player gets hit by enemy).
  */
-    resetEnemyCollision(enemy, colliding) {
-        let dx = this.character.x - enemy.x;
-        if (!colliding || Math.abs(dx) > 50) {
-            enemy.isTouching = false;
-            enemy.canDealDamage = true;
-        }
+handleDamageCollision(enemy) {
+    if (enemy.stomped) return;
+    if (!enemy.stompedTime) {
+        enemy.stompedTime = 0;
     }
+    let recentlyStomped =
+        enemy.stompedTime > 0 &&
+        Date.now() - enemy.stompedTime < 400;
+    if (recentlyStomped) return;
+    enemy.isTouching = true;
+    this.character.hit(enemy.damage);
+    this.healthBar.setPercentage(this.character.energy);
+    enemy.canDealDamage = false;
+}
+
+/**
+ * Resets collision state when no contact exists.
+ */
+resetEnemyCollision(enemy, type) {
+    if (type !== "none") return;
+    enemy.isTouching = false;
+    enemy.canDealDamage = true;
+    // nur reset wenn genug Zeit vergangen ist
+    if (Date.now() - enemy.stompedTime > 800) {
+        enemy.stomped = false;
+        enemy.stompedTime = 0;
+    }
+}
 
 /**
  * Checks whether the player has died
