@@ -372,8 +372,8 @@ class World {
  */
     setWinning() {
         this.gameState = "winning";
-        this.audio.stopMusic();
-        this.audio.playSound(this.audio.winningSound);
+        this.audio.stopAllSounds();
+        this.audio.onWinning();
         this.stopCharacterAndEnemies();
         setTimeout(() => {
             this.gameState = "start";
@@ -578,7 +578,7 @@ class World {
         this.gameState = "gameover";
         this.stopCharacterAndEnemies();
         this.audio.stopAllSounds();
-        this.audio.playSound(this.audio.gameOverSound);
+        this.audio.onGameOver();
         if (this.onGameOverUI) {
             this.onGameOverUI();
         }

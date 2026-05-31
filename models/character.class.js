@@ -350,6 +350,21 @@ isStomping(enemy) {
     return isFalling && xOverlap && footInEnemyTop;
 }
 
+//     isStomping(enemy) {
+//     let charBottom = this.y + this.height;
+//     let enemyTop = enemy.y;
+//     let isFalling = this.speedY > 0;
+//     let xOverlap =
+//         this.x + this.width - 20 > enemy.x &&
+//         this.x + 20 < enemy.x + enemy.width;
+//     return (
+//         isFalling &&
+//         xOverlap &&
+//         charBottom >= enemyTop &&
+//         charBottom <= enemyTop + 35
+//     );
+// }
+
 /**
  * Wakes the character up from sleeping state by updating the last action time.
  */

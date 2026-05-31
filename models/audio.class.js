@@ -21,6 +21,7 @@ class AudioManager {
         this.pauseSound = new Audio("./audio/pause_sound.mp3");
         this.chickenDeadSound = new Audio("./audio/chicken_dead_sound.mp3");
         this.bigChickenSound = new Audio("./audio/big_chicken_sound.mp3");
+        this.bigChickenSound.volume = 0.09;
         this.smallChickenSound = new Audio("./audio/small_chicken_sound.mp3");
         this.endbossAlert = new Audio("./audio/endboss_alert.mp3");
         this.endbossChasingSound = new Audio("./audio/endboss_chasing.mp3");
@@ -58,7 +59,7 @@ class AudioManager {
         this.activeSounds = [];
         this.currentMusic = null;
         this.startScreenMusic.loop = true;
-        this.startScreenMusic.volume = 0.1;
+        
     }
 
 /**
@@ -124,7 +125,7 @@ class AudioManager {
         this.stopMusic();
         this.currentMusic = sound;
         sound.loop = true;
-        sound.volume = 0.1;
+        sound.volume = 0.04;
         if (this.soundMuted) return;
         sound.currentTime = 0;
         sound.play();
@@ -230,6 +231,7 @@ class AudioManager {
  * Plays the sleep sound effect.
  */
     onSleep() {
+        this.sleepSound.volume = 0.1;
         this.playSound(this.sleepSound);
     }
 
@@ -237,6 +239,7 @@ class AudioManager {
  * Plays the character hurt sound effect.
  */
     onCharacterHurt() {
+        this.characterHurtSound.volume = 0.1;
         this.playSound(this.characterHurtSound);
     }
 
@@ -244,6 +247,7 @@ class AudioManager {
  * Plays the jump sound effect.
  */
     onJump() {
+        this.jumpSound.volume = 0.1;
         this.playSound(this.jumpSound);
     }
 
@@ -251,6 +255,7 @@ class AudioManager {
  * Plays the throw sound effect.
  */
     onThrow() {
+        this.throwSound.volume = 0.1;
         this.playSound(this.throwSound);
     }
 
@@ -262,6 +267,7 @@ class AudioManager {
     onCharacterDeath() {
         if (this.deathSoundPlayed) return;
         this.stopBossSound();
+        this.characterDeathSound.volume = 0.1;
         this.playSound(this.characterDeathSound);
     }
 
@@ -269,6 +275,7 @@ class AudioManager {
  * Plays the pause sound effect.
  */
     onPause() {
+        this.pauseSound.volume = 0.1;
         this.playSound(this.pauseSound);
     }
 
@@ -276,6 +283,7 @@ class AudioManager {
  * Plays the escape/menu sound effect.
  */
     onEscape() {
+        this.gameEscapeSound.volume = 0.1;
         this.playSound(this.gameEscapeSound);
     }
 
@@ -283,6 +291,7 @@ class AudioManager {
  * Plays the coin collection sound effect.
  */
     onCoinCollect() {
+        this.coinCollectSound.volume = 0.02;
         this.playSound(this.coinCollectSound);
     }
 
@@ -290,6 +299,7 @@ class AudioManager {
  * Plays the bottle collection sound effect.
  */
     onBottleCollect() {
+        this.bottleCollectSound.volume = 0.03;
         this.playSound(this.bottleCollectSound);
     }
 
@@ -297,6 +307,7 @@ class AudioManager {
  * Plays the chicken death sound effect.
  */
     onChickenDead() {
+        this.chickenDeadSound.volume = 0.1;
         this.playSound(this.chickenDeadSound);
     }
 
@@ -304,22 +315,25 @@ class AudioManager {
  * Plays the big chicken sound effect.
  */
     onBigChicken() {
+        this.bigChickenSound.volume = 0.07;
         this.playSound(this.bigChickenSound);
+         console.log("bigChicken volume:", this.bigChickenSound.volume);
     }
 
 /**
  * Plays the small chicken sound effect.
  */
     onSmallChicken() {
-        this.smallChickenSound.volume = 0.03;
+        this.smallChickenSound.volume = 0.01;
         this.playSound(this.smallChickenSound);
+       
     }
 
 /**
  * Plays the endboss walking sound (looped).
  */
     onEndbossWalking() {
-        this.endbossWalking.volume = 1.0;
+        this.endbossWalking.volume = 0.3;
         this.playBossSound(this.endbossWalking, true);
     }
 
@@ -327,7 +341,7 @@ class AudioManager {
  * Plays the endboss alert sound (non-looped).
  */
     onEndbossAlert() {
-        this.endbossAlert.volume = 1.0;
+        this.endbossAlert.volume = 0.4;
         this.playBossSound(this.endbossAlert, false);
     }
 
@@ -335,7 +349,7 @@ class AudioManager {
  * Plays the endboss chasing sound (looped).
  */
     onEndbossChasing() {
-        this.endbossChasingSound.volume = 1.0;
+        this.endbossChasingSound.volume = 0.2;
         this.playBossSound(this.endbossChasingSound, true);
     }
 
@@ -343,7 +357,7 @@ class AudioManager {
  * Plays the endboss hurt sound (looped).
  */
     onEndbossHurt() {
-        this.endbossHurt.volume = 1.0;
+        this.endbossHurt.volume = 0.1;
         this.playBossSound(this.endbossHurt, true);
     }
 
@@ -351,7 +365,17 @@ class AudioManager {
  * Plays the endboss dead sound (non-looped).
  */
     onEndbossDead() {
-        this.endbossDead.volume = 1.0;
+        this.endbossDead.volume = 0.4;
         this.playBossSound(this.endbossDead, false);
+    }
+
+    onGameOver() {
+        this.gameOverSound.volume = 0.4;
+        this.playSound(this.gameOverSound);
+    }
+
+    onWinning() {
+        this.winningSound.volume = 0.4;
+        this.playSound(this.winningSound);
     }
 }
