@@ -140,7 +140,6 @@ class World {
         );
     }
 
-
 /**
  * Pauses the game and disables all active entities.
  */
@@ -595,6 +594,9 @@ class World {
     throwObjects() {
         if (!this.keyboard.D || this.character.isThrowing) {
             return;
+        }
+        if (this.character.isSleeping()) {
+            this.character.wakeUp();
         }
         this.character.isThrowing = true;
         if (this.bottleCount <= 0) {

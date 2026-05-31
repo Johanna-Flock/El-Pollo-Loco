@@ -342,4 +342,8 @@ class Character extends MovableObject {
         let isFalling = this.speedY > 0;
         return isFalling && charBottom <= enemyTop + 20;
     }
+
+    wakeUp() {
+         this.lastAction = Date.now();
+    }
 }
