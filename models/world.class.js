@@ -527,6 +527,9 @@ class World {
  * @param {boolean} colliding - Whether the character is colliding.
  */
     handleDamageCollision(enemy, colliding) {
+        if (this.character.isStomping(enemy)) {
+        return;
+    }
         if (colliding && enemy.canDealDamage) {
             enemy.isTouching = true;
             this.character.hit(enemy.damage);
@@ -546,7 +549,7 @@ class World {
  */
     resetEnemyCollision(enemy, colliding) {
         let dx = this.character.x - enemy.x;
-        if (!colliding || Math.abs(dx) > 80) {
+        if (!colliding || Math.abs(dx) > 50) {
             enemy.isTouching = false;
             enemy.canDealDamage = true;
         }

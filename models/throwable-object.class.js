@@ -12,6 +12,7 @@ class ThrowableObject extends MovableObject {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
         this.x = x;
         this.y = y;
+        this.currentImage = 0;
         this.speedX = speedX;
         this.throw(this.x, this.y);
         this.height = 60;
@@ -20,6 +21,8 @@ class ThrowableObject extends MovableObject {
         this.loadImages(this.IMAGES_BOTTLE_SPLASH);
         this.state = "flying";
         this.splashAnimationFinished = false;
+        this.throw();
+        this.animate();
     }
 
     IMAGES_BOTTLEROTATION = [
@@ -36,6 +39,14 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
+animate() {
+    setInterval(() => {
+        if (this.state === "flying") {
+            this.playAnimation(this.IMAGES_BOTTLEROTATION);
+        }
+    }, 100);
+}
+
 /**
  * Throws the bottle by applying horizontal movement
  * and upward velocity combined with gravity.
@@ -43,7 +54,7 @@ class ThrowableObject extends MovableObject {
     throw() {
         this.speedY = -15;
         setInterval(() => {
-            this.x += this.speedX; // 👈 statt 7
+            this.x += this.speedX;
         }, 25);
         this.applyGravity();
     }

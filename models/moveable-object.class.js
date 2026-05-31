@@ -80,20 +80,29 @@ class MovableObject extends DrawableObject {
  * @param {MovableObject} mo - The object to check collision against
  * @returns {boolean} True if both objects overlap
  */
+    // isColliding(mo) {
+    //     let xOverlap =
+    //         this.x + this.width - 20 > mo.x &&
+    //         this.x + 20 < mo.x + mo.width;
+    //     let yOverlap =
+    //         this.y + this.height - 10 > mo.y &&
+    //         this.y + 10 < mo.y + mo.height;
+    //     let isJumping = this.speedY < 0;
+    //     let jumpTolerance = 35; // Toleranz, um das Stompen zu erleichtern
+    //     if (isJumping) {
+    //         return xOverlap && yOverlap && this.y > mo.y + jumpTolerance;
+    //     }
+    //     return xOverlap && yOverlap;
+    // }
+
     isColliding(mo) {
-        let xOverlap =
-            this.x + this.width - 20 > mo.x &&
-            this.x + 20 < mo.x + mo.width;
-        let yOverlap =
-            this.y + this.height - 10 > mo.y &&
-            this.y + 10 < mo.y + mo.height;
-        let isJumping = this.speedY < 0;
-        let jumpTolerance = 35; // Toleranz, um das Stompen zu erleichtern
-        if (isJumping) {
-            return xOverlap && yOverlap && this.y > mo.y + jumpTolerance;
-        }
-        return xOverlap && yOverlap;
-    }
+    return (
+        this.x + this.width - 20 > mo.x &&
+        this.x + 20 < mo.x + mo.width &&
+        this.y + this.height - 10 > mo.y &&
+        this.y + 10 < mo.y + mo.height
+    );
+}
 
 /**
  * Checks whether the character is close enough to collect an item.
@@ -130,7 +139,7 @@ class MovableObject extends DrawableObject {
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit; //Different in ms
         timepassed = timepassed / 1000; //Different in s
-        return timepassed < 1; //getroffen in den letzten 1 Sekunde
+        return timepassed < 0.5; //getroffen in den letzten 0,5 Sekunde
     }
 
 /**

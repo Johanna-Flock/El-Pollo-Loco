@@ -337,12 +337,19 @@ class Character extends MovableObject {
  * @returns {boolean} True if the character is stomping the enemy.
  */
     isStomping(enemy) {
-        let charBottom = this.y + this.height;
-        let enemyTop = enemy.y;
-        let isFalling = this.speedY > 0;
-        return isFalling && charBottom <= enemyTop + 20;
-    }
-
+    let charBottom = this.y + this.height;
+    let enemyTop = enemy.y;
+    let isFalling = this.speedY > 0;
+    let xOverlap =
+        this.x + this.width - 20 > enemy.x &&
+        this.x + 20 < enemy.x + enemy.width;
+    return (
+        isFalling &&
+        xOverlap &&
+        charBottom >= enemyTop &&
+        charBottom <= enemyTop + 35
+    );
+}
     wakeUp() {
          this.lastAction = Date.now();
     }
