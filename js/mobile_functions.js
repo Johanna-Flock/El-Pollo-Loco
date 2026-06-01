@@ -354,55 +354,18 @@ function openModalGameDescriptionMobile() {
     menu.classList.add("d_none");
 }
 
-// function resizeCanvas() {
-//     const canvas = document.getElementById("canvas");
-//     const container = document.getElementById("game_container");
-//     const availableWidth = container.clientWidth;
-//     const availableHeight = container.clientHeight;
-//     const scale = Math.min(
-//         availableWidth / 720,
-//         availableHeight / 480
-//     );
-//     canvas.style.width = 720 * scale + "px";
-//     canvas.style.height = 480 * scale + "px";
-// }
-
-// function resizeCanvas() {
-//     const canvas = document.getElementById("canvas");
-//     const availableWidth = window.innerWidth;
-//     const availableHeight = window.innerHeight;
-
-//     const scale = Math.min(
-//         availableWidth / 720,
-//         availableHeight / 480
-//     );
-//     canvas.style.width = 720 * scale + "px";
-//     canvas.style.height = 480 * scale + "px";
-// }
-
+/**
+ * resizes the game canvas to fit the current window size while maintaining aspect ratio.
+ * Uses requestAnimationFrame for smooth resizing and performance optimization.
+ */
 function resizeCanvas() {
     requestAnimationFrame(() => {
         const canvas = document.getElementById("canvas");
-
         const w = window.innerWidth;
         const h = window.innerHeight;
-
-        const scale = Math.min(w / 720, h / 480);
-
+        let scale = Math.min(w / 720, h / 480);
+        scale = Math.min(scale, 1.5);
         canvas.style.width = 720 * scale + "px";
         canvas.style.height = 480 * scale + "px";
     });
 }
-
-// function resizeCanvas() {
-//     requestAnimationFrame(() => {
-//          const canvas = document.getElementById("canvas");
-//     const w = window.innerWidth;
-//     const h = window.innerHeight;
-//     const scale = Math.min(w / 720, h / 480);
-//     const width = Math.floor(720 * scale);
-//     const height = Math.floor(480 * scale);
-//     canvas.style.width = width + "px";
-//     canvas.style.height = height + "px";
-//     });
-// }

@@ -16,6 +16,7 @@ function initLevel1() {
             ...spawnGroup(SmallChicken, 5000, 3, 120),
             ...spawnGroup(Chicken, 5500, 2, 300),
             ...spawnGroup(Chicken, 6000, 2, 300),
+             ...spawnGroup(SmallChicken, 7200, 1, 120),
             new Endboss(7300),
         ],
         [

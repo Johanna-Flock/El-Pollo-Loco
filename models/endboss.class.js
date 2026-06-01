@@ -215,7 +215,6 @@ handleAlertState() {
  *
  * @param {number} distance - Distance between enemy and player character
  */
-
     handleChaseState(distance) {
     if (this.state !== "chase") return;
     let maxSpeed = 7.0;
