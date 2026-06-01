@@ -300,6 +300,35 @@ function restartGame() {
 }
 
 /**
+ * Restarts the game after the winning/gameover Screen.
+ */
+function restartGameAfterEnding() {
+    document.getElementById("afterGameMenu").classList.add("d_none")
+    world.startGame();
+    gameState.started = true;
+    updateMobileUI()
+    waitForLayoutStable(() => {
+            resizeCanvas();
+    });
+}
+
+/**
+ * Goes back to the start screen after the game has ended.
+ */
+function goBackToStartScreenAfterEnding() { 
+    world.goToStart();
+    gameState.started = false;
+    updateMobileUI()
+     if (isMobile()) {
+        mobileGameDescription()
+    } else {
+        GameDescription()
+    }
+    exitFullscreenIfNeeded() 
+    document.getElementById("afterGameMenu").classList.add("d_none");
+}
+
+/**
  * Returns to the start screen and closes the mobile menu.
  */
 function goBackToStartScreen() {

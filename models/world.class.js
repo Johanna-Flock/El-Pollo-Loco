@@ -296,7 +296,7 @@ checkEndbossActivation() {
         this.bottleBar =
             new StatusBar(20, 120, "bottles");
         this.endbossBar =
-        new StatusBar(500, 0, "endboss");
+        new StatusBar(300, 0, "endboss");
     }
 
 /**
@@ -388,9 +388,6 @@ checkEndbossActivation() {
             setTimeout(() => {
                 this.audio.stopBossSound();
                 this.setWinning();
-                if (this.onGameOverUI) {
-                    this.onGameOverUI();
-                }
             }, 200);
         }
     }
@@ -405,9 +402,9 @@ checkEndbossActivation() {
         this.audio.onWinning();
         this.stopCharacterAndEnemies();
         setTimeout(() => {
-            this.gameState = "start";
-            this.audio.playMusic(this.audio.startScreenMusic);
-        }, 4000);
+        if (this.onGameEndUI) {
+        this.onGameEndUI(); 
+    } }, 2000);
     }
 
 /**
@@ -609,59 +606,35 @@ resetEnemyCollision(enemy, type) {
  * and returns to the start screen after a delay.
  */
     setGameOver() {
-        this.gameState = "gameover";
-        this.stopCharacterAndEnemies();
-        this.audio.stopAllSounds();
-        this.audio.onGameOver();
-        if (this.onGameOverUI) {
-            this.onGameOverUI();
-        }
-        setTimeout(() => { //
-            this.gameState = "start";
-            this.audio.playMusic(this.audio.startScreenMusic);
-            this.gameOverTriggered = false;
-            this.deathSoundPlayed = false;
-        }, 3000);
-    }
+    this.gameState = "gameover";
+    this.stopCharacterAndEnemies();
+    this.audio.stopAllSounds();
+    this.audio.onGameOver();
+    this.gameOverTriggered = false;
+    this.deathSoundPlayed = false;
+    setTimeout(() => {
+         if (this.onGameEndUI) {
+        this.onGameEndUI(); 
+    } }, 2000);
+}
 
 /**
  * Handles bottle throwing input and creates
  * a throwable bottle if possible.
  */
-    // throwObjects() {
-    //     if (!this.keyboard.D || this.character.isThrowing) {
-    //         return;
-    //     }
-    //     if (this.character.isSleeping()) {
-    //         this.character.wakeUp();
-    //     }
-    //     this.character.isThrowing = true;
-    //     if (this.bottleCount <= 0) {
-    //         this.resetThrowState();
-    //         return;
-    //     }
-    //     this.createThrowableBottle();
-    //     this.updateBottleUI();
-    //     this.audio.onThrow();
-    //     this.resetThrowState();
-    // }
-
     throwObjects() {
     let now = Date.now();
     if (now - this.throwCooldown < 1000) {
-        return;
-    }
+        return;}
     if (!this.keyboard.D || this.character.isThrowing) {
-        return;
-    }
+        return;}
     if (this.character.isSleeping()) {
         this.character.wakeUp();
     }
     this.character.isThrowing = true;
     if (this.bottleCount <= 0) {
         this.resetThrowState();
-        return;
-    }
+        return;}
     this.createThrowableBottle();
     this.updateBottleUI();
     this.audio.onThrow();

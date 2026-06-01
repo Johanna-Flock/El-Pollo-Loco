@@ -79,6 +79,10 @@
                 </div>
             </div>
         </div>
+        <div id="afterGameMenu" class="afterGameMenu d_none">
+            <button onclick="restartGameAfterEnding()">Restart</button>
+            <button onclick="goBackToStartScreenAfterEnding()">Go back to Start Screen</button>
+        </div>
         <!-- <div id="rotate_overlay_gameplay" class="rotate_overlay_gameplay d_none">
             <p>Please rotate your device</p>
         </div> -->
@@ -96,16 +100,17 @@
             </div>
         </div>
         <div id="game_description_mobile" class="game_description d_none">
-        <img id="info" src="./icons/info.png" alt="Info Icon" ontouchstart="openModal('overlay')">
-        <img id="start_game" src="./icons/start-button.png" alt="Start Game Icon" ontouchstart="startGameButton()">
-        <button id="impressum_btn" ontouchstart="openModal('impressum_overlay')">IMPRESSUM</button>
+            <img id="info" src="./icons/info.png" alt="Info Icon" ontouchstart="openModal('overlay')">
+            <img id="start_game" src="./icons/start-button.png" alt="Start Game Icon" ontouchstart="startGameButton()">
+            <button id="impressum_btn" ontouchstart="openModal('impressum_overlay')">IMPRESSUM</button>
+        </div>
+        <div id="game_description" class="game_description">
+            <img id="info" src="./icons/info.png" alt="Info Icon" onclick="openModal('overlay')">
+            <img id="start_game" src="./icons/start-button.png" alt="Start Game Icon" onclick="startGameButton()">
+            <button id="impressum_btn" onclick="openModal('impressum_overlay')">IMPRESSUM</button>
+        </div>
     </div>
-    </div>
-    <div id="game_description" class="game_description">
-        <img id="info" src="./icons/info.png" alt="Info Icon" onclick="openModal('overlay')">
-        <img id="start_game" src="./icons/start-button.png" alt="Start Game Icon" onclick="startGameButton()">
-        <button id="impressum_btn" onclick="openModal('impressum_overlay')">IMPRESSUM</button>
-    </div>
+
     <div id="overlay" class="overlay d_none" onclick="closeModal('overlay')">
         <div class="modal_game_description" onclick="event.stopPropagation()">
             <h2>How to Play</h2>

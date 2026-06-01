@@ -16,12 +16,15 @@ function init(){
     world.onExitToMenu = () => {
     gameState.started = false;
     updateMobileUI();
-    mobileGameDescription();
+      if (isMobile()) {
+        mobileGameDescription()
+    } else {
+        GameDescription()
+    }
     };
-    world.onGameOverUI = () => {
+    world.onGameEndUI = () => {
         gameState.started = false;
-        updateMobileUI();
-        mobileGameDescription();};
+        document.getElementById("afterGameMenu").classList.remove("d_none");};
     world.audio.initialize();
     world.audio.playMusic(world.audio.startScreenMusic);
 }
