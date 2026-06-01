@@ -6,9 +6,11 @@ class Endboss extends MovableObject {
     currentImage = 0;
     isDead = false;
     energy = 100;
-    damage = 20;
+    damage = 20; //endboss can deal more damage than regular enemies
     deadFrameIndex = 0;
     isDeadAnimationFinished = false;
+    alertStartTime = 0;
+    alertStage = 0;
 
     IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -96,19 +98,16 @@ class Endboss extends MovableObject {
  * Handles animation based on current enemy state.
  */
     handleAnimation() {
-        let state = this.getCurrentState();
-        if (state === "alert") {
-            this.playAnimation(this.IMAGES_ALERT);
-        } else if (state === "chase") {
-            this.playAnimation(this.IMAGES_WALKING);
-        } else if (state === "hurt") {
-            this.playAnimation(this.IMAGES_HURT);
-        } else if (state === "dead") {
-            this.playDeadAnimation();
-        } else {
-            this.playAnimation(this.IMAGES_WALKING);
-        }
-    }
+    let state = this.getCurrentState();
+    if (state === "alert") {
+        if (this.alertStage === 0) {this.playAnimation(this.IMAGES_ALERT);} 
+        else if (this.alertStage === 1) {this.playAnimation(this.IMAGES_ATTACK);} 
+        else {this.playAnimation(this.IMAGES_ATTACK);}} 
+    else if (state === "chase") {this.playAnimation(this.IMAGES_WALKING);} 
+    else if (state === "hurt") {this.playAnimation(this.IMAGES_HURT);} 
+    else if (state === "dead") {this.playDeadAnimation();} 
+    else {this.playAnimation(this.IMAGES_WALKING);}
+}
 
 /**
  * Plays the death animation frame by frame until completion.
@@ -143,15 +142,30 @@ class Endboss extends MovableObject {
 /**
  * Main state update logic for enemy behavior.
  */
+
     handleState() {
-        let distance =
-            Math.abs(this.world.character.x - this.x);
-        if (this.handleDeadState()) return;
-        if (this.handleHurtState()) return;
-        this.handleWalkingState(distance);
-        this.handleChaseState(distance);
-        this.updateStateSound();
+    let distance =
+        Math.abs(this.world.character.x - this.x);
+    if (this.handleDeadState()) return;
+    if (this.handleHurtState()) return;
+    if (this.state === "alert") {
+        this.handleAlertState();
     }
+    this.handleWalkingState(distance);
+    this.handleChaseState(distance);
+    this.updateStateSound();
+}
+
+handleAlertState() {
+    let elapsed = Date.now() - this.alertStartTime;
+    if (elapsed > 2000) {
+        this.alertStage = 2;
+    } else if (elapsed > 1000) {
+        this.alertStage = 1;
+    } else {
+        this.alertStage = 0;
+    }
+}
 
 /**
  * Handles behavior when enemy is dead.
@@ -184,6 +198,8 @@ class Endboss extends MovableObject {
         this.moveLeft();
         if (distance < 500) {
             this.state = "alert";
+            this.alertStartTime = Date.now();
+            this.alertStage = 0;
             this.handleStateSound("alert");
             setTimeout(() => {
                 this.state = "chase";
@@ -199,18 +215,25 @@ class Endboss extends MovableObject {
  *
  * @param {number} distance - Distance between enemy and player character
  */
+
     handleChaseState(distance) {
-        if (this.state !== "chase") return;
-        this.speed = 2.7;
-        if (this.world.character.x < this.x) {
-            this.moveLeft();
-        } else {
-            this.moveRight();
-        }
-        if (distance > 600) {
-            this.state = "walking";
-        }
+    if (this.state !== "chase") return;
+    let maxSpeed = 7.0;
+    let minSpeed = 4.0;
+    let factor = Math.max(0, 1 - distance / 600);
+    this.speed = minSpeed + (maxSpeed - minSpeed) * factor;
+    if (this.world.character.x < this.x) {
+        this.moveLeft();
+    } else {
+        this.moveRight();
     }
+    if (distance > 600) {
+        this.state = "walking";
+    }
+    if (distance < 200) {
+    maxSpeed = 7.5;
+}
+}
 
 /**
  * Updates and triggers state-based sound effects when the state changes.
@@ -279,6 +302,9 @@ class Endboss extends MovableObject {
  */
     hit() {
         this.energy = Math.max(0, this.energy - 20);
+        if (this.world && this.world.endbossBar) {
+        this.world.endbossBar.setPercentageEndbossBar(this.energy);
+        }
         if (this.energy <= 0) {
             this.state = "dead";
             return;

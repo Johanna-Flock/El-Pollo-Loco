@@ -13,6 +13,7 @@ class Character extends MovableObject {
     jumpFrameIndex = 0;
     jumpPeakReached = false;
     jumpFrameDelay = 0;
+    throwCooldown = 0;
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',

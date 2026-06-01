@@ -23,28 +23,13 @@ function initLevel1() {
         ],
 
         [
-            ...generateCoins(5),
-            // ...generateCoinLine(500, 150, 5),
-            // ...generateCoinDiagonal(900, 200, 5),
-            // ...generateCoinDiagonalDown(1100, 200, 5),
-            // ...generateCoinArc(1300, 200, 6),
-            // ...generateCoinArc(2000, 200, 6),
-            // ...generateCoinDiagonal(3000, 200, 5),
-            // ...generateCoinDiagonalDown(5000, 200, 5),
-            // ...generateCoinDiagonalDown(6000, 200, 5),
+            ...generateCoins(),
         ],
         [
-            ...generateBottles(2, 200, 1200), //12
-            // ...generateBottles(2, 1400, 1200),
+
             ...generateBottles(2, 2800, 1200),
-            // ...generateBottles(2, 4200, 1200),
             ...generateBottles(2, 5600, 1200),
-            // ...generateBottles(2, 6500, 300),
-            // ...generateHighBossBottles(),
-            // ...generateBottleLine(3200, 220, 3, 70),
-            // ...generateBottleDiagonal(3000, 300, 4), 
-            // ...generateBottleLine(4600, 100, 3, 90), 
-            // ...generateBottleDiagonal(6000, 200, 3), 
+            ...generateHighBossBottles(),
         ],
     );
 
@@ -93,66 +78,22 @@ function initLevel1() {
  * @param {number} amount - Number of coins to generate.
  * @returns {Array} Array of coin objects.
  */
-    function generateCoins(amount) {
-        let coins = [];
-        for (let i = 0; i < amount; i++) {
-            let x = 200 + Math.random() * 2000;
-            let y = 50 + Math.random() * 200;
-            coins.push(
-                new CollectableObject('img/8_coin/coin_2.png', x, y)
-            );
-        }
-        return coins;
-    }
-
-/**
- * Generates a horizontal line of coins.
- *
- * @param {number} startX - Starting X position.
- * @param {number} startY - Fixed Y position.
- * @param {number} amount - Number of coins.
- */
-    function generateCoinLine(startX, startY, amount) {
-        let coins = [];
-        for (let i = 0; i < amount; i++) {
-            coins.push(new CollectableObject('img/8_coin/coin_2.png', startX + i * 60, startY));
-        }
-        return coins;
-    }
-
-/**
- * Generates a diagonal upward coin pattern.
- */
-    function generateCoinDiagonal(startX, startY, amount) {
-        let coins = [];
-        for (let i = 0; i < amount; i++) {
-            coins.push(new CollectableObject('img/8_coin/coin_2.png', startX + i * 60, startY - i * 30));
-        }
-        return coins;
-    }
-
-/**
- * Generates a diagonal downward coin pattern.
- */
-    function generateCoinDiagonalDown(startX, startY, amount) {
-        let coins = [];
-        for (let i = 0; i < amount; i++) {
-            coins.push(new CollectableObject('img/8_coin/coin_2.png', startX + i * 60, startY + i * 30));
-        }
-        return coins;
-    }
-
-/**
- * Generates coins in an arc (sin wave pattern).
- */
-    function generateCoinArc(centerX, baseY, amount) {
-        let coins = [];
-        for (let i = 0; i < amount; i++) {
-            let x = centerX + i * 50;
-            let y = baseY - Math.sin(i / amount * Math.PI) * 100;
-            coins.push(new CollectableObject('img/8_coin/coin_2.png', x, y));}
-        return coins;
-    }
+  function generateCoins() {
+    const positions = [
+        { x: 500, y: 250 },
+        { x: 1500, y: 120 },
+        { x: 2800, y: 200 },
+        { x: 4300, y: 100 },
+        { x: 6000, y: 180 },
+    ];
+    return positions.map(pos =>
+        new CollectableObject(
+            'img/8_coin/coin_2.png',
+            pos.x + (Math.random() * 100 - 50),
+            pos.y + (Math.random() * 40 - 20)
+        )
+    );
+}
 
 /**
  * Generates randomly distributed bottles within a range.
@@ -174,39 +115,6 @@ function initLevel1() {
     }
 
 /**
- * Generates a horizontal line of bottles.
- *
- * @param {number} startX - Starting X position.
- * @param {number} startY - Fixed Y position.
- * @param {number} amount - Number of bottles.
- * @param {number} spacing - Distance between bottles (default: 80).
- * @returns {Array} Array of CollectableObject bottles.
- */
-    function generateBottleLine(startX, startY, amount, spacing = 80) {
-        let bottles = [];
-        for (let i = 0; i < amount; i++) {
-            bottles.push(new CollectableObject('img/6_salsa_bottle/salsa_bottle.png',startX + i * spacing, startY));
-        }
-        return bottles;
-    }
-
-/**
- * Generates a diagonal bottle pattern (upwards slope).
- *
- * @param {number} startX - Starting X position.
- * @param {number} startY - Starting Y position.
- * @param {number} amount - Number of bottles.
- * @returns {Array} Array of CollectableObject bottles.
- */
-    function generateBottleDiagonal(startX, startY, amount) {
-        let bottles = [];
-        for (let i = 0; i < amount; i++) {
-            bottles.push(new CollectableObject('img/6_salsa_bottle/salsa_bottle.png',startX + i * 60,startY - i * 30));
-        }
-        return bottles;
-    }
-
-/**
  * Generates a fixed set of high-position bottles (boss area placement).
  *
  * @returns {Array} Array of CollectableObject bottles.
@@ -214,10 +122,8 @@ function initLevel1() {
     function generateHighBossBottles() {
         return [
             new CollectableObject('img/6_salsa_bottle/salsa_bottle.png',6400,120),
-            new CollectableObject('img/6_salsa_bottle/salsa_bottle.png',6550,100),
-            new CollectableObject('img/6_salsa_bottle/salsa_bottle.png',6700,140),
             new CollectableObject('img/6_salsa_bottle/salsa_bottle.png',6850,110),
-            new CollectableObject('img/6_salsa_bottle/salsa_bottle.png',7000,130),
+            
         ];
     }
 

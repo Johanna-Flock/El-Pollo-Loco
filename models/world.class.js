@@ -103,6 +103,9 @@ class World {
         this.addToMap(this.healthBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.bottleBar);
+        if (this.endbossBar.visible) {
+        this.addToMap(this.endbossBar);
+        }
         this.ctx.translate(this.camera_x, 0);
     }
 
@@ -187,7 +190,19 @@ class World {
         this.checkWinCondition();
         this.removeDeadEnemies();
         this.checkGameOver();
+        this.checkEndbossActivation();
     }
+
+/**
+ * sets visible to true when the character is close enough to the endboss
+ */
+checkEndbossActivation() {
+    let endboss = this.level.enemies.find(
+        enemy => enemy instanceof Endboss);
+    if (endboss && this.character.x > endboss.x - 500) {
+        this.endbossBar.visible = true;
+    }
+}
 
 /**
  * Handles all keyboard input logic.
@@ -280,6 +295,8 @@ class World {
             new StatusBar(20, 60, "coins");
         this.bottleBar =
             new StatusBar(20, 120, "bottles");
+        this.endbossBar =
+        new StatusBar(500, 0, "endboss");
     }
 
 /**
@@ -611,23 +628,46 @@ resetEnemyCollision(enemy, type) {
  * Handles bottle throwing input and creates
  * a throwable bottle if possible.
  */
+    // throwObjects() {
+    //     if (!this.keyboard.D || this.character.isThrowing) {
+    //         return;
+    //     }
+    //     if (this.character.isSleeping()) {
+    //         this.character.wakeUp();
+    //     }
+    //     this.character.isThrowing = true;
+    //     if (this.bottleCount <= 0) {
+    //         this.resetThrowState();
+    //         return;
+    //     }
+    //     this.createThrowableBottle();
+    //     this.updateBottleUI();
+    //     this.audio.onThrow();
+    //     this.resetThrowState();
+    // }
+
     throwObjects() {
-        if (!this.keyboard.D || this.character.isThrowing) {
-            return;
-        }
-        if (this.character.isSleeping()) {
-            this.character.wakeUp();
-        }
-        this.character.isThrowing = true;
-        if (this.bottleCount <= 0) {
-            this.resetThrowState();
-            return;
-        }
-        this.createThrowableBottle();
-        this.updateBottleUI();
-        this.audio.onThrow();
-        this.resetThrowState();
+    let now = Date.now();
+    if (now - this.throwCooldown < 1000) {
+        return;
     }
+    if (!this.keyboard.D || this.character.isThrowing) {
+        return;
+    }
+    if (this.character.isSleeping()) {
+        this.character.wakeUp();
+    }
+    this.character.isThrowing = true;
+    if (this.bottleCount <= 0) {
+        this.resetThrowState();
+        return;
+    }
+    this.createThrowableBottle();
+    this.updateBottleUI();
+    this.audio.onThrow();
+    this.throwCooldown = now;
+    this.resetThrowState();
+}
 
 /**
  * Creates a throwable bottle object
