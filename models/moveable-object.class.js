@@ -50,6 +50,9 @@ applyGravity() {
         this.speedY += this.acceleration;
         this.y += this.speedY;
         const groundLevel = this.groundY - this.height;
+        if (this.state === "falling") {
+            return;
+        }
         if (this.y >= groundLevel) {
             this.y = groundLevel;
             this.speedY = 0;

@@ -317,7 +317,6 @@ class AudioManager {
     onBigChicken() {
         this.bigChickenSound.volume = 0.07;
         this.playSound(this.bigChickenSound);
-         console.log("bigChicken volume:", this.bigChickenSound.volume);
     }
 
 /**

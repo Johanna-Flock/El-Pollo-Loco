@@ -5,7 +5,7 @@ class Endboss extends MovableObject {
     x;
     currentImage = 0;
     isDead = false;
-    energy = 400;
+    energy = 100;
     damage = 20;
     deadFrameIndex = 0;
     isDeadAnimationFinished = false;

@@ -336,17 +336,29 @@ class World {
  * Chickens are removed after falling out of the screen,
  * while the endboss is removed after its death animation finishes.
  */
+    // removeDeadEnemies() {
+    //     this.level.enemies = this.level.enemies.filter(enemy => {
+    //         if (enemy instanceof Chicken) {
+    //             return !(enemy.state === "dead" && enemy.y > 600);
+    //         }
+    //         if (enemy instanceof Endboss) {
+    //             return !enemy.isDeadAnimationFinished;
+    //         }
+    //         return true;
+    //     });
+    // }
+
     removeDeadEnemies() {
-        this.level.enemies = this.level.enemies.filter(enemy => {
-            if (enemy instanceof Chicken) {
-                return !(enemy.state === "dead" && enemy.y > 600);
-            }
-            if (enemy instanceof Endboss) {
-                return !enemy.isDeadAnimationFinished;
-            }
-            return true;
-        });
-    }
+    this.level.enemies = this.level.enemies.filter(enemy => {
+        if (enemy instanceof Chicken || enemy instanceof SmallChicken) {
+            return !((enemy.state === "dead" || enemy.state === "falling") && enemy.y > 600);
+        }
+        if (enemy instanceof Endboss) {
+            return !enemy.isDeadAnimationFinished;
+        }
+        return true;
+    });
+}
 
 /**
  * Checks if the player has defeated the endboss
