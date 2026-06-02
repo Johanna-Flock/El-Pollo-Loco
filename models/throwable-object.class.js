@@ -56,7 +56,7 @@ animate() {
         setInterval(() => {
             this.x += this.speedX;
         }, 25);
-        this.applyGravity();
+        this.applyGravityBottle();
     }
 
 /**
@@ -77,4 +77,28 @@ animate() {
             }
         }, 80);
     }
+
+/**
+ *Applies gravity to the bottle and updates its vertical position.
+ *Triggers the splash animation when the bottle hits the ground.
+ */
+    applyGravityBottle() {
+    setInterval(() => {
+        this.speedY += this.acceleration;
+        this.y += this.speedY;
+        const groundLevel = this.groundY - this.height;
+        if (this.y >= groundLevel) {
+            this.y = groundLevel;
+            this.speedY = 0;
+            this.onGroundHit();
+        }
+    }, 1000 / 25);
+}
+
+onGroundHit() {
+    if (this.state === "splash") return;
+
+    this.splash();
+}
+    
 }

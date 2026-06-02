@@ -70,7 +70,7 @@ applyGravity() {
  * @returns {boolean} True if the object is above ground
  */
     isAboveGround() {
-        if (this instanceof ThrowableObject) { //throwable objects should always fall
+        if (this instanceof ThrowableObject) { 
             return true;
         }
         return this.y < this.groundY - this.height;

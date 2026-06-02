@@ -63,7 +63,7 @@ function initLevel1() {
     let backgrounds = [];
     let tiles = 12;
     for (let i = -1; i < tiles; i++) {
-        let x = 720 * i; 
+        let x = 719 * i; 
         backgrounds.push(
             new BackgroundObject('img/5_background/layers/air.png', x),
             new BackgroundObject('img/5_background/layers/3_third_layer/' +(i % 2 ? '1.png' : '2.png'),x),
@@ -71,7 +71,7 @@ function initLevel1() {
             new BackgroundObject('img/5_background/layers/1_first_layer/' +(i % 2 ? '1.png' : '2.png'),x),
         );
     }
-    level1EndX = tiles * 720; 
+    level1EndX = tiles * 719; 
     return backgrounds;
 }
 
