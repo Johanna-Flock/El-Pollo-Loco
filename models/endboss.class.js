@@ -6,7 +6,7 @@ class Endboss extends MovableObject {
     currentImage = 0;
     isDead = false;
     energy = 100;
-    damage = 20; //endboss can deal more damage than regular enemies
+    damage = 20; 
     deadFrameIndex = 0;
     isDeadAnimationFinished = false;
     alertStartTime = 0;
@@ -79,7 +79,6 @@ class Endboss extends MovableObject {
         this.animate();
     }
 
-
 /**
  * Starts movement and animation intervals for the enemy.
  */
@@ -142,7 +141,6 @@ class Endboss extends MovableObject {
 /**
  * Main state update logic for enemy behavior.
  */
-
     handleState() {
     let distance =
         Math.abs(this.world.character.x - this.x);
@@ -156,6 +154,11 @@ class Endboss extends MovableObject {
     this.updateStateSound();
 }
 
+/**
+ * Handles the alert state timing and animation stage transitions.
+ * The alert stage changes based on how long the enemy has been in the alert state.
+ * After 3 seconds, it transitions to the chase state.
+ */
 handleAlertState() {
     let elapsed = Date.now() - this.alertStartTime;
     if (elapsed > 2000) {
@@ -306,6 +309,8 @@ handleAlertState() {
         }
         if (this.energy <= 0) {
             this.state = "dead";
+            this.world.audio.stopAllSounds();
+            this.world.audio.onEndbossDead();
             return;
         }
         this.lastHitTime = Date.now();

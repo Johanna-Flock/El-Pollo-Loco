@@ -243,8 +243,8 @@ a {
     z-index: 999999;
     border-radius: 10px;
     gap: 20px;
-    height:50%;
-    width: 50%;
+    /* height:50%;
+    width: 50%; */
     top: 0;
     left: 50%;
     transform: translateX(-50%);

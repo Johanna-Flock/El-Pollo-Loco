@@ -27,10 +27,11 @@ function initLevel1() {
             ...generateCoins(),
         ],
         [
-
+            ...generateBottles(1, 1500, 1200),
             ...generateBottles(2, 2800, 1200),
             ...generateBottles(2, 5600, 1200),
             ...generateHighBossBottles(),
+            
         ],
     );
 
@@ -59,19 +60,20 @@ function initLevel1() {
  * @returns {Array} Array of BackgroundObject instances.
  */
     function generateBackground() {
-        let backgrounds = [];
-        let tiles = 12;
-        for (let i = -1; i < tiles; i++) {
-            backgrounds.push(
-                new BackgroundObject('img/5_background/layers/air.png', 719 * i),
-                new BackgroundObject('img/5_background/layers/3_third_layer/' + (i % 2 ? '1.png' : '2.png'), 719 * i),
-                new BackgroundObject('img/5_background/layers/2_second_layer/' + (i % 2 ? '1.png' : '2.png'), 719 * i),
-                new BackgroundObject('img/5_background/layers/1_first_layer/' + (i % 2 ? '1.png' : '2.png'), 719 * i),
-            );
-        }
-        level1EndX = tiles * 719;
-        return backgrounds;
+    let backgrounds = [];
+    let tiles = 12;
+    for (let i = -1; i < tiles; i++) {
+        let x = 720 * i; 
+        backgrounds.push(
+            new BackgroundObject('img/5_background/layers/air.png', x),
+            new BackgroundObject('img/5_background/layers/3_third_layer/' +(i % 2 ? '1.png' : '2.png'),x),
+            new BackgroundObject('img/5_background/layers/2_second_layer/' +(i % 2 ? '1.png' : '2.png'),x),
+            new BackgroundObject('img/5_background/layers/1_first_layer/' +(i % 2 ? '1.png' : '2.png'),x),
+        );
     }
+    level1EndX = tiles * 720; 
+    return backgrounds;
+}
 
 /**
  * Generates randomly placed coins within a defined range.

@@ -93,7 +93,7 @@ function handleGameplayOrientation(isLandscape) {
     if (!gameState.started) return;
     if (!world) return;
     if (!world.level) return;
-    const overlay = document.getElementById("rotate_overlay_gameplay");
+    const overlay = document.getElementById("rotate_overlay");
     if (!isLandscape) {
         showRotateMessage();
         world.pauseGame();
@@ -361,11 +361,16 @@ function openModalGameDescriptionMobile() {
 function resizeCanvas() {
     requestAnimationFrame(() => {
         const canvas = document.getElementById("canvas");
+        const menu = document.getElementById("afterGameMenu");
         const w = window.innerWidth;
         const h = window.innerHeight;
         let scale = Math.min(w / 720, h / 480);
         scale = Math.min(scale, 1.5);
-        canvas.style.width = 720 * scale + "px";
-        canvas.style.height = 480 * scale + "px";
+        const width = 720 * scale;
+        const height = 480 * scale;
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+        menu.style.width = width + "px";
+        menu.style.height = height + "px";
     });
 }

@@ -35,7 +35,6 @@ function init(){
  * On mobile, the game only starts in landscape mode; otherwise orientation check is triggered.
  */
 function startGameButton() {
-    // Desktop -> direkt starten
     if (!isMobile()) {
         startGame();
         return;
@@ -69,6 +68,13 @@ function startGame() {
     }
 }
 
+/**
+ * Checks for stable layout after orientation change before starting the game.
+ * This function repeatedly checks the window dimensions until they have been stable for a few frames,
+ * which indicates that the layout has settled after an orientation change. Once stable, it calls the provided callback.
+ *
+ * @param {function} callback - The function to call once the layout is stable.
+ */
 function waitForLayoutStable(callback) {
     let lastWidth = window.innerWidth;
     let lastHeight = window.innerHeight;
@@ -76,18 +82,15 @@ function waitForLayoutStable(callback) {
     function check() {
         const w = window.innerWidth;
         const h = window.innerHeight;
-        if (w === lastWidth && h === lastHeight) {
-            stableFrames++;
+        if (w === lastWidth && h === lastHeight) {stableFrames++;
         } else {
             stableFrames = 0;
             lastWidth = w;
             lastHeight = h;
         }
-        if (stableFrames >= 3) {
-            callback();
-        } else {
-            requestAnimationFrame(check);
-        }
+        if (stableFrames >= 3) {callback();
+
+        } else {requestAnimationFrame(check);}
     }
     requestAnimationFrame(check);
 }
@@ -163,11 +166,11 @@ window.addEventListener("keydown", (e) => {
  */
 window.addEventListener("keyup", (e) => { 
       const blockedKeys = [
-        32, // Space
-        37, // Left
-        38, // Up
-        39, // Right
-        40  // Down
+        32, 
+        37, 
+        38, 
+        39, 
+        40  
     ];
     if (blockedKeys.includes(e.keyCode)) {
         e.preventDefault();
@@ -177,9 +180,9 @@ window.addEventListener("keyup", (e) => {
     if(e.keyCode == 38) keyboard.UP = false;
     if(e.keyCode == 40) keyboard.DOWN = false;
     if(e.keyCode == 32) keyboard.SPACE = false;
-    if(e.key == "d" || e.key == "D") keyboard.D = false; //Taste für Werfen von Objekten
-    if(e.key == "s" || e.key == "S") keyboard.S = false; //S-Taste für Starten/Neustarten des Spiels
-    if(e.key == "p" || e.key == "P") keyboard.P = false; //P-Taste für Pause/Unpause des Spiels
-    if(e.key === "Escape") keyboard.ESC = false; //Zurücl zum Startbildschirm mit ESC-Taste
+    if(e.key == "d" || e.key == "D") keyboard.D = false; 
+    if(e.key == "s" || e.key == "S") keyboard.S = false; 
+    if(e.key == "p" || e.key == "P") keyboard.P = false; 
+    if(e.key === "Escape") keyboard.ESC = false; 
     
 });

@@ -353,17 +353,6 @@ checkEndbossActivation() {
  * Chickens are removed after falling out of the screen,
  * while the endboss is removed after its death animation finishes.
  */
-    // removeDeadEnemies() {
-    //     this.level.enemies = this.level.enemies.filter(enemy => {
-    //         if (enemy instanceof Chicken) {
-    //             return !(enemy.state === "dead" && enemy.y > 600);
-    //         }
-    //         if (enemy instanceof Endboss) {
-    //             return !enemy.isDeadAnimationFinished;
-    //         }
-    //         return true;
-    //     });
-    // }
 
     removeDeadEnemies() {
     this.level.enemies = this.level.enemies.filter(enemy => {
