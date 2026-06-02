@@ -271,21 +271,6 @@ a {
     z-index: 999999;
 }
 
-/* .rotate_overlay_gameplay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.92);
-    color: bisque;
-    font-family: 'Baloo 2', sans-serif;
-    font-size: 32px;
-    text-align: center;
-    z-index: 999999;
-    padding: 24px;
-} */
-
 .d_none {
     display: none !important;
 }

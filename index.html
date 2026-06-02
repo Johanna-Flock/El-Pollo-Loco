@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="./img/3_enemies_chicken/chicken_normal/1_walk/1_w.png" width:16px;>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="mobile_style.css">
+    <script src="models/audio.class.js"></script>
     <script src="models/drawable-object.class.js"></script>
     <script src="models/status-bar.class.js"></script>
     <script src="models/world.condition.js"></script>
@@ -25,7 +26,6 @@
     <script src="models/throwable-object.class.js"></script>
     <script src="models/level.class.js"></script>
     <script src="models/screen.class.js"></script>
-    <script src="models/audio.class.js"></script>
     <script src="level/level1.js"></script>
     <script src="js/game.js"></script>
     <script src="js/mobile_functions.js"></script>
@@ -92,13 +92,18 @@
             onclick="closeModal('overlay_mobile_game_description')">
             <div class="modal_game_description" onclick="event.stopPropagation()">
                 <h2>How to Play</h2>
-                <li>Use the arrow keys to move left and right.</li>
-                <li>Press the Up-Button to jump.</li>
+                <li>Press the <strong>'S'</strong> key to start the game.</li>
+                <li>Use the <strong>arrow keys</strong> to move left and right.</li>
+                <li>Press the <strong>spacebar</strong> to jump.</li>
                 <li>Jump on enemies to defeat them.</li>
                 <li>Collect bottles for throwing them.</li>
-                <li>Press the Hand-Button to throw a bottle to damage enemies.</li>
+                <li>There are <strong>7 bottles</strong> in the game. Use them wisely! You`ll need some for the end
+                    boss.</li>
+                <li>Press the <strong>'D'</strong> key to throw a bottle to damage enemies.</li>
                 <li>Collect coins to increase your score.</li>
                 <li>Defeat the end boss to win the game.</li>
+                <li>Press the <strong>'P'</strong> key to pause the game.</li>
+                <li>Press the <strong>'ESC'</strong> key to leave and go back to start screen.</li>
             </div>
         </div>
         <div id="game_description_mobile" class="game_description d_none">
@@ -116,16 +121,18 @@
     <div id="overlay" class="overlay d_none" onclick="closeModal('overlay')">
         <div class="modal_game_description" onclick="event.stopPropagation()">
             <h2>How to Play</h2>
-            <li>Press the 'S' key to start the game.</li>
-            <li>Use the arrow keys to move left and right.</li>
-            <li>Press the spacebar to jump.</li>
+            <li>Press the <strong>'S'</strong> key to start the game.</li>
+            <li>Use the <strong>arrow keys</strong> to move left and right.</li>
+            <li>Press the <strong>spacebar</strong> to jump.</li>
             <li>Jump on enemies to defeat them.</li>
             <li>Collect bottles for throwing them.</li>
-            <li>Press the 'D' key to throw a bottle to damage enemies.</li>
+            <li>There are <strong>7 bottles</strong> in the game. Use them wisely! You`ll need some for the end boss.
+            </li>
+            <li>Press the <strong>'D'</strong> key to throw a bottle to damage enemies.</li>
             <li>Collect coins to increase your score.</li>
             <li>Defeat the end boss to win the game.</li>
-            <li>Press the 'P' key to pause the game.</li>
-            <li>Press the 'ESC' key to leave and go back to start screen.</li>
+            <li>Press the <strong>'P'</strong> key to pause the game.</li>
+            <li>Press the <strong>'ESC'</strong> key to leave and go back to start screen.</li>
         </div>
     </div>
     <div id="impressum_overlay" class="overlay d_none" onclick="closeModal('impressum_overlay')">
@@ -156,7 +163,7 @@
                 <p>Start-Icon <a target="_blank"
                         href="https://www.flaticon.com/free-icon/start-button_6348220?term=start&page=1&position=41&origin=search&related_id=6348220">by
                         Freepik</a> <br>
-                
+
                 </p>
             </div>
         </div>

@@ -55,7 +55,7 @@ class StatusBar extends DrawableObject {
         this.x = x;
         this.y = y;
         if (!type) {
-            console.warn("⚠️ StatusBar ohne type erstellt!");
+            console.warn("StatusBar without type created!");
             type = "health";
         }
         if (type === "health") {
@@ -73,7 +73,7 @@ class StatusBar extends DrawableObject {
             this.img = this.ImageCache[this.IMAGES_ENDBOSS[0]];
         }
         else {
-            console.error("❌ Unknown type:", type);
+            console.error("Unknown type:", type);
         }
     }
 

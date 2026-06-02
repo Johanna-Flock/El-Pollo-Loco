@@ -25,6 +25,15 @@ function init(){
     world.onGameEndUI = () => {
         gameState.started = false;
         document.getElementById("afterGameMenu").classList.remove("d_none");};
+}
+
+document.addEventListener("click", startAudioOnce, { once: true });
+
+/**
+ * Initializes the game audio system and starts the start screen music.
+ * Should only be called after a user interaction due to browser autoplay policies.
+ */
+function startAudioOnce() {
     world.audio.initialize();
     world.audio.playMusic(world.audio.startScreenMusic);
 }

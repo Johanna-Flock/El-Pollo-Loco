@@ -133,7 +133,8 @@ class Character extends MovableObject {
             if (!this.active) return;
             this.handleMovement();
             this.handleJump();
-            this.world.camera_x = -this.x + 50;
+            // this.world.camera_x = -this.x + 50;
+            this.world.camera_x = Math.round(-this.x + 50);
         }, 1000 / 60);
     }
 
@@ -323,22 +324,6 @@ class Character extends MovableObject {
 /**
  * Plays jump animation with frame control and peak frame handling.
  */
-// playJumpAnimation() {
-//     let i = this.jumpFrameIndex;
-//     if (this.speedY < 0 && !this.jumpPeakReached) {
-//         if (this.y < this.world.groundY - this.height - 120) {
-//             this.jumpPeakReached = true;
-//             this.jumpFrameIndex = 7;}}
-//     let path = this.IMAGES_JUMPING[i];
-//     this.img = this.ImageCache[path];
-//     this.jumpFrameDelay++;
-//     if (this.jumpFrameDelay % 3 === 0) { 
-//         if (!this.jumpPeakReached || i < 7) {
-//             this.jumpFrameIndex++;}}
-//     if (this.jumpFrameIndex >= this.IMAGES_JUMPING.length) {
-//         this.jumpFrameIndex = this.IMAGES_JUMPING.length - 1;
-//     }}
-
 playJumpAnimation() {
     let path = this.IMAGES_JUMPING[this.jumpFrameIndex];
     this.img = this.ImageCache[path];

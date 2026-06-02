@@ -57,24 +57,26 @@ class AudioManager {
         this.activeSounds = [];
         this.currentMusic = null;
         this.startScreenMusic.loop = true;
-        this.winningSound.volume = 0.4;
-        this.bigChickenSound.volume = 0.07;
-        this.gameOverSound.volume = 0.4;
-        this.endbossDead.volume = 0.4;
+        this.startScreenMusic.volume = 0.02;
+        this.GameMusicLevel1.volume = 0.02;
+        this.winningSound.volume = 0.3;
+        this.bigChickenSound.volume = 0.02;
+        this.gameOverSound.volume = 0.3;
+        this.endbossDead.volume = 0.1;
         this.endbossHurt.volume = 0.1;
-        this.endbossChasingSound.volume = 0.2;
+        this.endbossChasingSound.volume = 0.1;
         this.endbossAlert.volume = 0.4;
-        this.endbossWalking.volume = 0.3;
-        this.smallChickenSound.volume = 0.01;
-        this.chickenDeadSound.volume = 0.1;
+        this.endbossWalking.volume = 0.2;
+        this.smallChickenSound.volume = 0.005;
+        this.chickenDeadSound.volume = 0.08;
         this.bottleCollectSound.volume = 0.03;
         this.coinCollectSound.volume = 0.02;
         this.gameEscapeSound.volume = 0.1;
         this.pauseSound.volume = 0.1;
-        this.characterDeathSound.volume = 0.1;
+        this.characterDeathSound.volume = 0.09;
         this.throwSound.volume = 0.1;
         this.jumpSound.volume = 0.1;
-        this.characterHurtSound.volume = 0.1;
+        this.characterHurtSound.volume = 0.09;
         this.sleepSound.volume = 0.1;
     }
 
@@ -141,7 +143,6 @@ class AudioManager {
         this.stopMusic();
         this.currentMusic = sound;
         sound.loop = true;
-        sound.volume = 0.04;
         if (this.soundMuted) return;
         sound.currentTime = 0;
         sound.play();
@@ -232,6 +233,7 @@ class AudioManager {
  * Clears all dynamically created active sounds.
  */
     stopAllSounds() {
+        this.stopBossSound();
         [...this.music, ...this.sfx].forEach(sound => {
             sound.pause();
             sound.currentTime = 0;
@@ -241,7 +243,7 @@ class AudioManager {
             sound.currentTime = 0;
         });
         this.activeSounds = [];
-        this.stopBossSound();
+        
     }
 
 /**
@@ -322,8 +324,14 @@ class AudioManager {
  * Plays the big chicken sound effect.
  */
     onBigChicken() {
-        this.playSound(this.bigChickenSound);
+    let now = Date.now();
+    if (this.lastBigChickenSound &&
+        now - this.lastBigChickenSound < 300) {
+        return;
     }
+    this.lastBigChickenSound = now;
+    this.playSound(this.bigChickenSound);
+}
 
 /**
  * Plays the small chicken sound effect.

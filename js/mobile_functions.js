@@ -127,8 +127,7 @@ function isMobile() {
     return (
         window.matchMedia("(pointer: coarse)").matches &&
         window.matchMedia("(hover: none)").matches
-    );
-    
+    );  
 }
 
 /**
@@ -153,6 +152,10 @@ function updateMobileUI() {
 });
 }
 
+/**
+ * Shows the mobile game description UI and hides desktop elements.
+ * Only executes when the game has not started yet.
+ */
 function mobileGameDescription() {
 if (gameState.started) return;
     document.getElementById("game_description").classList.add("d_none");
@@ -161,9 +164,11 @@ if (gameState.started) return;
     requestAnimationFrame(() => {
     resizeCanvas();
 });
-
 }
 
+/**
+ * Hides the mobile game description overlay and updates canvas size.
+ */
 function removeMobileGameDescription() {
     document.getElementById("game_description_mobile").classList.add("d_none");
     requestAnimationFrame(() => {
@@ -171,6 +176,9 @@ function removeMobileGameDescription() {
 });
 }
 
+/**
+ * Restores the desktop game description UI and hides mobile version.
+ */
 function GameDescription() {
     document.getElementById("game_description_mobile").classList.add("d_none");
     document.getElementById("headline").classList.remove("d_none");
@@ -366,8 +374,9 @@ function resizeCanvas() {
         const h = window.innerHeight;
         let scale = Math.min(w / 720, h / 480);
         scale = Math.min(scale, 1.5);
-        const width = 720 * scale;
-        const height = 480 * scale;
+        const SAFETY_FACTOR = 0.99;
+        const width = Math.floor(720 * scale * SAFETY_FACTOR);
+        const height = Math.floor(480 * scale * SAFETY_FACTOR);
         canvas.style.width = width + "px";
         canvas.style.height = height + "px";
         menu.style.width = width + "px";
