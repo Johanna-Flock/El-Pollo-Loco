@@ -268,7 +268,6 @@ function openMobileMenu(menu, movecontrols, actioncontrols) {
  * Closes the mobile menu and restores in-game controls.
  */
 function closeMobileMenu(menu, movecontrols, actioncontrols) {
-    console.log("CLOSE MENU");
     menu.classList.add("d_none");
     document.body.classList.remove("no_scroll");
     movecontrols.classList.remove("d_none");

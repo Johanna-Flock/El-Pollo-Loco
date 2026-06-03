@@ -75,3 +75,12 @@
     user-select: none;
     -webkit-user-drag: none;
 }
+
+#mobile_move_controls img {
+    touch-action: none;
+}
+
+#game_description_mobile img,
+#game_description_mobile button {
+    touch-action: manipulation;
+}

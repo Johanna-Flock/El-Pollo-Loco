@@ -142,7 +142,7 @@ class AudioManager {
         sound.loop = true;
         if (this.soundMuted) return;
         sound.currentTime = 0;
-        sound.play();
+        sound.play().catch(() => {});
     }
 
 /**
@@ -156,7 +156,7 @@ class AudioManager {
         if (this.soundMuted) return;
         let soundClone = sound.cloneNode();
         soundClone.volume = sound.volume;
-        soundClone.play();
+        soundClone.play().catch(() => {});
         this.activeSounds.push(soundClone);
         soundClone.onended = () => {
             this.activeSounds =
@@ -181,7 +181,7 @@ class AudioManager {
         this.currentBossSound = sound;
         sound.loop = loop;
         sound.currentTime = 0;
-        sound.play();
+        sound.play().catch(() => {});
     }
 
 /**

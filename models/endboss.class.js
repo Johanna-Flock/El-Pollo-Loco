@@ -210,7 +210,6 @@ handleAlertState() {
             this.state = "alert";
             this.alertStartTime = Date.now();
             this.alertStage = 0;
-            this.handleStateSound("alert");
             setTimeout(() => {
                 this.state = "chase";
             }, 3000);

@@ -17,7 +17,7 @@ class World {
  */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
-        this.canvas = canvas; //Hier schreiben wir den Parameter canvas in die Eigenschaft this.canvas, damit wir ihn später in der draw-Methode verwenden können
+        this.canvas = canvas;
         this.keyboard = keyboard;
         this.startScreen = new Screen("img/9_intro_outro_screens/start/startscreen_1.png");
         this.gameOverScreen = new Screen("img/You won, you lost/You lost.png");
@@ -400,7 +400,7 @@ class World {
  */
     addToMap(mo) {
         if (!mo.img) {
-            console.error("Kein Bild:", mo);
+            console.error("No picture:", mo);
         }
         if (mo.isDeadAnimationFinished) {
             return;
