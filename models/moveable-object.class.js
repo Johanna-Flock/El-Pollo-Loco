@@ -35,7 +35,6 @@ class MovableObject extends DrawableObject {
  */
     playAnimation(images) {
         let i = this.currentImage % images.length;
-        //modulo ist immer der Rest beim Geteilt; i= 0, 1, 2, 3, 4, 5; wenn i=6 ist, dann ist i=0; unendliche Reihe
         let path = images[i];
         this.img = this.ImageCache[path];
         this.currentImage++;
@@ -126,9 +125,9 @@ applyGravity() {
  * @returns {boolean} True if the object is currently hurt
  */
     isHurt() {
-        let timepassed = new Date().getTime() - this.lastHit; //Different in ms
-        timepassed = timepassed / 1000; //Different in s
-        return timepassed < 0.5; //getroffen in den letzten 0,5 Sekunde
+        let timepassed = new Date().getTime() - this.lastHit; 
+        timepassed = timepassed / 1000;
+        return timepassed < 0.5; 
     }
 
 /**
@@ -139,7 +138,7 @@ applyGravity() {
  */
     isIdle() {
         let timePassed = Date.now() - this.lastAction;
-        timePassed = timePassed / 1000; // Sekunden
+        timePassed = timePassed / 1000; 
         return timePassed > 3;
     }
 

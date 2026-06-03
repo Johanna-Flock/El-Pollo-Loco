@@ -44,7 +44,6 @@
     position: relative;
 }
 
-/* Dropdown Menu */
 .mobile_menu {
     position: absolute;
     top: 55px;
@@ -70,11 +69,9 @@
     cursor: pointer;
 }
 
-
 #mobile_controls img {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     user-select: none;
-
     -webkit-user-drag: none;
 }

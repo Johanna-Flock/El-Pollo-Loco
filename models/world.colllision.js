@@ -18,7 +18,7 @@ function checkEndbossActivation() {
  */
     function checkCoinCollect(coin) {
         if (
-            world.character.isNearItem(coin, 65)
+            world.character.isNearItem(coin, 45)
         ) {
             world.audio.onCoinCollect();
             world.coinCount++;

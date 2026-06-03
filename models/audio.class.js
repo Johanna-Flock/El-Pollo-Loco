@@ -7,7 +7,6 @@ class AudioManager {
  */
     constructor() {
         this.soundMuted = false;
-        this.startScreenMusic = new Audio("./audio/start_screen_music.mp3");
         this.openGameDescriptionSound = new Audio("./audio/open_game_description.mp3");
         this.gameEscapeSound = new Audio("./audio/game_escape_sound.mp3");
         this.jumpSound = new Audio("./audio/jump_sound.mp3");
@@ -30,7 +29,6 @@ class AudioManager {
         this.coinCollectSound = new Audio("./audio/coin.mp3");
         this.bottleCollectSound = new Audio("./audio/bottle.mp3");
         this.music = [
-            this.startScreenMusic,
             this.GameMusicLevel1,
         ];
         this.sfx = [
@@ -56,8 +54,6 @@ class AudioManager {
         ];
         this.activeSounds = [];
         this.currentMusic = null;
-        this.startScreenMusic.loop = true;
-        this.startScreenMusic.volume = 0.02;
         this.GameMusicLevel1.volume = 0.02;
         this.winningSound.volume = 0.3;
         this.bigChickenSound.volume = 0.02;
@@ -78,6 +74,7 @@ class AudioManager {
         this.jumpSound.volume = 0.1;
         this.characterHurtSound.volume = 0.09;
         this.sleepSound.volume = 0.1;
+        this.openGameDescriptionSound.volume = 0.1;
     }
 
 /**

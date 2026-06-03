@@ -9,7 +9,7 @@ class Cloud extends MovableObject {
  */
     constructor() {
         super().loadImage('img/5_background/layers/4_clouds/1.png');
-        this.x = Math.random() * 500; //Hiermit wird die x-Position der Wolken zufällig zwischen 200 und 700 festgelegt, damit sie nicht alle an der gleichen Stelle erscheinen
+        this.x = Math.random() * 500; 
         this.animate()
     }
 

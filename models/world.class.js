@@ -327,7 +327,7 @@ class World {
  */
     setWorld() {
         this.character.world = this;
-        this.character.animate(); // 👈 HIER starten!
+        this.character.animate();
         this.level.enemies.forEach(enemy => {
             enemy.world = this;
             enemy.animate();
@@ -361,9 +361,6 @@ class World {
         this.gameState = "start";
         this.stopCharacterAndEnemies();
         this.audio.stopAllSounds();
-        this.audio.playMusic(
-            this.audio.startScreenMusic
-        );
         this.resetKeyboard();
         if (this.onExitToMenu) {
             this.onExitToMenu();

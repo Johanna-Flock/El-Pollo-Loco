@@ -13,6 +13,7 @@ let pendingGameStart = false;
 function init(){
     canvas = document.getElementById("canvas")
     world = new World(canvas, keyboard);
+    world.audio.initialize();
     world.onExitToMenu = () => {
     gameState.started = false;
     updateMobileUI();
@@ -25,17 +26,6 @@ function init(){
     world.onGameEndUI = () => {
         gameState.started = false;
         document.getElementById("afterGameMenu").classList.remove("d_none");};
-}
-
-document.addEventListener("click", startAudioOnce, { once: true });
-
-/**
- * Initializes the game audio system and starts the start screen music.
- * Should only be called after a user interaction due to browser autoplay policies.
- */
-function startAudioOnce() {
-    world.audio.initialize();
-    world.audio.playMusic(world.audio.startScreenMusic);
 }
 
 /**
@@ -62,13 +52,10 @@ function startGameButton() {
  * updates UI and hides orientation messages.
  */
 function startGame() {
-    console.log("START GAME");
     keyboard.S = true;
     gameState.started = true;
     hideRotateMessage();
    if (isMobile()) {
-        console.log("Entering fullscreen mode for mobile.");
-        console.log("mobile detected, updating UI.");
         updateMobileUI() 
         removeMobileGameDescription();
         waitForLayoutStable(() => {
@@ -137,33 +124,30 @@ function closeModal(id) {
  */
 window.addEventListener("keydown", (e) => {
     const blockedKeys = [
-        32,
-        37,
-        38,
-        39,
-        40
+        "Space",
+        "ArrowLeft",
+        "ArrowUp",
+        "ArrowRight",
+        "ArrowDown"
     ];
-    if (blockedKeys.includes(e.keyCode)) {
+    if (blockedKeys.includes(e.code)) {
         e.preventDefault();
     }
-    if (e.keyCode == 39) keyboard.RIGHT = true;
-    if (e.keyCode == 37) keyboard.LEFT = true;
-    if (e.keyCode == 38) keyboard.UP = true;
-    if (e.keyCode == 40) keyboard.DOWN = true;
-    if (e.keyCode == 32) keyboard.SPACE = true;
-    if (
-        (e.key == "d" || e.key == "D")
-        && !e.repeat
-    ) {
+    if (e.code === "ArrowRight") keyboard.RIGHT = true;
+    if (e.code === "ArrowLeft") keyboard.LEFT = true;
+    if (e.code === "ArrowUp") keyboard.UP = true;
+    if (e.code === "ArrowDown") keyboard.DOWN = true;
+    if (e.code === "Space") keyboard.SPACE = true;
+    if (e.code === "KeyD" && !e.repeat) {
         keyboard.D = true;
     }
-    if (e.key == "s" || e.key == "S") {
+    if (e.code === "KeyS") {
         keyboard.S = true;
     }
-    if (e.key == "p" || e.key == "P") {
+    if (e.code === "KeyP") {
         keyboard.P = true;
     }
-    if (e.key === "Escape") {
+    if (e.code === "Escape") {
         keyboard.ESC = true;
     }
 });
@@ -173,25 +157,24 @@ window.addEventListener("keydown", (e) => {
  * Resets movement and action states so the character stops or stops performing actions.
  * Prevents default browser behavior for arrow keys and space.
  */
-window.addEventListener("keyup", (e) => { 
-      const blockedKeys = [
-        32, 
-        37, 
-        38, 
-        39, 
-        40  
+window.addEventListener("keyup", (e) => {
+    const blockedKeys = [
+        "Space",
+        "ArrowLeft",
+        "ArrowUp",
+        "ArrowRight",
+        "ArrowDown"
     ];
-    if (blockedKeys.includes(e.keyCode)) {
+    if (blockedKeys.includes(e.code)) {
         e.preventDefault();
     }
-    if(e.keyCode == 39) keyboard.RIGHT = false;
-    if(e.keyCode == 37) keyboard.LEFT = false;
-    if(e.keyCode == 38) keyboard.UP = false;
-    if(e.keyCode == 40) keyboard.DOWN = false;
-    if(e.keyCode == 32) keyboard.SPACE = false;
-    if(e.key == "d" || e.key == "D") keyboard.D = false; 
-    if(e.key == "s" || e.key == "S") keyboard.S = false; 
-    if(e.key == "p" || e.key == "P") keyboard.P = false; 
-    if(e.key === "Escape") keyboard.ESC = false; 
-    
+    if (e.code === "ArrowRight") keyboard.RIGHT = false;
+    if (e.code === "ArrowLeft") keyboard.LEFT = false;
+    if (e.code === "ArrowUp") keyboard.UP = false;
+    if (e.code === "ArrowDown") keyboard.DOWN = false;
+    if (e.code === "Space") keyboard.SPACE = false;
+    if (e.code === "KeyD") keyboard.D = false;
+    if (e.code === "KeyS") keyboard.S = false;
+    if (e.code === "KeyP") keyboard.P = false;
+    if (e.code === "Escape") keyboard.ESC = false;
 });

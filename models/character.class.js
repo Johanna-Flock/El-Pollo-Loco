@@ -133,7 +133,6 @@ class Character extends MovableObject {
             if (!this.active) return;
             this.handleMovement();
             this.handleJump();
-            // this.world.camera_x = -this.x + 50;
             this.world.camera_x = Math.round(-this.x + 50);
         }, 1000 / 60);
     }

@@ -279,7 +279,6 @@ a {
     overflow: hidden;
 }
 
-/* Smartphones */
 @media only screen and (max-width: 740px) {
     canvas {
         width: 100%;
@@ -290,7 +289,6 @@ a {
     }
 }
 
-/* Smartphones */ 
 @media only screen and (max-height: 480px) {
     canvas {
         height: 100vh;

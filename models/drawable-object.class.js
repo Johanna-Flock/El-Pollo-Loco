@@ -24,13 +24,13 @@ class DrawableObject {
  */
     loadImages(arr) {
         if (!arr) {
-            console.error("❌ arr ist undefined!");
+            console.error("arr ist undefined!");
             return;
         }
         arr.forEach(path => {
             let img = new Image();
-            img.src = path; //Hier wird das Bild geladen, indem ein neues Image-Objekt erstellt und die src-Eigenschaft auf den Pfad des Bildes gesetzt wird
-            this.ImageCache[path] = img; //Hier wird das geladene Bild im ImageCache-Objekt gespeichert, wobei der Pfad des Bildes als Schlüssel und das geladene Bild als Wert verwendet wird
+            img.src = path; 
+            this.ImageCache[path] = img; 
         });
     }
 

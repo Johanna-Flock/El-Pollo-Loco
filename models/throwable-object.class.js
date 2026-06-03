@@ -1,5 +1,4 @@
 class ThrowableObject extends MovableObject {
-
 /**
  * Creates a throwable bottle object and initializes
  * movement, animations, and state handling.
@@ -95,9 +94,12 @@ animate() {
     }, 1000 / 25);
 }
 
+/**
+ * Handles the event when the bottle hits the ground.
+ * If the bottle is still flying, it triggers the splash animation.
+ */
 onGroundHit() {
     if (this.state === "splash") return;
-
     this.splash();
 }
     
