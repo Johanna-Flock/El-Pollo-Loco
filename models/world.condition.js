@@ -38,7 +38,7 @@
             world.gameOverTriggered = true;
             setTimeout(() => {
                 setGameOver();
-            }, 3000); 
+            }, 2000); 
         }
     }
 

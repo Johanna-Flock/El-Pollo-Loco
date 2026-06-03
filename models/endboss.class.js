@@ -97,6 +97,10 @@ class Endboss extends MovableObject {
  * Handles animation based on current enemy state.
  */
     handleAnimation() {
+    if (this.world.character.isDead()) {
+        this.img = this.ImageCache[this.IMAGES_ALERT[0]];
+        return;
+    }
     let state = this.getCurrentState();
     if (state === "alert") {
         if (this.alertStage === 0) {this.playAnimation(this.IMAGES_ALERT);} 
@@ -142,6 +146,9 @@ class Endboss extends MovableObject {
  * Main state update logic for enemy behavior.
  */
     handleState() {
+     if (this.world.character.isDead()) {
+        return;
+    }
     let distance =
         Math.abs(this.world.character.x - this.x);
     if (this.handleDeadState()) return;

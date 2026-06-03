@@ -164,6 +164,7 @@ function resetEnemyCollision(enemy, type) {
  * a throwable bottle if possible.
  */
     function throwObjects() {
+     if (world.character.isDead()) return;
     let now = Date.now();
     if (now - world.throwCooldown < 1000) {
         return;}
@@ -236,6 +237,7 @@ function resetEnemyCollision(enemy, type) {
  */
     function checkEnemyHits() {
         if (!world?.level?.enemies) return;
+        if (world.character.isDead()) return;
         world.throwableObject =
             world.throwableObject.filter((bottle) => {
                 let hit = false;
