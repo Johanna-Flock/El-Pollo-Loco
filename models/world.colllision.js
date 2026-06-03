@@ -18,7 +18,7 @@ function checkEndbossActivation() {
  */
     function checkCoinCollect(coin) {
         if (
-            world.character.isNearItem(coin, 45)
+            world.character.isNearCoin(coin, 50)
         ) {
             world.audio.onCoinCollect();
             world.coinCount++;
@@ -27,7 +27,6 @@ function checkEndbossActivation() {
         }
         return true;
     }
-
 
 /**
  * Checks if the character collects a bottle.
@@ -38,7 +37,7 @@ function checkEndbossActivation() {
  */
     function checkBottleCollect(bottle) {
         if (
-            world.character.isNearItem(bottle, 80)
+            world.character.isNearBottle(bottle)
         ) {
             world.audio.onBottleCollect();
             world.bottleCount++;

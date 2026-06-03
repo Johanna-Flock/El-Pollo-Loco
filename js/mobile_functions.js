@@ -331,6 +331,9 @@ function goBackToStartScreenAfterEnding() {
     } else {
         GameDescription()
     }
+     if (!isMobile()) {
+        showGameDescription();
+     }
     exitFullscreenIfNeeded() 
     document.getElementById("afterGameMenu").classList.add("d_none");
 }
@@ -349,8 +352,7 @@ function goBackToStartScreen() {
     actioncontrols.classList.remove("d_none");
     gameState.started = false;
     mobileGameDescription();
-
-}
+    }
 
 /**
  * Opens the mobile game description modal and closes the menu.

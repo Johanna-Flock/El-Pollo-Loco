@@ -107,14 +107,14 @@
             </div>
         </div>
         <div id="game_description_mobile" class="game_description d_none">
-            <img id="info" src="./icons/info.png" alt="Info Icon" ontouchstart="openModal('overlay')">
+            <img id="info" src="./icons/info.png" alt="Info Icon" ontouchstart="openModal('overlay', event)">
             <img id="start_game" src="./icons/start-button.png" alt="Start Game Icon" ontouchstart="startGameButton()">
-            <button id="impressum_btn" ontouchstart="openModal('impressum_overlay')" >IMPRESSUM</button>
+            <button id="impressum_btn" ontouchstart="openModal('impressum_overlay', event)" >IMPRESSUM</button>
         </div>
         <div id="game_description" class="game_description">
-            <img id="info" src="./icons/info.png" alt="Info Icon" onclick="openModal('overlay')">
+            <img id="info" src="./icons/info.png" alt="Info Icon" onclick="openModal('overlay', event)">
             <img id="start_game" src="./icons/start-button.png" alt="Start Game Icon" onclick="startGameButton()">
-            <button id="impressum_btn" onclick="openModal('impressum_overlay')">IMPRESSUM</button>
+            <button id="impressum_btn" onclick="openModal('impressum_overlay', event)">IMPRESSUM</button>
         </div>
     </div>
 

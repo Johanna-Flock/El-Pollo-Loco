@@ -22,6 +22,7 @@ function init(){
     } else {
         GameDescription()
     }
+
     };
     world.onGameEndUI = () => {
         gameState.started = false;
@@ -62,6 +63,17 @@ function startGame() {
             resizeCanvas();
         });
     }
+    if (!isMobile()) {
+        hideGameDescription();
+    }
+}
+
+function hideGameDescription() {
+    document.getElementById("game_description").classList.add("d_none");
+}
+
+function showGameDescription() {
+    document.getElementById("game_description").classList.remove("d_none");
 }
 
 /**
@@ -98,7 +110,11 @@ function waitForLayoutStable(callback) {
  *
  * @param {string} id - The DOM element ID of the modal to open.
  */
-function openModal(id) {
+function openModal(id, event) {
+     if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
     document.getElementById(id).classList.remove("d_none");
     document.body.classList.add("no_scroll");
     world.audio.playSound(world.audio.openGameDescriptionSound);
