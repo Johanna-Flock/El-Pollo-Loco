@@ -134,22 +134,36 @@ function isMobile() {
  * Updates mobile UI visibility depending on device, orientation and game state.
  */
 function updateMobileUI() {
-    const controls = document.getElementById("mobile_controls");
     const isLandscape = window.innerWidth > window.innerHeight;
     if (isMobile() && gameState.started && isLandscape) {
-        controls.classList.remove("d_none");
-        document.getElementById("fullscreen_btn").classList.add("d_none");
-        document.getElementById("mute_btn_desktop").classList.add("d_none");
+        showMobileUI();
         removeMobileGameDescription()
-
     } else {
-        controls.classList.add("d_none");
-        document.getElementById("fullscreen_btn").classList.remove("d_none");
-        document.getElementById("mute_btn_desktop").classList.remove("d_none");
+        hideMobileUI();
     }
     requestAnimationFrame(() => {
     resizeCanvas();
 });
+}
+
+/**
+ * Shows the mobile controls and hides desktop UI elements when the game is active in landscape mode.
+ */
+function showMobileUI() {
+    const controls = document.getElementById("mobile_controls");
+    controls.classList.remove("d_none");
+    document.getElementById("fullscreen_btn").classList.add("d_none");
+    document.getElementById("mute_btn_desktop").classList.add("d_none");
+}
+
+/**
+ * Hides the mobile controls and shows desktop UI elements when there is no mobile device.
+ */
+function hideMobileUI() {
+    const controls = document.getElementById("mobile_controls");
+    controls.classList.add("d_none");
+    document.getElementById("fullscreen_btn").classList.remove("d_none");
+    document.getElementById("mute_btn_desktop").classList.remove("d_none");
 }
 
 /**
@@ -183,7 +197,6 @@ function GameDescription() {
     document.getElementById("game_description_mobile").classList.add("d_none");
     document.getElementById("headline").classList.remove("d_none");
     document.getElementById("game_description").classList.remove("d_none");
-
 }
 
 /**

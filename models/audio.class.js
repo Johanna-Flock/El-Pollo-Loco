@@ -240,7 +240,6 @@ class AudioManager {
             sound.currentTime = 0;
         });
         this.activeSounds = [];
-        
     }
 
 /**

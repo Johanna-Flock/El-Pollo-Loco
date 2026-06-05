@@ -1,8 +1,9 @@
 let canvas;
-let world; 
+let world;
 let keyboard = new Keyboard();
 let gameState = {
-    started: false,};
+    started: false,
+};
 let pendingGameStart = false;
 
 /**
@@ -10,23 +11,30 @@ let pendingGameStart = false;
  * Sets up callbacks for exiting to menu and game over UI handling.
  * Starts background music on the start screen.
  */
-function init(){
+function init() {
     canvas = document.getElementById("canvas")
     world = new World(canvas, keyboard);
     world.audio.initialize();
     world.onExitToMenu = () => {
-    gameState.started = false;
-    updateMobileUI();
-      if (isMobile()) {
-        mobileGameDescription()
-    } else {
-        GameDescription()
-    }
-
+        gameState.started = false;
+        updateMobileUI();
+        if (isMobile()) {
+            mobileGameDescription()
+        } else {
+            GameDescription()
+        }
     };
     world.onGameEndUI = () => {
-        gameState.started = false;
-        document.getElementById("afterGameMenu").classList.remove("d_none");};
+        showAfterGameMenu()
+    };
+}
+
+/**
+ * Displays the after game menu and updates the game state to reflect that the game has ended.
+ */
+function showAfterGameMenu() {
+    gameState.started = false;
+    document.getElementById("afterGameMenu").classList.remove("d_none");
 }
 
 /**
@@ -56,8 +64,8 @@ function startGame() {
     keyboard.S = true;
     gameState.started = true;
     hideRotateMessage();
-   if (isMobile()) {
-        updateMobileUI() 
+    if (isMobile()) {
+        updateMobileUI()
         removeMobileGameDescription();
         waitForLayoutStable(() => {
             resizeCanvas();
@@ -90,15 +98,16 @@ function waitForLayoutStable(callback) {
     function check() {
         const w = window.innerWidth;
         const h = window.innerHeight;
-        if (w === lastWidth && h === lastHeight) {stableFrames++;
+        if (w === lastWidth && h === lastHeight) {
+            stableFrames++;
         } else {
             stableFrames = 0;
             lastWidth = w;
             lastHeight = h;
         }
-        if (stableFrames >= 3) {callback();
-
-        } else {requestAnimationFrame(check);}
+        if (stableFrames >= 3) {
+            callback();
+        } else { requestAnimationFrame(check); }
     }
     requestAnimationFrame(check);
 }
@@ -111,7 +120,7 @@ function waitForLayoutStable(callback) {
  * @param {string} id - The DOM element ID of the modal to open.
  */
 function openModal(id, event) {
-     if (event) {
+    if (event) {
         event.preventDefault();
         event.stopPropagation();
     }

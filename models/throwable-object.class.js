@@ -1,12 +1,12 @@
 class ThrowableObject extends MovableObject {
-/**
- * Creates a throwable bottle object and initializes
- * movement, animations, and state handling.
- *
- * @param {number} x - Initial X position of the bottle
- * @param {number} y - Initial Y position of the bottle
- * @param {number} speedX - Horizontal throw speed
- */
+    /**
+     * Creates a throwable bottle object and initializes
+     * movement, animations, and state handling.
+     *
+     * @param {number} x - Initial X position of the bottle
+     * @param {number} y - Initial Y position of the bottle
+     * @param {number} speedX - Horizontal throw speed
+     */
     constructor(x, y, speedX) {
         super().loadImage('img/6_salsa_bottle/salsa_bottle.png');
         this.x = x;
@@ -38,18 +38,18 @@ class ThrowableObject extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png'
     ];
 
-animate() {
-    setInterval(() => {
-        if (this.state === "flying") {
-            this.playAnimation(this.IMAGES_BOTTLEROTATION);
-        }
-    }, 100);
-}
+    animate() {
+        setInterval(() => {
+            if (this.state === "flying") {
+                this.playAnimation(this.IMAGES_BOTTLEROTATION);
+            }
+        }, 100);
+    }
 
-/**
- * Throws the bottle by applying horizontal movement
- * and upward velocity combined with gravity.
- */
+    /**
+     * Throws the bottle by applying horizontal movement
+     * and upward velocity combined with gravity.
+     */
     throw() {
         this.speedY = -15;
         setInterval(() => {
@@ -58,10 +58,10 @@ animate() {
         this.applyGravityBottle();
     }
 
-/**
- * Starts the splash animation after the bottle hits something.
- * Prevents the splash animation from playing multiple times.
- */
+    /**
+     * Starts the splash animation after the bottle hits something.
+     * Prevents the splash animation from playing multiple times.
+     */
     splash() {
         if (this.state === "splash") return;
         this.state = "splash";
@@ -77,30 +77,30 @@ animate() {
         }, 80);
     }
 
-/**
- *Applies gravity to the bottle and updates its vertical position.
- *Triggers the splash animation when the bottle hits the ground.
- */
+    /**
+     *Applies gravity to the bottle and updates its vertical position.
+     *Triggers the splash animation when the bottle hits the ground.
+     */
     applyGravityBottle() {
-    setInterval(() => {
-        this.speedY += this.acceleration;
-        this.y += this.speedY;
-        const groundLevel = this.groundY - this.height;
-        if (this.y >= groundLevel) {
-            this.y = groundLevel;
-            this.speedY = 0;
-            this.onGroundHit();
-        }
-    }, 1000 / 25);
-}
+        setInterval(() => {
+            this.speedY += this.acceleration;
+            this.y += this.speedY;
+            const groundLevel = this.groundY - this.height;
+            if (this.y >= groundLevel) {
+                this.y = groundLevel;
+                this.speedY = 0;
+                this.onGroundHit();
+            }
+        }, 1000 / 25);
+    }
 
-/**
- * Handles the event when the bottle hits the ground.
- * If the bottle is still flying, it triggers the splash animation.
- */
-onGroundHit() {
-    if (this.state === "splash") return;
-    this.splash();
-}
-    
+    /**
+     * Handles the event when the bottle hits the ground.
+     * If the bottle is still flying, it triggers the splash animation.
+     */
+    onGroundHit() {
+        if (this.state === "splash") return;
+        this.splash();
+    }
+
 }

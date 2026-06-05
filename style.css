@@ -7,7 +7,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-image: url('img/falkenpost-desert-1654439.jpg');
+    background-image: url('img/desert.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
