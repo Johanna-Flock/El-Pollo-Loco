@@ -105,14 +105,26 @@ function initLevel1() {
  * @param {number} startX - Minimum X offset.
  * @param {number} rangeX - Spread range on X axis.
  */
-    function generateBottles(amount, startX = 200, rangeX = 6000) {
+    // function generateBottles(amount, startX = 200, rangeX = 6000) {
+    //     let bottles = [];
+    //     for (let i = 0; i < amount; i++) {
+    //         let x = startX + Math.random() * rangeX;
+    //         let baseHeights = [260, 290, 320];
+    //         let baseY = baseHeights[Math.floor(Math.random() * baseHeights.length)];
+    //         let y = baseY + (Math.random() * 20 - 10);
+    //         bottles.push(new CollectableObject('img/6_salsa_bottle/salsa_bottle.png',x,y));
+    //     }
+    //     return bottles;
+    // }
+
+     function generateBottles(amount, startX = 200, rangeX = 6000) {
         let bottles = [];
         for (let i = 0; i < amount; i++) {
             let x = startX + Math.random() * rangeX;
-            let baseHeights = [260, 290, 320];
+            let baseHeights = [240, 270, 300];
             let baseY = baseHeights[Math.floor(Math.random() * baseHeights.length)];
             let y = baseY + (Math.random() * 20 - 10);
-            bottles.push(new CollectableObject('img/6_salsa_bottle/salsa_bottle.png',x,y));
+            bottles.push(new Bottle(x,y));
         }
         return bottles;
     }
@@ -122,12 +134,21 @@ function initLevel1() {
  *
  * @returns {Array} Array of CollectableObject bottles.
  */
-    function generateHighBossBottles() {
+    // function generateHighBossBottles() {
+    //     return [
+    //         new CollectableObject('img/6_salsa_bottle/salsa_bottle.png',6400,120),
+    //         new CollectableObject('img/6_salsa_bottle/salsa_bottle.png',6850,110),
+            
+    //     ];
+    // }
+
+     function generateHighBossBottles() {
         return [
-            new CollectableObject('img/6_salsa_bottle/salsa_bottle.png',6400,120),
-            new CollectableObject('img/6_salsa_bottle/salsa_bottle.png',6850,110),
+            new Bottle(6200,120),
+            new Bottle(6450,110),
             
         ];
     }
+
 
 }

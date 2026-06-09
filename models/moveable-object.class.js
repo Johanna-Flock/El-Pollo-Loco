@@ -121,7 +121,7 @@ class MovableObject extends DrawableObject {
     * @param {number} [radius=80] - Detection radius for pickup range
     * @returns {boolean} True if the bottle is within collectible range
     */
-    isNearBottle(item, radius = 80) {
+    isNearBottle(item, radius = 73) {
         let charCenterX = this.x + this.width / 2;
         let charCenterY = this.y + this.height / 2;
         let itemCenterX = item.x + item.width / 2;
