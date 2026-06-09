@@ -8,13 +8,13 @@ class World {
     throwableObject = [];
     gameState = "start";
 
-/**
- * Creates a new game world instance and initializes
- * all core game systems and screens.
- * 
- * @param {HTMLCanvasElement} canvas - The game canvas element.
- * @param {Object} keyboard - The keyboard input controller.
- */
+    /**
+     * Creates a new game world instance and initializes
+     * all core game systems and screens.
+     * 
+     * @param {HTMLCanvasElement} canvas - The game canvas element.
+     * @param {Object} keyboard - The keyboard input controller.
+     */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -24,16 +24,16 @@ class World {
         this.winScreen = new Screen("img/You won, you lost/You won A.png");
         this.pauseScreen = new Screen("icons/Pause_Screen_Version3.png");
         this.audio = new AudioManager();
-        this.draw(); 
-        this.run();  
+        this.draw();
+        this.run();
         this.gameOverTriggered = false;
         this.deathSoundPlayed = false;
     }
 
-/**
- * Main render loop of the game.
- * Clears the canvas and draws the current game state.
- */
+    /**
+     * Main render loop of the game.
+     * Clears the canvas and draws the current game state.
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         if (this.gameState === "start") {
@@ -54,9 +54,9 @@ class World {
         requestAnimationFrame(() => this.draw());
     }
 
-/**
- * Draws all game elements during gameplay.
- */
+    /**
+     * Draws all game elements during gameplay.
+     */
     drawGame() {
         if (!this.level || !this.character) {
             return;
@@ -68,23 +68,23 @@ class World {
         this.exitWorldView();
     }
 
-/**
- * Applies the camera translation to the canvas.
- */
+    /**
+     * Applies the camera translation to the canvas.
+     */
     enterWorldView() {
         this.ctx.translate(this.camera_x, 0);
     }
 
-/**
- * Resets the camera translation of the canvas.
- */
+    /**
+     * Resets the camera translation of the canvas.
+     */
     exitWorldView() {
         this.ctx.translate(-this.camera_x, 0);
     }
 
-/**
- * Draws all background elements and clouds.
- */
+    /**
+     * Draws all background elements and clouds.
+     */
     drawBackground() {
         this.addObjectsToMap(
             this.level.backgroundObjects
@@ -95,23 +95,23 @@ class World {
         );
     }
 
-/**
- * Draws all fixed UI elements such as status bars.
- */
+    /**
+     * Draws all fixed UI elements such as status bars.
+     */
     drawFixedUI() {
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.healthBar);
         this.addToMap(this.coinBar);
         this.addToMap(this.bottleBar);
         if (this.endbossBar.visible) {
-        this.addToMap(this.endbossBar);
+            this.addToMap(this.endbossBar);
         }
         this.ctx.translate(this.camera_x, 0);
     }
 
-/**
- * Draws all interactive world objects.
- */
+    /**
+     * Draws all interactive world objects.
+     */
     drawWorldObjects() {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.coins);
@@ -121,9 +121,9 @@ class World {
         this.drawBottleSplashes();
     }
 
-/**
- * Draws all flying throwable bottles.
- */
+    /**
+     * Draws all flying throwable bottles.
+     */
     drawFlyingBottles() {
         this.addObjectsToMap(
             this.throwableObject.filter(
@@ -132,9 +132,9 @@ class World {
         );
     }
 
-/**
- * Draws all bottle splash animations.
- */
+    /**
+     * Draws all bottle splash animations.
+     */
     drawBottleSplashes() {
         this.addObjectsToMap(
             this.throwableObject.filter(
@@ -143,9 +143,9 @@ class World {
         );
     }
 
-/**
- * Pauses the game and disables all active entities.
- */
+    /**
+     * Pauses the game and disables all active entities.
+     */
     pauseGame() {
         this.gameState = "paused";
         this.character.active = false;
@@ -154,9 +154,9 @@ class World {
         this.audio.onPause();
     }
 
-/**
- * Resumes the game after being paused.
- */
+    /**
+     * Resumes the game after being paused.
+     */
     resumeGame() {
         this.gameState = "playing";
         this.character.active = true;
@@ -164,9 +164,9 @@ class World {
         this.audio.resumeMusic();
     }
 
-/**
- * Starts the main game logic loop.
- */
+    /**
+     * Starts the main game logic loop.
+     */
     run() {
         setInterval(() => {
             this.handleInput();
@@ -177,10 +177,10 @@ class World {
         }, 1000 / 60);
     }
 
-/**
- * Updates all gameplay systems each frame.
- */
-     update() {
+    /**
+     * Updates all gameplay systems each frame.
+     */
+    update() {
         checkCollectables();
         checkCollisions();
         checkBossBlock();
@@ -193,18 +193,18 @@ class World {
         checkEndbossActivation();
     }
 
-/**
- * Handles all keyboard input logic.
- */
+    /**
+     * Handles all keyboard input logic.
+     */
     handleInput() {
         this.handleStartInput();
         this.handlePauseInput();
         this.handleEscapeInput();
     }
 
-/**
- * Starts the game when the start key is pressed.
- */
+    /**
+     * Starts the game when the start key is pressed.
+     */
     handleStartInput() {
         if (
             this.keyboard.S &&
@@ -215,11 +215,11 @@ class World {
         }
     }
 
-/**
- * Handles pause and resume input depending on the current game state.
- * Pauses the game when the P key is pressed during gameplay
- * and resumes the game when pressed again while paused.
- */
+    /**
+     * Handles pause and resume input depending on the current game state.
+     * Pauses the game when the P key is pressed during gameplay
+     * and resumes the game when pressed again while paused.
+     */
     handlePauseInput() {
         if (this.keyboard.P && this.gameState === "playing"
         ) {
@@ -235,10 +235,10 @@ class World {
         }
     }
 
-/**
- * Handles escape input and returns the player to the start screen.
- * Plays an escape sound and delays the transition slightly.
- */
+    /**
+     * Handles escape input and returns the player to the start screen.
+     * Plays an escape sound and delays the transition slightly.
+     */
     handleEscapeInput() {
         if (
             this.keyboard.ESC &&
@@ -256,11 +256,11 @@ class World {
         }
     }
 
-/**
- * Starts a new game by initializing all game objects,
- * resetting values, setting the world reference,
- * and starting the level music.
- */
+    /**
+     * Starts a new game by initializing all game objects,
+     * resetting values, setting the world reference,
+     * and starting the level music.
+     */
     startGame() {
         if (this.character) {
             this.stopCharacterAndEnemies();
@@ -274,9 +274,9 @@ class World {
         this.keyboard.S = false;
     }
 
-/**
- * Initializes all status bars used in the game UI.
- */
+    /**
+     * Initializes all status bars used in the game UI.
+     */
     initStatusBars() {
         this.healthBar =
             new StatusBar(20, 0, "health");
@@ -285,13 +285,13 @@ class World {
         this.bottleBar =
             new StatusBar(20, 120, "bottles");
         this.endbossBar =
-        new StatusBar(300, 0, "endboss");
+            new StatusBar(300, 0, "endboss");
     }
 
-/**
- * Resets collectible counters and stores
- * the maximum amount of coins and bottles in the level.
- */
+    /**
+     * Resets collectible counters and stores
+     * the maximum amount of coins and bottles in the level.
+     */
     resetGameValues() {
         this.maxCoins =
             this.level.coins.length;
@@ -301,9 +301,9 @@ class World {
         this.bottleCount = 0;
     }
 
-/**
- * Stops currently playing music and starts the level music.
- */
+    /**
+     * Stops currently playing music and starts the level music.
+     */
     startLevelMusic() {
         this.audio.stopMusic();
         this.audio.playMusic(
@@ -311,9 +311,9 @@ class World {
         );
     }
 
-/**
- * Initializes all game objects required for a new level.
- */
+    /**
+     * Initializes all game objects required for a new level.
+     */
     initGameObjects() {
         initLevel1();
         this.level = level1;
@@ -321,10 +321,10 @@ class World {
         this.throwableObject = [];
     }
 
-/**
- * Assigns the world reference to all relevant objects
- * and starts character and enemy animations.
- */
+    /**
+     * Assigns the world reference to all relevant objects
+     * and starts character and enemy animations.
+     */
     setWorld() {
         this.character.world = this;
         this.character.animate();
@@ -337,10 +337,10 @@ class World {
         });
     }
 
-/**
- * Stops the character and all enemies by clearing
- * their active intervals and animations.
- */
+    /**
+     * Stops the character and all enemies by clearing
+     * their active intervals and animations.
+     */
     stopCharacterAndEnemies() {
         this.character.stop();
         if (this.level && this.level.enemies) {
@@ -352,11 +352,11 @@ class World {
         }
     }
 
-/**
- * Returns the game to the start screen,
- * resets audio and keyboard input,
- * and triggers the exit menu callback if available.
- */
+    /**
+     * Returns the game to the start screen,
+     * resets audio and keyboard input,
+     * and triggers the exit menu callback if available.
+     */
     goToStart() {
         this.gameState = "start";
         this.stopCharacterAndEnemies();
@@ -367,9 +367,9 @@ class World {
         }
     }
 
-/**
- * Resets all keyboard input states.
- */
+    /**
+     * Resets all keyboard input states.
+     */
     resetKeyboard() {
         this.keyboard.S = false;
         this.keyboard.D = false;
@@ -380,24 +380,24 @@ class World {
         this.keyboard.ESC = false;
     }
 
-/**
- * Draws multiple objects onto the canvas.
- * 
- * @param {Array} objects - The objects to render.
- */
+    /**
+     * Draws multiple objects onto the canvas.
+     * 
+     * @param {Array} objects - The objects to render.
+     */
     addObjectsToMap(objects) {
         objects.forEach(object => {
             this.addToMap(object);
         });
     }
 
-/**
- * Draws a single object onto the canvas.
- * Handles flipped rendering for objects facing the opposite direction
- * and skips finished death animations.
- * 
- * @param {MovableObject} mo - The object to render.
- */
+    /**
+     * Draws a single object onto the canvas.
+     * Handles flipped rendering for objects facing the opposite direction
+     * and skips finished death animations.
+     * 
+     * @param {MovableObject} mo - The object to render.
+     */
     addToMap(mo) {
         if (!mo.img) {
             console.error("No picture:", mo);
@@ -412,17 +412,17 @@ class World {
         }
     }
 
-/**
- * Draws an object mirrored horizontally.
- * Used for characters or enemies facing left.
- * 
- * @param {MovableObject} mo - The object to draw flipped.
- */
+    /**
+     * Draws an object mirrored horizontally.
+     * Used for characters or enemies facing left.
+     * 
+     * @param {MovableObject} mo - The object to draw flipped.
+     */
     drawFlipped(mo) {
         this.ctx.save();
-        this.ctx.translate(mo.x + mo.width,0);
+        this.ctx.translate(mo.x + mo.width, 0);
         this.ctx.scale(-1, 1);
-        this.ctx.drawImage( mo.img,0,mo.y,mo.width,mo.height);
+        this.ctx.drawImage(mo.img, 0, mo.y, mo.width, mo.height);
         this.ctx.restore();
     }
 

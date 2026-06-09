@@ -11,7 +11,7 @@ window.addEventListener("load", () => {
     if (isMobile()) {
         mobileGameDescription();
     }
-     if (!isMobile()) {
+    if (!isMobile()) {
         GameDescription();
     }
     requestAnimationFrame(() => {
@@ -26,15 +26,15 @@ window.addEventListener("load", () => {
  * Also checks screen orientation to adjust gameplay/UI behavior.
  */
 window.addEventListener("resize", () => {
-    updateMobileUI();   
+    updateMobileUI();
     checkOrientation();
-     if (isMobile()) {
+    if (isMobile()) {
         mobileGameDescription();
     }
     if (!isMobile()) {
         GameDescription();
     }
-     setTimeout(() => {
+    setTimeout(() => {
         resizeCanvas();
     }, 150);
 });
@@ -127,7 +127,7 @@ function isMobile() {
     return (
         window.matchMedia("(pointer: coarse)").matches &&
         window.matchMedia("(hover: none)").matches
-    );  
+    );
 }
 
 /**
@@ -142,8 +142,8 @@ function updateMobileUI() {
         hideMobileUI();
     }
     requestAnimationFrame(() => {
-    resizeCanvas();
-});
+        resizeCanvas();
+    });
 }
 
 /**
@@ -171,13 +171,13 @@ function hideMobileUI() {
  * Only executes when the game has not started yet.
  */
 function mobileGameDescription() {
-if (gameState.started) return;
+    if (gameState.started) return;
     document.getElementById("game_description").classList.add("d_none");
     document.getElementById("headline").classList.add("d_none");
     document.getElementById("game_description_mobile").classList.remove("d_none");
     requestAnimationFrame(() => {
-    resizeCanvas();
-});
+        resizeCanvas();
+    });
 }
 
 /**
@@ -186,8 +186,8 @@ if (gameState.started) return;
 function removeMobileGameDescription() {
     document.getElementById("game_description_mobile").classList.add("d_none");
     requestAnimationFrame(() => {
-    resizeCanvas();
-});
+        resizeCanvas();
+    });
 }
 
 /**
@@ -328,26 +328,26 @@ function restartGameAfterEnding() {
     gameState.started = true;
     updateMobileUI()
     waitForLayoutStable(() => {
-            resizeCanvas();
+        resizeCanvas();
     });
 }
 
 /**
  * Goes back to the start screen after the game has ended.
  */
-function goBackToStartScreenAfterEnding() { 
+function goBackToStartScreenAfterEnding() {
     world.goToStart();
     gameState.started = false;
     updateMobileUI()
-     if (isMobile()) {
+    if (isMobile()) {
         mobileGameDescription()
     } else {
         GameDescription()
     }
-     if (!isMobile()) {
+    if (!isMobile()) {
         showGameDescription();
-     }
-    exitFullscreenIfNeeded() 
+    }
+    exitFullscreenIfNeeded()
     document.getElementById("afterGameMenu").classList.add("d_none");
 }
 
@@ -365,7 +365,7 @@ function goBackToStartScreen() {
     actioncontrols.classList.remove("d_none");
     gameState.started = false;
     mobileGameDescription();
-    }
+}
 
 /**
  * Opens the mobile game description modal and closes the menu.

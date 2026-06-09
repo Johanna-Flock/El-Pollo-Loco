@@ -118,7 +118,7 @@ class MovableObject extends DrawableObject {
     * to reduce early pickups due to the bottle's vertical shape.
     *
     * @param {DrawableObject} item - The bottle object to check
-    * @param {number} [radius=80] - Detection radius for pickup range
+    * @param {number} [radius=73] - Detection radius for pickup range
     * @returns {boolean} True if the bottle is within collectible range
     */
     isNearBottle(item, radius = 73) {

@@ -76,10 +76,16 @@ function startGame() {
     }
 }
 
+/**
+ * Hides the game description modal on desktop devices.
+ */
 function hideGameDescription() {
     document.getElementById("game_description").classList.add("d_none");
 }
 
+/**
+ * Shows the game description modal on desktop devices.
+ */
 function showGameDescription() {
     document.getElementById("game_description").classList.remove("d_none");
 }

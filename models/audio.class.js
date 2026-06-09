@@ -1,10 +1,10 @@
 class AudioManager {
 
-/**
- * Initializes the AudioManager and loads all game sound assets.
- * Sets default volume, music loops, and sound effect collections.
- * Organizes sounds into music and SFX groups for easier control.
- */
+    /**
+     * Initializes the AudioManager and loads all game sound assets.
+     * Sets default volume, music loops, and sound effect collections.
+     * Organizes sounds into music and SFX groups for easier control.
+     */
     constructor() {
         this.soundMuted = false;
         this.openGameDescriptionSound = new Audio("./audio/open_game_description.mp3");
@@ -77,17 +77,17 @@ class AudioManager {
         this.openGameDescriptionSound.volume = 0.1;
     }
 
-/**
- * Initializes the audio system and loads saved sound settings.
- */
+    /**
+     * Initializes the audio system and loads saved sound settings.
+     */
     initialize() {
         this.loadSoundSettings();
     }
 
-/**
- * Loads the muted sound state from localStorage and applies it.
- * Updates UI mute buttons accordingly.
- */
+    /**
+     * Loads the muted sound state from localStorage and applies it.
+     * Updates UI mute buttons accordingly.
+     */
     loadSoundSettings() {
         const savedState = localStorage.getItem("soundMuted");
         if (savedState === "true") {
@@ -98,10 +98,10 @@ class AudioManager {
         this.updateMuteButtons();
     }
 
-/**
- * Toggles global sound mute state and persists it in localStorage.
- * Updates UI buttons and pauses/resumes music accordingly.
- */
+    /**
+     * Toggles global sound mute state and persists it in localStorage.
+     * Updates UI buttons and pauses/resumes music accordingly.
+     */
     toggleMute() {
         this.soundMuted = !this.soundMuted;
         localStorage.setItem("soundMuted", this.soundMuted);
@@ -113,10 +113,10 @@ class AudioManager {
         }
     }
 
-/**
- * Updates the mute/unmute icons for both desktop and mobile UI.
- * Reflects the current soundMuted state.
- */
+    /**
+     * Updates the mute/unmute icons for both desktop and mobile UI.
+     * Reflects the current soundMuted state.
+     */
     updateMuteButtons() {
         const desktop = document.getElementById("mute_btn_desktop");
         const mobile = document.getElementById("mute_btn");
@@ -129,34 +129,33 @@ class AudioManager {
         });
     }
 
-
-/**
- * Plays background music in a loop if sound is not muted.
- * Stops any currently playing music before starting the new track.
- *
- * @param {HTMLAudioElement} sound - The music track to play.
- */
+    /**
+     * Plays background music in a loop if sound is not muted.
+     * Stops any currently playing music before starting the new track.
+     *
+     * @param {HTMLAudioElement} sound - The music track to play.
+     */
     playMusic(sound) {
         this.stopMusic();
         this.currentMusic = sound;
         sound.loop = true;
         if (this.soundMuted) return;
         sound.currentTime = 0;
-        sound.play().catch(() => {});
+        sound.play().catch(() => { });
     }
 
-/**
- * Plays a one-shot sound effect.
- * Creates a clone so multiple instances can overlap.
- * Automatically removes finished sounds from the active sound list.
- *
- * @param {HTMLAudioElement} sound - The sound effect to play.
- */
+    /**
+     * Plays a one-shot sound effect.
+     * Creates a clone so multiple instances can overlap.
+     * Automatically removes finished sounds from the active sound list.
+     *
+     * @param {HTMLAudioElement} sound - The sound effect to play.
+     */
     playSound(sound) {
         if (this.soundMuted) return;
         let soundClone = sound.cloneNode();
         soundClone.volume = sound.volume;
-        soundClone.play().catch(() => {});
+        soundClone.play().catch(() => { });
         this.activeSounds.push(soundClone);
         soundClone.onended = () => {
             this.activeSounds =
@@ -164,14 +163,14 @@ class AudioManager {
         };
     }
 
-/**
- * Plays a boss sound effect and optionally loops it.
- * Stops any currently playing boss sound before starting a new one.
- *
- * @param {HTMLAudioElement} sound - The boss sound to play.
- * @param {Object} options - Playback options.
- * @param {boolean} options.loop - Whether the sound should loop.
- */
+    /**
+     * Plays a boss sound effect and optionally loops it.
+     * Stops any currently playing boss sound before starting a new one.
+     *
+     * @param {HTMLAudioElement} sound - The boss sound to play.
+     * @param {Object} options - Playback options.
+     * @param {boolean} options.loop - Whether the sound should loop.
+     */
     playBossSound(sound, { loop = false } = {}) {
         if (this.soundMuted) return;
         if (this.currentBossSound) {
@@ -181,12 +180,12 @@ class AudioManager {
         this.currentBossSound = sound;
         sound.loop = loop;
         sound.currentTime = 0;
-        sound.play().catch(() => {});
+        sound.play().catch(() => { });
     }
 
-/**
- * Stops the currently playing boss sound immediately.
- */
+    /**
+     * Stops the currently playing boss sound immediately.
+     */
     stopBossSound() {
         if (this.currentBossSound) {
             this.currentBossSound.pause();
@@ -195,18 +194,18 @@ class AudioManager {
         }
     }
 
-/**
- * Pauses the currently playing background music without resetting it.
- */
+    /**
+     * Pauses the currently playing background music without resetting it.
+     */
     pauseMusic() {
         if (this.currentMusic) {
             this.currentMusic.pause();
         }
     }
 
-/**
- * Stops the current background music and resets playback to the beginning.
- */
+    /**
+     * Stops the current background music and resets playback to the beginning.
+     */
     stopMusic() {
         if (this.currentMusic) {
             this.currentMusic.pause();
@@ -214,21 +213,21 @@ class AudioManager {
         }
     }
 
-/**
- * Resumes the currently paused background music.
- */
-   resumeMusic() {
-    if (this.soundMuted) return;
+    /**
+     * Resumes the currently paused background music.
+     */
+    resumeMusic() {
+        if (this.soundMuted) return;
 
-    if (this.currentMusic) {
-        this.currentMusic.play();
+        if (this.currentMusic) {
+            this.currentMusic.play();
+        }
     }
-}
 
-/**
- * Stops and resets all active music and sound effects in the game.
- * Clears all dynamically created active sounds.
- */
+    /**
+     * Stops and resets all active music and sound effects in the game.
+     * Clears all dynamically created active sounds.
+     */
     stopAllSounds() {
         this.stopBossSound();
         [...this.music, ...this.sfx].forEach(sound => {
@@ -242,146 +241,145 @@ class AudioManager {
         this.activeSounds = [];
     }
 
-/**
- * Plays the sleep sound effect.
- */
-    onSleep() {  
+    /**
+     * Plays the sleep sound effect.
+     */
+    onSleep() {
         this.playSound(this.sleepSound);
     }
 
-/**
- * Plays the character hurt sound effect.
- */
+    /**
+     * Plays the character hurt sound effect.
+     */
     onCharacterHurt() {
         this.playSound(this.characterHurtSound);
     }
 
-/**
- * Plays the jump sound effect.
- */
+    /**
+     * Plays the jump sound effect.
+     */
     onJump() {
         this.playSound(this.jumpSound);
     }
 
-/**
- * Plays the throw sound effect.
- */
+    /**
+     * Plays the throw sound effect.
+     */
     onThrow() {
         this.playSound(this.throwSound);
     }
 
-/**
- * Plays the character death sound effect.
- * Stops any boss sound before triggering the death sound.
- * Ensures the death sound is only played once.
- */
+    /**
+     * Plays the character death sound effect.
+     * Stops any boss sound before triggering the death sound.
+     * Ensures the death sound is only played once.
+     */
     onCharacterDeath() {
         if (this.deathSoundPlayed) return;
         this.stopBossSound();
         this.playSound(this.characterDeathSound);
     }
 
-/**
- * Plays the pause sound effect.
- */
+    /**
+     * Plays the pause sound effect.
+     */
     onPause() {
         this.playSound(this.pauseSound);
     }
 
-/**
- * Plays the escape/menu sound effect.
- */
+    /**
+     * Plays the escape/menu sound effect.
+     */
     onEscape() {
         this.playSound(this.gameEscapeSound);
     }
 
-/**
- * Plays the coin collection sound effect.
- */
+    /**
+     * Plays the coin collection sound effect.
+     */
     onCoinCollect() {
         this.playSound(this.coinCollectSound);
     }
 
-/**
- * Plays the bottle collection sound effect.
- */
+    /**
+     * Plays the bottle collection sound effect.
+     */
     onBottleCollect() {
         this.playSound(this.bottleCollectSound);
     }
 
-/**
- * Plays the chicken death sound effect.
- */
+    /**
+     * Plays the chicken death sound effect.
+     */
     onChickenDead() {
         this.playSound(this.chickenDeadSound);
     }
 
-/**
- * Plays the big chicken sound effect.
- */
+    /**
+     * Plays the big chicken sound effect.
+     */
     onBigChicken() {
-    let now = Date.now();
-    if (this.lastBigChickenSound &&
-        now - this.lastBigChickenSound < 300) {
-        return;
+        let now = Date.now();
+        if (this.lastBigChickenSound &&
+            now - this.lastBigChickenSound < 300) {
+            return;
+        }
+        this.lastBigChickenSound = now;
+        this.playSound(this.bigChickenSound);
     }
-    this.lastBigChickenSound = now;
-    this.playSound(this.bigChickenSound);
-}
 
-/**
- * Plays the small chicken sound effect.
- */
+    /**
+     * Plays the small chicken sound effect.
+     */
     onSmallChicken() {
         this.playSound(this.smallChickenSound);
-       
     }
 
-/**
- * Plays the endboss walking sound (looped).
- */
+    /**
+     * Plays the endboss walking sound (looped).
+     */
     onEndbossWalking() {
         this.playBossSound(this.endbossWalking, true);
     }
 
-/**
- * Plays the endboss alert sound (non-looped).
- */
+    /**
+     * Plays the endboss alert sound (non-looped).
+     */
     onEndbossAlert() {
         this.playBossSound(this.endbossAlert, false);
     }
 
-/**
- * Plays the endboss chasing sound (looped).
- */
+    /**
+     * Plays the endboss chasing sound (looped).
+     */
     onEndbossChasing() {
         this.playBossSound(this.endbossChasingSound, true);
     }
 
-/**
- * Plays the endboss hurt sound (looped).
- */
+    /**
+     * Plays the endboss hurt sound (looped).
+     */
     onEndbossHurt() {
         this.playBossSound(this.endbossHurt, true);
     }
 
-/**
- * Plays the endboss dead sound (non-looped).
- */
+    /**
+     * Plays the endboss dead sound (non-looped).
+     */
     onEndbossDead() {
         this.playBossSound(this.endbossDead, false);
     }
 
-/**
- * Plays game over sound.
- */
+    /**
+     * Plays game over sound.
+     */
     onGameOver() {
         this.playSound(this.gameOverSound);
     }
 
-/**
- * Plays winning sound.
- */
+    /**
+     * Plays winning sound.
+     */
     onWinning() {
         this.playSound(this.winningSound);
     }
