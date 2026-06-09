@@ -359,16 +359,24 @@ class Character extends MovableObject {
      * Requires downward movement and foot overlap with enemy top area.
      */
     isStomping(enemy) {
-        let enemyTop = enemy.y;
-        let feet = { left: this.x + 10, right: this.x + this.width - 10, bottom: this.y + this.height };
-        let enemyBox = { left: enemy.x, right: enemy.x + enemy.width, top: enemyTop };
-        let isFalling = this.speedY > 0;
+        let feet = {
+            left: this.x + 14,
+            right: this.x + this.width - 14,
+            bottom: this.y + this.height
+        };
+        let enemyBox = {
+            left: enemy.x,
+            right: enemy.x + enemy.width,
+            top: enemy.y
+        };
+        let isFalling = this.speedY > 0.5;
         let xOverlap =
             feet.right > enemyBox.left &&
             feet.left < enemyBox.right;
         let footInEnemyTop =
             feet.bottom >= enemyBox.top &&
-            feet.bottom <= enemyBox.top + 20;
+            feet.bottom <= enemyBox.top + 16; 
+
         return isFalling && xOverlap && footInEnemyTop;
     }
 

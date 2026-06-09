@@ -28,8 +28,8 @@ level1 = new Level(
     [
         ...generateBottles(1, 1500, 1200),
         ...generateBottles(2, 2800, 1200),
-        ...generateBottles(2, 4000, 1200),
-        ...generateBottles(2, 5600, 1200),
+        ...generateBottles(2, 3500, 1200),
+        ...generateBottles(2, 4600, 1200),
         ...generateHighBossBottles(),
 
     ],
@@ -125,7 +125,7 @@ function generateBottles(amount, startX = 200, rangeX = 6000) {
 function generateHighBossBottles() {
     return [
         new Bottle(6200, 120),
-        new Bottle(6450, 110),
         new Bottle(6000, 100),
+        new Bottle(6450, 110),  
     ];
 }
