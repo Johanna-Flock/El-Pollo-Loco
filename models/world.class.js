@@ -185,6 +185,7 @@ class World {
         checkCollisions();
         checkBossBlock();
         checkEnemyHits();
+        removeFinishedBottles();
         checkStompEnemies()
         throwObjects();
         checkWinCondition();

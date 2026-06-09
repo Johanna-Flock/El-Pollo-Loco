@@ -223,6 +223,16 @@ function resetThrowState() {
 }
 
 /**
+ * Removes throwable bottles that have finished their splash animation
+ */
+function removeFinishedBottles() {
+    world.throwableObject =
+        world.throwableObject.filter(
+            bottle => !bottle.splashAnimationFinished
+        );
+}
+
+/**
  * Prevents the character from moving through the endboss.
  */
 function checkBossBlock() {
@@ -246,18 +256,17 @@ function checkBossBlock() {
 function checkEnemyHits() {
     if (!world?.level?.enemies) return;
     if (world.character.isDead()) return;
-    world.throwableObject =
-        world.throwableObject.filter((bottle) => {
-            let hit = false;
-            world.level.enemies.forEach((enemy) => {
-                if (bottle.state !== "splash" && bottle.isColliding(enemy)) {
-                    enemy.hit();
-                    bottle.splash();
-                    hit = true;
-                }
-            });
-            return !bottle.splashAnimationFinished;
+    world.throwableObject.forEach((bottle) => {
+        world.level.enemies.forEach((enemy) => {
+            if (
+                bottle.state !== "splash" &&
+                bottle.isColliding(enemy)
+            ) {
+                enemy.hit();
+                bottle.splash();
+            }
         });
+    });
 }
 
 /**

@@ -13,7 +13,6 @@ class ThrowableObject extends MovableObject {
         this.y = y;
         this.currentImage = 0;
         this.speedX = speedX;
-        this.throw(this.x, this.y);
         this.height = 60;
         this.width = 60;
         this.loadImages(this.IMAGES_BOTTLEROTATION);
