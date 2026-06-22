@@ -218,7 +218,7 @@ function createThrowableBottle() {
             ? -1
             : 1;
     let bottle =
-        new ThrowableObject(world.character.x + (direction === 1 ? 100 : -20), world.character.y + 100, 8 * direction);
+        new ThrowableObject(world.character.x + (direction === 1 ? 100 : -20), world.character.y + 100, 7 * direction);
     world.throwableObject.push(bottle);
     world.bottleCount--;
 }

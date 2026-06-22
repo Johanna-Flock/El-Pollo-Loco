@@ -1,4 +1,11 @@
 class ThrowableObject extends MovableObject {
+    offset = {
+        top: 15,
+        right: 35,
+        bottom: 15,
+        left: 35
+     };
+
     /**
      * Creates a throwable bottle object and initializes
      * movement, animations, and state handling.
@@ -13,8 +20,8 @@ class ThrowableObject extends MovableObject {
         this.y = y;
         this.currentImage = 0;
         this.speedX = speedX;
-        this.height = 60;
-        this.width = 60;
+        this.height = 110;
+        this.width = 90;
         this.loadImages(this.IMAGES_BOTTLEROTATION);
         this.loadImages(this.IMAGES_BOTTLE_SPLASH);
         this.state = "flying";
@@ -81,16 +88,21 @@ class ThrowableObject extends MovableObject {
      *Triggers the splash animation when the bottle hits the ground.
      */
     applyGravityBottle() {
-        setInterval(() => {
-            this.speedY += this.acceleration;
-            this.y += this.speedY;
-            const groundLevel = this.groundY - this.height;
-            if (this.y >= groundLevel) {
-                this.y = groundLevel;
-                this.speedY = 0;
-                this.onGroundHit();
-            }
-        }, 1000 / 25);
+    setInterval(() => {
+        this.speedY += this.acceleration;
+        this.y += this.speedY;
+
+        const groundLevel = this.groundY - this.height;
+
+        if (
+            this.state !== "splash" &&
+            this.y >= groundLevel
+        ) {
+            this.y = groundLevel;
+            this.speedY = 0;
+            this.onGroundHit();
+        }
+    }, 1000 / 25);
     }
 
     /**
