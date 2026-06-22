@@ -7,7 +7,7 @@ class World {
     camera_x = 0;
     throwableObject = [];
     gameState = "start";
-    debugMode = true; 
+    debugMode = false; 
 
     /**
      * Creates a new game world instance and initializes

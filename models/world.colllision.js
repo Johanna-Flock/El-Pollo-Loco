@@ -115,15 +115,6 @@ function checkCollisions() {
 }
 
 /**
- * Checks if char is above enemy for damage handling
- */
-function isAboveEnemy(enemy) {
-    let charBottom = this.y + this.height;
-    let buffer = 10;
-    return charBottom <= enemy.y + buffer;
-}
-
-/**
  * Handles stomp collision (enemy gets hit, player bounces).
  */
 function handleStompCollision(enemy) {
@@ -141,20 +132,17 @@ function handleStompCollision(enemy) {
  */
 function handleDamageCollision(enemy) {
     if (enemy.stomped) return;
-    let isFalling = world.character.speedY > 1;
-    if (
-        isFalling &&
-        world.character.isAboveEnemy(enemy)
-    ) {
-        return;
-    }
+
     if (!enemy.stompedTime) {
         enemy.stompedTime = 0;
     }
+
     let recentlyStomped =
         enemy.stompedTime > 0 &&
         Date.now() - enemy.stompedTime < 400;
+
     if (recentlyStomped) return;
+
     enemy.isTouching = true;
     world.character.hit(enemy.damage);
     world.healthBar.setPercentage(world.character.energy);
@@ -256,11 +244,10 @@ function checkBossBlock() {
     world.level.enemies.forEach(enemy => {
         if (!(enemy instanceof Endboss)) return;
         if (enemy.state === "dead") return;
-        if (world.character.isColliding(enemy) && !world.character.isStomping(enemy)) {
+        if (world.character.isColliding(enemy) &&!world.character.isStomping(enemy)) {
             if (world.character.x < enemy.x) {
-                world.character.x = enemy.x - world.character.width + 20;
-            }
-            else { world.character.x = enemy.x + enemy.width - 20; }
+                world.character.x =enemy.x + enemy.offset.left -(world.character.width -world.character.offset.right);
+            } else { world.character.x = enemy.x + enemy.width - enemy.offset.right - world.character.offset.left;}
         }
     });
 }
