@@ -85,51 +85,11 @@ class MovableObject extends DrawableObject {
      */
     isColliding(mo) {
         return (
-            this.x + this.width - 20 > mo.x &&
-            this.x + 20 < mo.x + mo.width &&
-            this.y + this.height - 10 > mo.y &&
-            this.y + 10 < mo.y + mo.height
+            this.x + this.width - this.offset.right > mo.x + mo.offset.left &&
+            this.y + this.height - this.offset.bottom > mo.y + mo.offset.top &&
+            this.x + this.offset.left < mo.x + mo.width -mo.offset.right &&
+            this.y + this.offset.top < mo.y + mo.height - mo.offset.bottom
         );
-    }
-
-    /**
-    * Checks whether the character is close enough to collect a coin.
-    * Uses a weighted center-distance calculation to create a slightly
-    * more forgiving horizontal pickup behavior (arc/jump feel).
-    *
-    * @param {DrawableObject} item - The coin object to check
-    * @param {number} [radius=50] - Detection radius for pickup range
-    * @returns {boolean} True if the coin is within collectible range
-    */
-    isNearCoin(item, radius = 50) {
-        let charCenterX = this.x + this.width / 2;
-        let charCenterY = this.y + this.height / 2;
-        let itemCenterX = item.x + item.width / 2;
-        let itemCenterY = item.y + item.height / 2;
-        let dx = charCenterX - itemCenterX;
-        let dy = (charCenterY - itemCenterY) * 0.6;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        return distance < radius;
-    }
-
-    /**
-    * Checks whether the character is close enough to collect a bottle.
-    * Uses a slightly stricter weighted center-distance calculation
-    * to reduce early pickups due to the bottle's vertical shape.
-    *
-    * @param {DrawableObject} item - The bottle object to check
-    * @param {number} [radius=73] - Detection radius for pickup range
-    * @returns {boolean} True if the bottle is within collectible range
-    */
-    isNearBottle(item, radius = 73) {
-        let charCenterX = this.x + this.width / 2;
-        let charCenterY = this.y + this.height / 2;
-        let itemCenterX = item.x + item.width / 2;
-        let itemCenterY = item.y + item.height / 2;
-        let dx = charCenterX - itemCenterX;
-        let dy = (charCenterY - itemCenterY) * 0.8;
-        let distance = Math.sqrt(dx * dx + dy * dy);
-        return distance < radius;
     }
 
     /**
@@ -177,5 +137,17 @@ class MovableObject extends DrawableObject {
         let timePassed = Date.now() - this.lastAction;
         timePassed = timePassed / 1000;
         return timePassed > 10;
+    }
+
+    drawHitbox(ctx) {
+    if (!this.offset) return;
+    ctx.strokeStyle = this.hitboxColor;
+    ctx.lineWidth = 2;
+    ctx.strokeRect(
+        this.x + this.offset.left,
+        this.y + this.offset.top,
+        this.width - this.offset.left - this.offset.right,
+        this.height - this.offset.top - this.offset.bottom
+    );
     }
 }

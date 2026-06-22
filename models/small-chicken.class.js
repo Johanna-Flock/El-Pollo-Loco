@@ -4,6 +4,14 @@ class SmallChicken extends MovableObject {
     y = 140;
     damage = 10;
     currentImage = 0;
+    hitboxColor = "green";
+
+    offset = {
+        top: 5,
+        right: 5,
+        bottom: 5,
+        left: 5
+    };
 
     IMAGES_WALKING = [
         'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',

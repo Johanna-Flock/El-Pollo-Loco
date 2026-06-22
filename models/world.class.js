@@ -7,6 +7,7 @@ class World {
     camera_x = 0;
     throwableObject = [];
     gameState = "start";
+    debugMode = true; 
 
     /**
      * Creates a new game world instance and initializes
@@ -410,6 +411,10 @@ class World {
             this.drawFlipped(mo);
         } else {
             mo.draw(this.ctx);
+        }
+
+        if (this.debugMode) {
+        mo.drawHitbox?.(this.ctx);
         }
     }
 

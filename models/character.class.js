@@ -15,6 +15,15 @@ class Character extends MovableObject {
     jumpFrameDelay = 0;
     jumpAnimationFinished = false;
     throwCooldown = 0;
+    hitboxColor = "red";
+
+
+    offset = {
+        top: 110,
+        right: 43,
+        bottom: 15,
+        left: 35
+    };
 
     IMAGES_WALKING = [
         'img/2_character_pepe/2_walk/W-21.png',
@@ -359,25 +368,18 @@ class Character extends MovableObject {
      * Requires downward movement and foot overlap with enemy top area.
      */
     isStomping(enemy) {
-        let feet = {
-            left: this.x + 14,
-            right: this.x + this.width - 14,
-            bottom: this.y + this.height
-        };
-        let enemyBox = {
-            left: enemy.x,
-            right: enemy.x + enemy.width,
-            top: enemy.y
-        };
-        let isFalling = this.speedY > 0.5;
-        let xOverlap =
-            feet.right > enemyBox.left &&
-            feet.left < enemyBox.right;
-        let footInEnemyTop =
-            feet.bottom >= enemyBox.top &&
-            feet.bottom <= enemyBox.top + 16; 
-
-        return isFalling && xOverlap && footInEnemyTop;
+        let char = this;
+        let footLeft = char.x + char.width * 0.4;
+        let footRight = char.x + char.width * 0.7;
+        let footBottom = char.y + char.height;
+        let enemyLeft = enemy.x;
+        let enemyRight = enemy.x + enemy.width;
+        let enemyTop = enemy.y;
+        let isFalling = char.speedY > 0.5;
+        let xOverlap = footRight > enemyLeft && footLeft < enemyRight;
+        let verticalOverlap = footBottom >= enemyTop - 5 && footBottom <= enemyTop + enemy.height * 0.3;
+        let cameFromAbove = char.y + char.height * 0.7 <= enemyTop + 10;
+        return isFalling && xOverlap && verticalOverlap && cameFromAbove;
     }
 
     /**

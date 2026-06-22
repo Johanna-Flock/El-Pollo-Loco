@@ -18,7 +18,7 @@ function checkEndbossActivation() {
  */
 function checkCoinCollect(coin) {
     if (
-        world.character.isNearCoin(coin, 52)
+        world.character.isColliding(coin)
     ) {
         world.audio.onCoinCollect();
         world.coinCount++;
@@ -37,7 +37,7 @@ function checkCoinCollect(coin) {
  */
 function checkBottleCollect(bottle) {
     if (
-        world.character.isNearBottle(bottle)
+        world.character.isColliding(bottle)
     ) {
         world.audio.onBottleCollect();
         world.bottleCount++;
@@ -115,6 +115,15 @@ function checkCollisions() {
 }
 
 /**
+ * Checks if char is above enemy for damage handling
+ */
+function isAboveEnemy(enemy) {
+    let charBottom = this.y + this.height;
+    let buffer = 10;
+    return charBottom <= enemy.y + buffer;
+}
+
+/**
  * Handles stomp collision (enemy gets hit, player bounces).
  */
 function handleStompCollision(enemy) {
@@ -132,6 +141,13 @@ function handleStompCollision(enemy) {
  */
 function handleDamageCollision(enemy) {
     if (enemy.stomped) return;
+    let isFalling = world.character.speedY > 1;
+    if (
+        isFalling &&
+        world.character.isAboveEnemy(enemy)
+    ) {
+        return;
+    }
     if (!enemy.stompedTime) {
         enemy.stompedTime = 0;
     }

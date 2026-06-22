@@ -11,6 +11,14 @@ class Endboss extends MovableObject {
     isDeadAnimationFinished = false;
     alertStartTime = 0;
     alertStage = 0;
+    hitboxColor = "green";
+
+    offset = {
+        top: 50,
+        right: 30,
+        bottom: 10,
+        left: 30
+    };
 
     IMAGES_ALERT = [
         'img/4_enemie_boss_chicken/2_alert/G5.png',
